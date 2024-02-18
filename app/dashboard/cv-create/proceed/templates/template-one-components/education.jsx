@@ -29,23 +29,24 @@ const EducationWidget = ({user_id}) => {
    
     return (  
         <div>
-            
-            {eduData.map((edu, index) => (
-                <div className="mt-5" key={index}>
-                    <p className="text-blue-600 font-bold mb-2 text-[8px] md:text-lg lg:text-lg">{edu.degree}, {edu.fieldStudy}</p>
-                    <p className="text-[2%] md:text-sm lg:text-sm mb-2">{edu.school} ({edu.startDate} - {edu.endDate})</p>
-                    <div className="pl-3">
-                        <ul style={{ listStyleType: 'disc' }}>
-                            <li className="text-[5%] md:text-base lg:text-base">{edu.descriptionEdu}</li>
-                        </ul>
+            {
+                eduData.length > 0 ? <p className="font-bold text-[12px] md:text-lg lg:text-lg text-center mt-2 border-b">Education</p> : <div></div>
+            }
+            {
+                eduData.length > 0 ?
+                eduData.map((edu, index) => (
+                    <div className="mt-5" key={index}>
+                        <p className="text-blue-600 font-bold mb-2 text-[8px] md:text-lg lg:text-lg">{edu.degree}, {edu.fieldStudy}</p>
+                        <p className="text-[2%] md:text-sm lg:text-sm mb-2">{edu.school} ({edu.startDate} - {edu.endDate})</p>
+                        <div className="pl-3">
+                            <ul style={{ listStyleType: 'disc' }}>
+                                <li className="text-[5%] md:text-base lg:text-base">{edu.descriptionEdu}</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            ))}
+                )) : <div></div>
+            }
 
-            
-
-
-           
         </div>
     );
 }

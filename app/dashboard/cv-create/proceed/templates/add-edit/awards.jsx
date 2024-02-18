@@ -233,12 +233,12 @@ const AwardAddEdit = ({ userId }) => {
                     <Modal.Header className="font-bold">Award</Modal.Header>
                     <Modal.Body className="p-0">
                         <div className="md:grid grid-cols-2 gap-4">
-                            <div className="form-control w-full">
+                            <div className="form-control w-full ">
                                 <label className="label">
                                     <span className="">Title</span>
                                 </label>
                                 <div>
-                                    <Input className="bg-white text-black grow" placeholder="Title" onChange={(e) => setAwardValue(e.target.value)} />
+                                    <Input className="bg-white text-black w-full" placeholder="Title" onChange={(e) => setAwardValue(e.target.value)} />
                                     <div className="text-red-600 text-sm">{titleError}</div>
                                 </div>
                             </div>
@@ -247,7 +247,7 @@ const AwardAddEdit = ({ userId }) => {
                                     <span className="">Description</span>
                                 </label>
                                 <div>
-                                    <Input className="bg-white text-black grow" placeholder="Description" onChange={(e) => setDescriptionValue(e.target.value)} />
+                                    <Input className="bg-white text-black w-full" placeholder="Description" onChange={(e) => setDescriptionValue(e.target.value)} />
                                     <div className="text-red-600 text-sm">{descriptionError}</div>
                                 </div>
                             </div>

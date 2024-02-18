@@ -1,10 +1,10 @@
 'use client'
 import { useEffect, useState } from "react";
 import { Input, Button, Card, Modal } from "react-daisyui";
-import { collection, query, where, onSnapshot, Timestamp, addDoc } from "firebase/firestore"; 
+import { collection, query, where, onSnapshot, Timestamp, addDoc } from "firebase/firestore";
 import { db } from "@/app/firebase/firebase";
 
-const Award = ({userId}) => {
+const Award = ({ userId }) => {
     const [visibleEdu, setVisibleEdu] = useState(false);
 
     const [awards, setAwards] = useState([]);
@@ -54,8 +54,8 @@ const Award = ({userId}) => {
                 description: descriptionValue,
                 created_at: Timestamp.now()
             }
-            
-            const collectionRef =  collection(db, 'award');
+
+            const collectionRef = collection(db, 'award');
             const res = await addDoc(collectionRef, data);
         } catch (error) {
             console.log(error);
@@ -66,7 +66,7 @@ const Award = ({userId}) => {
         getAwards();
     }, []);
 
-    return (  
+    return (
         <div>
 
             {/* <Accordion className="bg-black text-white">
@@ -100,21 +100,25 @@ const Award = ({userId}) => {
                         
                 </Accordion.Content>
             </Accordion> */}
-
+            {
+                awards.length > 0 ? <div className="bg-indigo-950 ">
+                    <p className="font-bold text-[8px] md:text-lg lg:text-lg text-center">Awards</p>
+                </div> : ''
+            }
+            
             {
                 awards.length > 0 ? (awards.map((award, index) => (
 
-                    <div className="flex justify-center text-black" key={index}>
-                        <div className="mb-8 p-2 md:p-5 lg:p-5">
+                    <div className="flex text-black" key={index}>
+                        <div className="mb-2 p-2 md:p-5 lg:p-5">
                             <p className="text-blue-600 text-[6px] md:text-base lg:text-base font-bold mb-2">{award.award}</p>
                             <div className=" md:pl-3 lg:pl-3 text-[5px] md:text-sm lg:text-sm">
                                 <p>{award.description}</p>
                             </div>
                         </div>
                     </div>
-                ))) : (<div className="text-[#808080] text-sm p-2 md:p-5 lg:p-5">You currently have no awards</div>)
+                ))) : (<div></div>)
             }
-
 
             {/* <Modal.Legacy open={visibleEdu} className="bg-white max-w-5xl">
                 <form>
@@ -150,5 +154,5 @@ const Award = ({userId}) => {
         </div>
     );
 }
- 
+
 export default Award;

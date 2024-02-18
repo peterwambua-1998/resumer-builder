@@ -6,7 +6,7 @@ import profileImg from '@/app/images/profile.jpeg';
 import { Button, Modal, Input, Skeleton, Loading } from "react-daisyui";
 import { useId, useRef, useState } from "react";
 import AboutMe from "./template-one-components/about";
-import { auth } from "@/app/firebase/firebase";
+import { auth, db } from "@/app/firebase/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import ExperienceWidget from "./template-one-components/experience";
 import EducationWidget from "./template-one-components/education";
@@ -19,6 +19,8 @@ import Projects from "./template-one-components/projects";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import ProfilePhoto from "./template-one-components/profilePhoto";
+import { doc, getDoc } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 // import { html2pdf } from "html2pdf.js";
 
 
@@ -31,49 +33,36 @@ const TemplateOne = ({ userId }) => {
     };
     const [mDownload, setMDownload] = useState(false);
     const pdfRef = useRef();
+    const router = useRouter();
 
-
-    function downloadPDF () {
-        setMDownload(true);
-        let input = pdfRef.current;
-        html2canvas(input).then((canvas) => {
-            let imageData = canvas.toDataURL('image/png');
-            let pdf = new jsPDF('p', 'mm', 'a4', true);
-            let pdfWidth = pdf.internal.pageSize.getWidth();
-            let pdfHeight = pdf.internal.pageSize.getHeight();
-            let imgWidth = canvas.width;
-            let imgHeight = canvas.height;
-            let ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-            let imgX = (pdfWidth - imgWidth * ratio) / 2;
-            let imgY = 0;
-            pdf.addImage(imageData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-            pdf.save();
-            setMDownload(false);
-        });
+    async function downloadPDF() {
+        // check if user has subscription
+        let subDoc = await getDoc(doc(db, 'subscriptions', userId));
+        // take user to subscription page to begin payment
+        if (subDoc.exists() == false) {
+            router.replace('/dashboard/subscription');
+        }
     }
-
 
     return (
         <div>
             <div className="flex flex-row-reverse mb-4">
-            {/* className="bg-blue-300 border-blue-300 text-black" */}
+                {/* className="bg-blue-300 border-blue-300 text-black" */}
                 <Button onClick={() => downloadPDF()} color="primary">
-                    {mDownload == true ?  <Loading /> : ''}
+                    {mDownload == true ? <Loading /> : ''}
                     download pdf
                 </Button>
             </div>
             <div id="template-one" ref={pdfRef} className=" bg-white ">
                 {/* top dark area */}
                 <div className=" bg-indigo-950 text-white p-2 md:p-10 lg:p-10">
-
-                    <Profile userId={userId} />
-
+                    <Profile userId={userId} smWidth={40} mdWidth={60} lgWidth={60} />
                 </div>
                 {/* top dark area */}
 
                 {/* profile photo and about */}
                 <div className="grid grid-cols-4 md:grid md:grid-cols-4 mt-5">
-                    <div className="pl-5 pr-0 md:pl-20 md:pr-0 lg:pl-20 lg:pr-0">
+                    <div className="pl-5 pr-0 md:pl-20 md:pr-0 lg:pl-10 lg:pr-0">
                         <ProfilePhoto userId={userId} />
                     </div>
                     <div className="col-span-3 md:pr-10 lg:pr-10">
@@ -93,9 +82,7 @@ const TemplateOne = ({ userId }) => {
                         <SkillWidget user_id={userId} />
 
 
-                        <div className="bg-indigo-950 ">
-                            <p className="font-bold text-[8px] md:text-lg lg:text-lg text-center">Awards</p>
-                        </div>
+                        
                         <Award userId={userId} />
 
                         <div className="bg-indigo-950 ">
@@ -105,15 +92,15 @@ const TemplateOne = ({ userId }) => {
 
                     </div>
                     <div className="col-span-3 pl-5 pr-5 md:pl-10 md:pr-10 lg:pl-10 lg:pr-10 border-t border-amber-400">
-                        <p className="font-bold text-[12px] md:text-lg lg:text-lg text-center mt-2 border-b">Work Experience</p>
+                        
                         <ExperienceWidget user_id={userId} />
 
-                        <p className="font-bold text-[12px] md:text-lg lg:text-lg text-center mt-2 border-b">Education</p>
+                        
                         <EducationWidget user_id={userId} />
 
                         <Projects userId={userId} />
+
                         
-                        <p className="font-bold text-[12px] md:text-lg lg:text-lg text-center mt-5 border-b mb-5">References</p>
                         <References userId={userId} />
                     </div>
                 </div>

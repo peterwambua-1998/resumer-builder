@@ -77,7 +77,7 @@ const TemplateFour = ({ userId }) => {
                 {/* top area */}
                 <div className="md:grid md:grid-cols-5">
                     <div className="col-span-1 pl-2 ">
-                        <ProfilePhoto userId={userId} />
+                        <ProfilePhoto userId={userId} smWidth={40} mdWidth={160} lgWidth={160} />
                     </div>
                     <div className="col-span-4 pl-10">
                         <div className="border-b  pb-5">

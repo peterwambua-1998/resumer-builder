@@ -5,7 +5,7 @@ import { Timestamp, addDoc, collection, doc, onSnapshot, query, updateDoc, where
 import { useEffect, useState } from "react";
 import { Accordion, Badge, Button, Modal, Input, Select } from "react-daisyui";
 
-const Languages = ({userId}) => {
+const Languages = ({ userId }) => {
     const [languages, setLanguages] = useState([]);
 
     const [nameValue, setNameValue] = useState(null);
@@ -76,14 +76,14 @@ const Languages = ({userId}) => {
             setTitleValueError('field required');
             return;
         } else {
-            setTitleValueError('field required');
+            setTitleValueError('');
         }
 
         if (descriptionValue == "Pick one" || descriptionValue == null) {
             setDescriptionValueError('field required');
             return;
         } else {
-            setDescriptionValueError('field required');
+            setDescriptionValueError('');
         }
 
         try {
@@ -146,7 +146,7 @@ const Languages = ({userId}) => {
     }
 
 
-    return (  
+    return (
         <div className="mb-3">
             <Accordion className="bg-amber-400 text-black">
                 <Accordion.Title>
@@ -157,8 +157,8 @@ const Languages = ({userId}) => {
                         {languages.map((lang, index) => (
                             <div key={index} className="mb-2">
                                 <Badge className="p-4">{lang.name}
-                                <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(lang)} className="pl-3 pr-3 hover:cursor-pointer" />
-                                <FontAwesomeIcon icon={faTrash} onClick={() => toggleVisibleDelete(lang)} className="hover:cursor-pointer" />
+                                    <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(lang)} className="pl-3 pr-3 hover:cursor-pointer" />
+                                    <FontAwesomeIcon icon={faTrash} onClick={() => toggleVisibleDelete(lang)} className="hover:cursor-pointer" />
                                 </Badge>
                             </div>
                         ))}
@@ -194,7 +194,7 @@ const Languages = ({userId}) => {
             <Modal.Legacy open={visible} className="bg-white max-w-5xl">
                 <form>
                     <Modal.Header className="font-bold text-black">Language</Modal.Header>
-                    <Modal.Body className="p-0">
+                    <Modal.Body className="p-0 md:grid md:grid-cols-2">
                         <div className="form-control w-full">
                             <label className="label">
                                 <span className="label-text text-black">Language</span>
@@ -210,11 +210,11 @@ const Languages = ({userId}) => {
                                 <span className="label-text text-black">Description</span>
                             </label>
                             <div className="flex gap-4">
-                                <Select className="bg-white text-black" onChange={(e) => setDescriptionValue(e.target.value)} >
+                                <Select className="bg-white text-black w-full" onChange={(e) => setDescriptionValue(e.target.value)} >
                                     <option>
                                         Pick one
                                     </option>
-                                    <option  value="Native">Native</option>
+                                    <option value="Native">Native</option>
                                     <option value="Professional">Professional</option>
                                 </Select>
                                 <div className="text-red-600 text-sm">{descriptionValueError}</div>
@@ -229,7 +229,7 @@ const Languages = ({userId}) => {
             </Modal.Legacy>
 
             {
-                selectedRecord ? 
+                selectedRecord ?
                     <Modal.Legacy open={visibleEdit} className="bg-white max-w-5xl">
                         <form>
                             <Modal.Header className="font-bold text-black">Language</Modal.Header>
@@ -256,7 +256,7 @@ const Languages = ({userId}) => {
                                             <option selected={selectedRecord.description == 'Native' ? 'selected' : null} value="Native">Native</option>
                                             <option selected={selectedRecord.description == 'Professional' ? 'selected' : null} value="Professional">Professional</option>
                                         </Select>
-                                        
+
                                         <div className="text-red-600 text-sm">{descriptionValueError}</div>
                                     </div>
                                 </div>
@@ -267,11 +267,11 @@ const Languages = ({userId}) => {
                             </Modal.Actions>
                         </form>
                     </Modal.Legacy>
-                :
-                <div></div>
+                    :
+                    <div></div>
             }
         </div>
     );
 }
- 
+
 export default Languages;

@@ -341,54 +341,8 @@ const EducationAddEdit = ({ userId }) => {
                 <form>
                     <Modal.Header className="font-bold">Eduction</Modal.Header>
                     <Modal.Body className="p-0">
-                        <div className="h-[50vh] overflow-y-scroll">
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                            <p>peter</p>
-                        </div>
-                        {/* <div className="grid grid-cols-1 md:grid md:grid-cols-2 lg:grid lg:grid-cols-2 gap-0 md:gap-5 lg:gap-8">
+                        
+                        <div className="grid grid-cols-1 md:grid md:grid-cols-2 lg:grid lg:grid-cols-2 gap-0 md:gap-5 lg:gap-8">
                             <div className="flex w-full items-center justify-start gap-2 mb-3">
                                 <div className="form-control w-full ">
                                     <label className="label">
@@ -463,7 +417,7 @@ const EducationAddEdit = ({ userId }) => {
                                     <div className="text-red-600 text-sm">{descriptionEduError}</div>
                                 </div>
                             </div>
-                        </div> */}
+                        </div>
                     </Modal.Body>
                     <Modal.Actions>
                         <Button type="button" onClick={toggleVisibleEdu} >Close</Button>

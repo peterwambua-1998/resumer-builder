@@ -13,6 +13,8 @@ const SkillAddEdit = ({ user_id }) => {
 
     var [skillName, setSkillName] = useState([]);
     var [skillNameError, setSkillNameError] = useState(null);
+    var [skillLevel, setSkillLevel] = useState([]);
+    var [skillLevelError, setSkillLevelError] = useState(null);
     var [skillData, setSkillData] = useState([]);
 
     var [selectedRecord, setSelectedRecord] = useState(null);
@@ -45,6 +47,7 @@ const SkillAddEdit = ({ user_id }) => {
     function addRespRecords(data) {
         if (data) {
             setSkillName(data.name);
+            setSkillLevel(data.skillLevel);
         }
     }
 
@@ -56,9 +59,18 @@ const SkillAddEdit = ({ user_id }) => {
             setSkillNameError(null);
         }
 
+
+        if (skillLevel == null || !skillLevel) {
+            setSkillLevel('field required');
+            return;
+        } else {
+            setSkillLevel(null);
+        }
+
         try {
             let data = {
                 name: skillName,
+                skillLevel: skillLevel,
                 user_id: user_id,
                 created_at: Timestamp.now()
             }
@@ -92,11 +104,18 @@ const SkillAddEdit = ({ user_id }) => {
             setSkillNameError(null);
         }
 
+        if (skillLevel == null || !skillLevel) {
+            setSkillLevel('field required');
+            return;
+        } else {
+            setSkillLevel(null);
+        }
 
         try {
             let skillRef = collection(db, 'skill');
             await addDoc(skillRef, {
                 name: skillName,
+                skillLevel: skillLevel,
                 user_id: user_id,
                 created_at: Timestamp.now()
             });
@@ -172,7 +191,7 @@ const SkillAddEdit = ({ user_id }) => {
                     <Modal.Legacy open={visibleEdit} className="bg-white max-w-5xl">
                         <form>
                             <Modal.Header className="font-bold text-black">Skill</Modal.Header>
-                            <Modal.Body className="p-0">
+                            <Modal.Body className="p-0 md:grid md:grid-cols-2">
                                 <div className="form-control w-full">
                                     <label className="label">
                                         <span className="label-text text-black">Edit Skill</span>
@@ -180,6 +199,15 @@ const SkillAddEdit = ({ user_id }) => {
                                     <div className="flex gap-4">
                                         <Input defaultValue={selectedRecord.name ? selectedRecord.name : ''} className="bg-white w-full text-black" placeholder="Ex: Databases" onChange={(e) => setSkillName(e.target.value)} />
                                         <div className="text-red-600 text-sm">{skillNameError}</div>
+                                    </div>
+                                </div>
+                                <div className="form-control w-full">
+                                    <label className="label">
+                                        <span className="label-text text-black">Rate skill level between 0 and 10</span>
+                                    </label>
+                                    <div className="flex gap-4">
+                                        <Input type="number" className="bg-white w-full text-black" defaultValue={selectedRecord.skillLevel ? selectedRecord.skillLevel : ''} maxLength={2} minLength={0} placeholder="Ex: 9" onChange={(e) => setSkillLevel(e.target.value)} />
+                                        <div className="text-red-600 text-sm">{skillLevelError}</div>
                                     </div>
                                 </div>
                             </Modal.Body>
@@ -194,14 +222,24 @@ const SkillAddEdit = ({ user_id }) => {
             <Modal.Legacy open={visibleEdu} className="bg-white max-w-5xl">
                 <form>
                     <Modal.Header className="font-bold text-black">Skill</Modal.Header>
-                    <Modal.Body className="p-0">
+                    <Modal.Body className="p-0 md:grid md:grid-cols-2">
                         <div className="form-control w-full">
                             <label className="label">
-                                <span className="label-text text-black">Add Skill</span>
+                                <span className="label-text text-black">Add skill</span>
                             </label>
                             <div className="flex gap-4">
                                 <Input className="bg-white w-full text-black" placeholder="Ex: Databases" onChange={(e) => setSkillName(e.target.value)} />
                                 <div className="text-red-600 text-sm">{skillNameError}</div>
+                            </div>
+                        </div>
+
+                        <div className="form-control w-full">
+                            <label className="label">
+                                <span className="label-text text-black">Rate skill level between 0 and 10</span>
+                            </label>
+                            <div className="flex gap-4">
+                                <Input type="number" className="bg-white w-full text-black" maxLength={2} minLength={0} placeholder="Ex: 9" onChange={(e) => setSkillLevel(e.target.value)} />
+                                <div className="text-red-600 text-sm">{skillLevelError}</div>
                             </div>
                         </div>
                     </Modal.Body>

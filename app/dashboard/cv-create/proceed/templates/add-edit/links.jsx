@@ -110,14 +110,14 @@ const LinksUser = ({ userId }) => {
             setTitleValueError('field required');
             return;
         } else {
-            setTitleValueError('field required');
+            setTitleValueError('');
         }
 
         if (linkValue == "Pick one" || linkValue == null) {
             setLinkValueError('field required');
             return;
         } else {
-            setLinkValueError('field required');
+            setLinkValueError('');
         }
 
         try {
@@ -155,9 +155,9 @@ const LinksUser = ({ userId }) => {
                     <div className="mb-2">
                         {links.map((link, index) => (
                             <div key={index} className="mb-2">
-                                <Badge className="p-4">{link.name} 
-                                <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(link)} className="pl-3 pr-3 hover:cursor-pointer" />
-                                <FontAwesomeIcon icon={faTrash} onClick={() => toggleVisibleDelete(link)} className="hover:cursor-pointer" />
+                                <Badge className="p-4">{link.name}
+                                    <FontAwesomeIcon icon={faPencilAlt} onClick={() => toggleVisibleEdit(link)} className="pl-3 pr-3 hover:cursor-pointer" />
+                                    <FontAwesomeIcon icon={faTrash} onClick={() => toggleVisibleDelete(link)} className="hover:cursor-pointer" />
                                 </Badge>
                             </div>
                         ))}
