@@ -10,6 +10,7 @@ const Subscription = () => {
             }
         };
         let initPay = await fetch('http://localhost:3000/api/intasend', options);
+        console.log(initPay);
     }
 
     return (  

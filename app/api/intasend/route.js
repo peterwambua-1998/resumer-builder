@@ -1,6 +1,7 @@
 import IntaSend from "intasend-node";
 
 export async function POST(req, res) {
+    return new Response(req.body);
     try {
         let intasend = new IntaSend(
             process.env.NEXT_INTASEND_PUBLIC_KEY,
