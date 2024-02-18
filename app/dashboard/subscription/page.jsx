@@ -1,23 +1,39 @@
+'use client'
+import { useRouter } from "next/navigation";
+import { Input } from "postcss";
+import { useState } from "react";
+import { Button, Modal } from "react-daisyui";
+
 const Subscription = () => {
+    const router = useRouter();
 
     async function initiatePayment() {
-        let options = {
-            method: 'POST',
-            body: {
-                'amount' : 100,
-                'name' : 'peter',
-                'email': 'peter@mail.com'
-            }
-        };
-        let initPay = await fetch('http://localhost:3000/api/intasend', options);
-        console.log(initPay);
+        try {
+            let options = {
+                method: 'POST',
+                body: JSON.stringify({
+                    'amount': 100,
+                    'first_name': 'peter',
+                    'last_name': 'wambua',
+                    'email': 'peter@mail.com',
+                    'subscription_type': 1,
+                }),
+            };
+            let initPay = await fetch('http://localhost:3000/api/intasend', options);
+            let res = await initPay.json();
+            let { url } = res;
+            router.push(url);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
-    return (  
+    return (
         <div>
-            Thank you, your payment is being processed hang on!
+            <Button onClick={initiatePayment}>pay</Button>
+            
         </div>
     );
 }
- 
+
 export default Subscription;

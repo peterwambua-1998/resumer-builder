@@ -1,7 +1,7 @@
 'use client'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useEffect, useLayoutEffect, useState } from 'react';
-import {auth} from '@/app/firebase/firebase';
+import { auth } from '@/app/firebase/firebase';
 import { useRouter } from 'next/navigation';
 import { Navbar, Menu, Button, Loading } from 'react-daisyui'
 import '@/app/globals.css';
@@ -29,37 +29,36 @@ export default function Layout({ children }) {
   }
 
   return (
-    <div>
+    <div className="bg-white my-font">
       <Navbar className='my-font bg-blue-950 text-white'>
         <Navbar.Start>
           <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
         </Navbar.Start>
         <Navbar.Center className="hidden lg:flex">
-            
-            <Menu horizontal className="px-1">
-                  <Menu.Item>
-                    <Link href={{
-                      pathname: '/dashboard/curriculum-vitae',
-                    }}>Curriculum-vitae</Link>
-                  </Menu.Item>
-                  <Menu.Item>
-                  <Link href='/dashboard/resume'>Resume</Link>
-                  </Menu.Item>
-                  <Menu.Item>
-                    <a>Cover letter</a>
-                  </Menu.Item>
-            </Menu>
-              
-        </Navbar.Center>
-         <NavLinks userId={firebase_user.uid} /> 
-      </Navbar>
 
-      <div className="bg-white my-font">{children}</div>
+          <Menu horizontal className="px-1">
+            <Menu.Item>
+              <Link href={{
+                pathname: '/dashboard/curriculum-vitae',
+              }}>Curriculum-vitae</Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link href='/dashboard/resume'>Resume</Link>
+            </Menu.Item>
+            <Menu.Item>
+              <a>Cover letter</a>
+            </Menu.Item>
+          </Menu>
+
+        </Navbar.Center>
+        <NavLinks userId={firebase_user.uid} />
+      </Navbar>
+      {children}
     </div>
   )
-      
-   
-  }
 
-  
- 
+
+}
+
+
+
