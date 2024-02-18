@@ -37,9 +37,9 @@ export default function Layout({ children }) {
         <Navbar.Center className="hidden lg:flex">
 
           <Menu horizontal className="px-1">
-            <Menu.Item>
+            <Menu.Item className="active">
               <Link href={{
-                pathname: '/dashboard/curriculum-vitae',
+                pathname: '/dashboard/cv-create/proceed',
               }}>Curriculum-vitae</Link>
             </Menu.Item>
             <Menu.Item>

@@ -28,7 +28,7 @@ const Login = () => {
         try {
             if (email && password) {
                 await signInWithEmailAndPassword(auth, email, password);
-                router.push('/dashboard');
+                router.push('/dashboard/cv-create/proceed');
             }
             
         } catch (er) {
@@ -42,7 +42,7 @@ const Login = () => {
             setSignUpGoogleClicked(true);
             let googleProv = new GoogleAuthProvider();
             await signInWithPopup(auth, googleProv); 
-            router.replace('/dashboard');
+            router.replace('/dashboard/cv-create/proceed');
         } catch (error) {
             console.log(error);
             setErr('Error occurred please try again');
