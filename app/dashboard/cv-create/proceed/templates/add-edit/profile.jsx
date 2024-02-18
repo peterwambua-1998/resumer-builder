@@ -138,12 +138,9 @@ const ProfileDetails = ({ userId }) => {
         }
     }
 
-
     useEffect(() => {
         getProfile();
     }, [])
-
-
 
     if (profile == null) {
         return (
