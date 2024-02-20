@@ -46,7 +46,7 @@ export default function Layout({ children }) {
               <Link href='/dashboard/resume'>Resume</Link>
             </Menu.Item>
             <Menu.Item>
-              <a>Cover letter</a>
+              <Link href='/dashboard/website'>Website</Link>
             </Menu.Item>
           </Menu>
 

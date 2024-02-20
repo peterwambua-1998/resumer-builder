@@ -49,7 +49,6 @@ const AboutAddEdit = ({useId}) => {
         try {
             const usb = onSnapshot(doc(db, 'about', useId), doc => {
                 if (doc.data()) {
-                    console.log(doc.data()['description']);
                     setAbout(doc.data()['description']);
                 } else {
                     setAbout(null);
