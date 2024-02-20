@@ -17,7 +17,7 @@ export default function Layout({ children }) {
 
   useEffect(() => {
     setUser(firebase_user);
-    setIsLoading(loading)
+    setIsLoading(loading);
   }, [])
 
   if (loading) {
@@ -30,7 +30,10 @@ export default function Layout({ children }) {
 
   return (
     <div className="bg-white my-font">
-      <Navbar className='my-font bg-blue-950 text-white'>
+      {
+        (window.location.href != 'http://localhost:3000/dashboard/preview-website/site-one') ? 
+        
+        <Navbar className='my-font bg-blue-950 text-white'>
         <Navbar.Start>
           <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
         </Navbar.Start>
@@ -53,6 +56,9 @@ export default function Layout({ children }) {
         </Navbar.Center>
         <NavLinks userId={firebase_user.uid} />
       </Navbar>
+        : <div></div>
+      }
+      
       {children}
     </div>
   )
