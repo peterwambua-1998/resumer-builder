@@ -3,32 +3,45 @@ import OpenAI from "openai";
 export async function POST(req, res) {
    // get user job desc and skills
    let reqBody = await req.json();
-   let { jobDescription, skills } = reqBody;
-
-   if (!jobDescription || jobDescription == null) {
-      return Response('job description not included',{status: 400})
-   }
-
-   if (!skills || skills == null) {
-      return Response('skills not included',{status: 400})
-   }
-
-   const openAi = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+   let { jobDescription } = reqBody;
+   let response = JSON.stringify(jobDescription);
    try {
-      const completion = await openAi.chat.completions.create({
-         model: 'gpt-3.5-turbo',
-         messages: [
-            {role: "system", content: "You are going to generate resume content from now on"},
-            {role: 'user', content: `make me an about me for a resume i am applying jo description is ${jobDescription} and here are my skills ${skills}` }
-         ]
-      });
-   
-      return new Response(completion.choices[0].message.content, {status: 200});
+      return new Response(response, {status: 200});
    } catch (error) {
       return new Response('error occurred please try again',{status: 500})
    }
    
 }
+
+// export async function POST(req, res) {
+//    // get user job desc and skills
+//    let reqBody = await req.json();
+//    let { jobDescription, skills } = reqBody;
+
+//    if (!jobDescription || jobDescription == null) {
+//       return Response('job description not included',{status: 400})
+//    }
+
+//    if (!skills || skills == null) {
+//       return Response('skills not included',{status: 400})
+//    }
+
+//    const openAi = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+//    try {
+//       const completion = await openAi.chat.completions.create({
+//          model: 'gpt-3.5-turbo',
+//          messages: [
+//             {role: "system", content: "You are going to generate resume content from now on"},
+//             {role: 'user', content: `make me an about me for a resume i am applying jo description is ${jobDescription} and here are my skills ${skills}` }
+//          ]
+//       });
+   
+//       return new Response(completion.choices[0].message.content, {status: 200});
+//    } catch (error) {
+//       return new Response('error occurred please try again',{status: 500})
+//    }
+   
+// }
 
 
 
