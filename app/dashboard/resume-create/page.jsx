@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react';
 import ResumeAi from '../openiai/page';
-import { Button, Input } from 'react-daisyui';
+import { Button, Checkbox, Divider, Input, Modal, Toggle } from 'react-daisyui';
 import ProfileDetails from '../cv-create/proceed/templates/add-edit/profile';
 import AboutAddEdit from '../cv-create/proceed/templates/add-edit/about';
 import ExperienceAddEdit from '../cv-create/proceed/templates/add-edit/experience';
@@ -22,35 +22,29 @@ const CreateResume = () => {
     const [showJobDescriptionInput, setShowJobDescriptionInput] = useState(true);
     const [jobDescription, setJobDescription] = useState(null);
     const [firebase_user, loading, error] = useAuthState(auth);
+    const [visible, setVisible] = useState(false);
 
-    // const [summary, setSummary] = useState(null);
-
-    // async function getSummary() {
-    //     const response = await ResumeAi();
-    //     console.log(response);
-    // }
-
-    // useEffect(() => {
-    //     getSummary();
-    // }, [])
+    const toggleVisible = () => {
+        setVisible(!visible);
+    };
 
     async function getAboutAi() {
-
         const options = {
             method: 'POST',
             body: JSON.stringify({
                 "jobDescription": jobDescription,
             }),
         };
+
         try {
             let aboutAi = await fetch('/api/open-ai', options);
             let res = await aboutAi.json();
             console.log(res);
-            setShowJobDescriptionInput(false)
+            setShowJobDescriptionInput(false);
+            toggleVisible();
         } catch (error) {
             console.log(error);
         }
-
     }
 
     return (
@@ -88,6 +82,52 @@ const CreateResume = () => {
                     </div>
                 }
             </div>
+
+
+            <Modal.Legacy open={visible} className="bg-white max-w-5xl">
+                <Modal.Header >
+                    <p className="text-lg pb-0 mb-0 border-b pb-4">Ai Content suggestions</p>
+                </Modal.Header>
+                    <Modal.Body className="p-0">
+                        <div className='border border-slate-500 rounded-lg p-6 w-full mb-8'>
+                            <p className='text-base mb-6'>About</p>
+                            <div className='flex gap-4 mb-3'>
+                                <Checkbox color="primary" />
+                                <p className='text-sm'>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde animi, veniam harum quibusdam et doloribus consectetur earum quidem, architecto, vero laboriosam eligendi hic autem nemo illo obcaecati ratione eos mollitia
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde animi, veniam harum quibusdam et doloribus consectetur earum quidem, architecto, vero laboriosam eligendi hic autem nemo illo obcaecati ratione eos mollitia!
+                                </p>
+                            </div>
+
+                            <div className='flex gap-4'>
+                                <Checkbox color="primary" />
+                                <p className='text-sm'>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde animi, veniam harum quibusdam et doloribus consectetur earum quidem, architecto, vero laboriosam eligendi hic autem nemo illo obcaecati ratione eos mollitia
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde animi, veniam harum quibusdam et doloribus consectetur earum quidem, architecto, vero laboriosam eligendi hic autem nemo illo obcaecati ratione eos mollitia!
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className='border border-slate-500 rounded-lg p-6 w-full'>
+                            <p className='text-base mb-6'>Skills</p>
+                            <div className='flex gap-8'>
+                                <div className='flex gap-3 mb-3'>
+                                    <Checkbox color="primary" />
+                                    <p className='text-sm'>skill 1</p>
+                                </div>
+                                <div className='flex gap-3 mb-3'>
+                                    <Checkbox color="primary" />
+                                    <p className='text-sm'>skill 1</p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </Modal.Body>
+                <Modal.Actions>
+                    <Button type="button" onClick={toggleVisible} >Close</Button>
+                    <Button type="button" className="bg-[#F59E0B] text-white border-none">Save</Button>
+                </Modal.Actions>
+            </Modal.Legacy>
         </div>
     );
 }
