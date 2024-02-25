@@ -1,16 +1,24 @@
 import OpenAI from "openai";
 
-export async function POST(req, res) {
+export async function POST(req) {
    // get user job desc and skills
    let reqBody = await req.json();
    let { jobDescription } = reqBody;
-   let response = JSON.stringify(jobDescription);
+   let responseAbout = [
+      { id: 1, checked: false, about: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore esse deleniti ad possimus, molestiae accusamus numquam in minima culpa soluta mollitia, aut sed eveniet quaerat? Dolorem soluta eaque eius voluptate" },
+      { id: 2, checked: false, about: "AI-Assisted Learning Get coding help quickly and when you need it to speed up your learning journey. Our AI features help you understand errors and solution code faster and get personalized feedback." }
+   ];
+   let responseSkills = [
+      { id: 1, skill: 'dancing', checked: false },
+      { id: 2, skill: 'playing', checked: false },
+      { id: 3, skill: 'singing', checked: false }
+   ];
+   let res = JSON.stringify({about:responseAbout, skills:responseSkills});
    try {
-      return new Response(response, {status: 200});
+      return new Response(res, {status: 200});
    } catch (error) {
       return new Response('error occurred please try again',{status: 500})
    }
-   
 }
 
 // export async function POST(req, res) {

@@ -1,25 +1,27 @@
 'use client'
 import { useEffect, useState } from 'react';
-import ResumeAi from '../openiai/page';
+import ResumeAi from '@/app/dashboard/openiai/page';
 import { Accordion, Button, Checkbox, Divider, Input, Modal, Textarea, Toggle } from 'react-daisyui';
-import ProfileDetails from '../cv-create/proceed/templates/add-edit/profile';
-import AboutAddEdit from '../cv-create/proceed/templates/add-edit/about';
-import ExperienceAddEdit from '../cv-create/proceed/templates/add-edit/experience';
-import EducationAddEdit from '../cv-create/proceed/templates/add-edit/education';
-import SkillAddEdit from '../cv-create/proceed/templates/add-edit/skills';
-import AwardAddEdit from '../cv-create/proceed/templates/add-edit/awards';
-import ReferencesEditDelete from '../cv-create/proceed/templates/add-edit/references';
+
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '@/app/firebase/firebase';
-import HobbiesAddEdit from '../cv-create/proceed/templates/add-edit/hobbies';
-import Languages from '../cv-create/proceed/templates/add-edit/languages';
-import LinksUser from '../cv-create/proceed/templates/add-edit/links';
-import ProjectsAddEdit from '../cv-create/proceed/templates/add-edit/projects';
+
 import Image from 'next/image';
 import resumeImage from '@/app/images/peter2.png';
-import { Timestamp, addDoc, collection } from 'firebase/firestore';
+import { Timestamp, addDoc, collection, doc } from 'firebase/firestore';
+import ProfileDetails from '../../cv-create/proceed/templates/add-edit/profile';
+import ExperienceAddEdit from '../../cv-create/proceed/templates/add-edit/experience';
+import EducationAddEdit from '../../cv-create/proceed/templates/add-edit/education';
+import SkillAddEdit from '../../cv-create/proceed/templates/add-edit/skills';
+import AwardAddEdit from '../../cv-create/proceed/templates/add-edit/awards';
+import ReferencesEditDelete from '../../cv-create/proceed/templates/add-edit/references';
+import HobbiesAddEdit from '../../cv-create/proceed/templates/add-edit/hobbies';
+import Languages from '../../cv-create/proceed/templates/add-edit/languages';
+import LinksUser from '../../cv-create/proceed/templates/add-edit/links';
+import ProjectsAddEdit from '../../cv-create/proceed/templates/add-edit/projects';
 
-const CreateResume = () => {
+
+const CreateResume = ({params}) => {
     // used to store ids for the document
     const [resumeId, setResumeId] = useState(null);
     const [aboutAiSaved, setAboutAiSaved] = useState(null);
@@ -125,17 +127,13 @@ const CreateResume = () => {
         
         // save resume at current state including ai suggestions including resume name
         try {
-            let resumeRef = collection(db, 'users-resumes');
+            let resumeRef = doc(db, 'users-resumes', params.id);
             let aiSuggestionsRef = collection(db, 'user-resume-ai-suggestions');
             let aiSuggestionsSkillsRef = collection(db, 'user-resume-ai-suggestions-skills');
-            const res = await addDoc(resumeRef, {
+            const res = await updateDoc(resumeRef, {
                 'title': resumeTitle,
                 'jobDescription': jobDescription,
-                'userId': firebase_user.uid,
-                'created_at': Timestamp.now()
             });
-
-            setResumeId(res.id);
 
             const aboutAiAboutResponse = await addDoc(aiSuggestionsRef, {
                 'resume_id': res.id,
@@ -148,8 +146,6 @@ const CreateResume = () => {
             });
 
             setAboutAiSaved(aboutAiAboutResponse.id);
-
-            let skillsIds = [];
 
             skillsAi.forEach(async (skill, index) => {
                 let skillAdds = await addDoc(aiSuggestionsSkillsRef, {
@@ -166,7 +162,7 @@ const CreateResume = () => {
         }
     }
 
-    return (
+    return (  
         <div className="md:grid md:grid-cols-4 bg-slate-200">
             <div className="bg-white pt-10 pl-5 pr-5">
 
@@ -300,5 +296,5 @@ const CreateResume = () => {
         </div>
     );
 }
-
+ 
 export default CreateResume;

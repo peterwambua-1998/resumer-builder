@@ -1,7 +1,8 @@
 'use client';
 import { auth, db } from "@/app/firebase/firebase";
-import { collection, doc, getDocs, query, where } from "firebase/firestore";
+import { Timestamp, addDoc, collection, doc, getDocs, query, where } from "firebase/firestore";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, Card, Button, Loading } from "react-daisyui";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -10,6 +11,7 @@ const CurriculumVitae = () => {
     var [firebase_user, loading, error] = useAuthState(auth);
     var [resumes, setResumes] = useState([]);
     var [checkingResume, setCheckingResume] = useState(true);
+    const router = useRouter();
 
     async function checkResume () {
         try {
@@ -25,6 +27,22 @@ const CurriculumVitae = () => {
             });
             console.log(checkingResume);
             setCheckingResume(false);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function createResumeId() {
+        let resumeRef = collection(db, 'users-resumes');
+        try {
+            const res = await addDoc(resumeRef, {
+                'title': '',
+                'jobDescription': '',
+                'userId': firebase_user.uid,
+                'created_at': Timestamp.now()
+            });
+            router.push(`/dashboard/rs-create/${res.id}`);
+            
         } catch (error) {
             console.log(error);
         }
@@ -128,7 +146,7 @@ const CurriculumVitae = () => {
                     <div className="flex justify-center items-center flex-col gap-20 w-full h-[50vh] bg-slate-300 rounded-lg">
                         <div>
                             <label className="label pl-2">Create new resume</label>
-                            <Button><Link href='/dashboard/resume-create'>Create new resume</Link></Button>
+                            <Button onClick={createResumeId}>Create new resume</Button>
                         </div>
                         
                     </div>
