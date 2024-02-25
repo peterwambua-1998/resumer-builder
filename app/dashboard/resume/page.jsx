@@ -36,8 +36,8 @@ const CurriculumVitae = () => {
         let resumeRef = collection(db, 'users-resumes');
         try {
             const res = await addDoc(resumeRef, {
-                'title': '',
-                'jobDescription': '',
+                'title': null,
+                'jobDescription': null,
                 'userId': firebase_user.uid,
                 'created_at': Timestamp.now()
             });

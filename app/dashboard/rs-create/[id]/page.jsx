@@ -1,14 +1,14 @@
 'use client'
 import { useEffect, useState } from 'react';
 import ResumeAi from '@/app/dashboard/openiai/page';
-import { Accordion, Button, Checkbox, Divider, Input, Modal, Textarea, Toggle } from 'react-daisyui';
+import { Accordion, Button, Checkbox, Divider, Input, Loading, Modal, Textarea, Toggle } from 'react-daisyui';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '@/app/firebase/firebase';
 
 import Image from 'next/image';
 import resumeImage from '@/app/images/peter2.png';
-import { Timestamp, addDoc, collection, doc } from 'firebase/firestore';
+import { Timestamp, addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import ProfileDetails from '../../cv-create/proceed/templates/add-edit/profile';
 import ExperienceAddEdit from '../../cv-create/proceed/templates/add-edit/experience';
 import EducationAddEdit from '../../cv-create/proceed/templates/add-edit/education';
@@ -28,8 +28,8 @@ const CreateResume = ({params}) => {
     let [skillAiSaved, setSkillAiSaved] = useState([]);
 
     const [resumeTitle, setResumeTitle] = useState(null);
-
-    const [showJobDescriptionInput, setShowJobDescriptionInput] = useState(true);
+    const [queryingForJobDesc, setQueryForJobDesc] = useState(true);
+    const [showJobDescriptionInput, setShowJobDescriptionInput] = useState(false);
     const [jobDescription, setJobDescription] = useState(null);
     const [firebase_user, loading, error] = useAuthState(auth);
     const [visible, setVisible] = useState(false);
@@ -122,8 +122,55 @@ const CreateResume = ({params}) => {
         console.log(resumeId, aboutAiSaved, skillAiSaved);
     }
 
+    // determine if it has jo description first before even showing it
+    async function detJobDesc() {
+        const docRef = doc(db, "users-resumes", params.id);
+        const docSnap = await getDoc(docRef);
+        const data = docSnap.data();
+        if (data.jobDescription === null) {
+            setQueryForJobDesc(false);
+            setShowJobDescriptionInput(true);
+        } else {
+            // get the data from firestore and show resume as it was saved
+            await getResumeDataAsItWas();
+            setQueryForJobDesc(false);
+            setShowJobDescriptionInput(false);
+        }
+    }
+
+    async function getResumeDataAsItWas() {
+        try {
+            // get about from firestore
+            const q = query(collection(db, "user-resume-ai-suggestions"), where("resume_id", "==", params.id));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                if (doc.data()) {
+                    let data = doc.data();
+                    let d = [
+                        {id: data.about_one_id, checked: data.about_one_checked, about: data.about_one_about},
+                        {id: data.about_two_id, checked: data.about_two_checked, about: data.about_two_about},
+                    ]
+                    setAboutAi(d);
+                }
+            });
+
+            // get skills
+            const qT = query(collection(db, "user-resume-ai-suggestions-skills"), where("resume_id", "==", params.id));
+            const querySnapshotT = await getDocs(qT);
+            querySnapshotT.forEach((doc) => {
+                if (doc.data()) {
+                    let data = doc.data();
+                    setSkillsAi((prev) => [...prev, {id: data.skill_id, checked: data.skill_checked, skill: data.skill}])
+                    setSkillAiSaved(prev => [...prev, doc.id]);
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async function saveResume() {
-        // check if there is recent save
+        // check if there is recent save if setSkillAiSaved has data
         
         // save resume at current state including ai suggestions including resume name
         try {
@@ -136,7 +183,7 @@ const CreateResume = ({params}) => {
             });
 
             const aboutAiAboutResponse = await addDoc(aiSuggestionsRef, {
-                'resume_id': res.id,
+                'resume_id': params.id,
                 'about_one_id': aboutAi[0].id,
                 'about_one_about': aboutAi[0].about,
                 'about_one_checked': aboutAi[0].checked,
@@ -149,7 +196,7 @@ const CreateResume = ({params}) => {
 
             skillsAi.forEach(async (skill, index) => {
                 let skillAdds = await addDoc(aiSuggestionsSkillsRef, {
-                    'resume_id': res.id,
+                    'resume_id': params.id,
                     'skill': skill.skill,
                     'skill_id': skill.id,
                     'skill_checked': skill.checked
@@ -161,6 +208,10 @@ const CreateResume = ({params}) => {
             console.log(error);
         }
     }
+
+    useEffect(() => {
+        detJobDesc();
+    }, []);
 
     return (  
         <div className="md:grid md:grid-cols-4 bg-slate-200">
@@ -191,7 +242,7 @@ const CreateResume = ({params}) => {
                 <ProjectsAddEdit userId={firebase_user.uid} />
             </div>
             <div className="md:col-span-3 p-10">
-                {showJobDescriptionInput ?
+                {queryingForJobDesc ? <Loading /> : showJobDescriptionInput ?
                     // job desc input
                     <div className='pl-8 pr-8  flex flex-col gap-10 items-center'>
                         <Image src={resumeImage} alt='ai-resume' width={120} height={120} className='w-[40%] h-[40%]' />
@@ -212,7 +263,11 @@ const CreateResume = ({params}) => {
                         </div>
                         show content from open ai
 
-                        <p>{activeAbout}</p>
+                        {aboutAi
+                            .filter((skill) => skill.checked === true)
+                            .map((skill) => (
+                                <div className="show-selected-skills" key={skill.id}>{skill.about}</div>
+                            ))}
 
                         {skillsAi
                             .filter((skill) => skill.checked === true)
