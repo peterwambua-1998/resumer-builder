@@ -54,6 +54,64 @@ const CreateResume = () => {
     };
 
     async function getAboutAi() {
+        // get users experiences
+        let experiences = []; 
+        const q = query(collection(db, "experience"), where("user_id", "==", firebase_user.uid));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+            let res  = doc.data();
+            let d = `companyname: ${res.companyName}, 
+                    role: ${res.title}, 
+                    description of what i did: ${res.description},
+                    employment type:  ${res.employmentType},
+                    start date: ${res.startDate} end date:
+                `;
+            let data = {
+                'company-name': res.companyName,
+                'role': res.title,
+                'description': res.description,
+                'employment-type': res.employmentType,
+                'start-date':res.startDate,
+                'end-date':res.endDate,
+                'location': res.location,
+                'location-type': res.locationType,
+            }
+        });
+
+        // get users skills
+        let skills = [];
+        const qS = query(collection(db, "skill"), where("user_id", "==", firebase_user.uid));
+        const querySnapshotS = await getDocs(q);
+        querySnapshotS.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+        });
+
+        //get users about me
+        let about = '';
+        const docRef = doc(db, "about", firebase_user.uid);
+        const docSnap = await getDoc(docRef);
+
+        // languages
+        let languages = [];
+        const qL = query(collection(db, "languages"), where("user_id", "==", firebase_user.uid));
+        const querySnapshotL = await getDocs(q);
+        querySnapshotS.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+        });
+
+        //hobbies
+        let hobbies = [];
+        const qH = query(collection(db, "languages"), where("user_id", "==", firebase_user.uid));
+        const querySnapshotH = await getDocs(q);
+        querySnapshotS.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+        });
+
         const options = {
             method: 'POST',
             body: JSON.stringify({

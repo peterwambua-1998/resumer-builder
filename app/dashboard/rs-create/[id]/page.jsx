@@ -56,24 +56,77 @@ const CreateResume = ({params}) => {
     };
 
     async function getAboutAi() {
-        const options = {
-            method: 'POST',
-            body: JSON.stringify({
-                "jobDescription": jobDescription,
-            }),
-        };
+        // get users experiences
+        let experiences = []; 
+        let exps = "my experiences are ";
+        const q = query(collection(db, "experience"), where("user_id", "==", firebase_user.uid));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            let res  = doc.data();
+            exps += `${res.title} ${res.companyName} - ${res.employmentType} ${res.startDate} - ${res.endDate} ${res.location} - ${res.locationType} ${res.description}.`;
+        });
 
-        try {
-            let aboutAI = await fetch('/api/open-ai', options);
-            let res = await aboutAI.json();
-            console.log(res.about);
-            setAboutAi(res.about);
-            setSkillsAi(res.skills);
-            setShowJobDescriptionInput(false);
-            toggleVisible();
-        } catch (error) {
-            console.log(error);
+        // get users skills
+        exps += 'my skills include '
+        let skills = [];
+        const qS = query(collection(db, "skill"), where("user_id", "==", firebase_user.uid));
+        const querySnapshotS = await getDocs(qS);
+        querySnapshotS.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            let res = doc.data();
+            exps += `${res.name},`;
+        });
+        //get users about me
+        let about = '';
+        const docRef = doc(db, "about", firebase_user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            about = docSnap.data()['description'];
         }
+
+        // languages
+        let languages = [];
+        const qL = query(collection(db, "languages"), where("user_id", "==", firebase_user.uid));
+        const querySnapshotL = await getDocs(qL);
+        querySnapshotL.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            let res = doc.data();
+            languages.push(res.name)
+        });
+
+        //hobbies
+        let hobbies = [];
+        const qH = query(collection(db, "hobbies"), where("user_id", "==", firebase_user.uid));
+        const querySnapshotH = await getDocs(qH);
+        querySnapshotH.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            let res = doc.data();
+            hobbies.push(res.title);
+        });
+
+        console.log(exps);
+
+
+        // const options = {
+        //     method: 'POST',
+        //     body: JSON.stringify({
+        //         "jobDescription": jobDescription,
+
+        //     }),
+        // };
+
+        // try {
+        //     let aboutAI = await fetch('/api/open-ai', options);
+        //     let res = await aboutAI.json();
+        //     console.log(res.about);
+        //     // setAboutAi(res.about);
+        //     // setSkillsAi(res.skills);
+        //     // setShowJobDescriptionInput(false);
+        //     // toggleVisible();
+        // } catch (error) {
+        //     console.log(error);
+        // }
     }
 
     function setActive(value) {

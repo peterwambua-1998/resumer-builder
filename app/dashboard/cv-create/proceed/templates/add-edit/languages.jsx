@@ -1,9 +1,9 @@
 import { db } from "@/app/firebase/firebase";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Timestamp, addDoc, collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import { Timestamp, addDoc, collection, doc, onSnapshot, query, updateDoc, where, deleteDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Accordion, Badge, Button, Modal, Input, Select } from "react-daisyui";
+import { Accordion, Badge, Button, Modal, Input, Select, Loading } from "react-daisyui";
 
 const Languages = ({ userId }) => {
     const [languages, setLanguages] = useState([]);
