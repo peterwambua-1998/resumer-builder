@@ -1,63 +1,66 @@
 import OpenAI from "openai";
 
-export async function POST(req) {
-   // get user job desc and skills
-   let reqBody = await req.json();
-   let { jobDescription } = reqBody;
-   let responseAbout = [
-      { id: 1, checked: false, about: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore esse deleniti ad possimus, molestiae accusamus numquam in minima culpa soluta mollitia, aut sed eveniet quaerat? Dolorem soluta eaque eius voluptate" },
-      { id: 2, checked: false, about: "AI-Assisted Learning Get coding help quickly and when you need it to speed up your learning journey. Our AI features help you understand errors and solution code faster and get personalized feedback." }
-   ];
-   let responseSkills = [
-      { id: 1, skill: 'dancing', checked: false },
-      { id: 2, skill: 'playing', checked: false },
-      { id: 3, skill: 'singing', checked: false }
-   ];
-   let res = JSON.stringify({about:responseAbout, skills:responseSkills});
-   try {
-      return new Response(res, {status: 200});
-   } catch (error) {
-      return new Response('error occurred please try again',{status: 500})
-   }
-}
-
-// export async function POST(req, res) {
+// export async function POST(req) {
 //    // get user job desc and skills
 //    let reqBody = await req.json();
-//    let { jobDescription, skills } = reqBody;
-
-//    if (!jobDescription || jobDescription == null) {
-//       return Response('job description not included',{status: 400})
-//    }
-
-//    if (!skills || skills == null) {
-//       return Response('skills not included',{status: 400})
-//    }
-
-//    const openAi = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+//    let { jobDescription } = reqBody;
+//    let responseAbout = [
+//       { id: 1, checked: false, about: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore esse deleniti ad possimus, molestiae accusamus numquam in minima culpa soluta mollitia, aut sed eveniet quaerat? Dolorem soluta eaque eius voluptate" },
+//       { id: 2, checked: false, about: "AI-Assisted Learning Get coding help quickly and when you need it to speed up your learning journey. Our AI features help you understand errors and solution code faster and get personalized feedback." }
+//    ];
+//    let responseSkills = [
+//       { id: 1, skill: 'dancing', checked: false },
+//       { id: 2, skill: 'playing', checked: false },
+//       { id: 3, skill: 'singing', checked: false }
+//    ];
+//    let res = JSON.stringify({about:responseAbout, skills:responseSkills});
 //    try {
-//       const completion = await openAi.chat.completions.create({
-//          model: 'gpt-3.5-turbo',
-//          messages: [
-//             {role: "system", content: "You are going to generate resume content from now on"},
-//             {role: 'user', content: `make me an about me for a resume i am applying jo description is ${jobDescription} and here are my skills ${skills}` }
-//          ]
-//       });
-   
-//       return new Response(completion.choices[0].message.content, {status: 200});
+//       return new Response(res, {status: 200});
 //    } catch (error) {
 //       return new Response('error occurred please try again',{status: 500})
 //    }
-   
 // }
+
+export async function POST(req, res) {
+   // get user job desc and skills
+   let reqBody = await req.json();
+   let { userContent } = reqBody;
+
+   if (!userContent || userContent == null) {
+      return Response('job description not included',{status: 400})
+   }
+
+   const openAi = new OpenAI({ apiKey: process.env.NEXT_OPEN_AI_API_KEY });
+   try {
+      const completion = await openAi.chat.completions.create({
+         model: 'gpt-3.5-turbo',
+         response_format: { type: "json_object" },
+         messages: [
+            {role: "system", content: "from now on you will generate resume content. I need two version in the form of version-1 and version-2. Always return JSON."},
+            {role: 'user', content: `${userContent}` }
+         ],
+            temperature: 0.65,
+            max_tokens: 2150,
+            top_p: 1,
+            frequency_penalty: 0,
+            presence_penalty: 0,
+      });
+
+      return new Response(completion.choices[0].message.content, {status: 200});
+   } catch (error) {
+      console.log(error);
+      return new Response('error occurred please try again',{status: 500})
+   }
+   
+}
 
 
 
 // import fs, { existsSync } from 'fs';
 // import url from 'url';
-// //import fetch from 'node-fetch';
+// import fetch from 'node-fetch';
 
-// // "https://firebasestorage.googleapis.com/v0/b/ai-app-49d1e.appspot.com/o/users%2FCURRICULUM%20VITAE%20(CV)-%20Peter%20Wambua.docx?alt=media&token=3295b8bf-0f72-4164-bd0f-e230039f8d3b"
+// "https://firebasestorage.googleapis.com/v0/b/ai-app-49d1e.appspot.com/o/users%2FCURRICULUM%20VITAE%20(CV)-%20Peter%20Wambua.docx?alt=media&token=3295b8bf-0f72-4164-bd0f-e230039f8d3b"
 
 // export async function POST(req, res) {
    

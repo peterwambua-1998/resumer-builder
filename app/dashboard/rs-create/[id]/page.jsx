@@ -56,9 +56,20 @@ const CreateResume = ({params}) => {
     };
 
     async function getAboutAi() {
+        //get users about me
+        let exps = 'i would like a well crafted and creative about me based on job description. My current about ';
+        const docRef = doc(db, "about", firebase_user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            let about = docSnap.data()['description'];
+            exps += `${about}.`;
+        }
+
+
+        exps += `Job description is ${jobDescription}`;
+
         // get users experiences
-        let experiences = []; 
-        let exps = "my experiences are ";
+        exps += "my experiences are ";
         const q = query(collection(db, "experience"), where("user_id", "==", firebase_user.uid));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -68,7 +79,7 @@ const CreateResume = ({params}) => {
         });
 
         // get users skills
-        exps += 'my skills include '
+        exps += 'my skills include ';
         let skills = [];
         const qS = query(collection(db, "skill"), where("user_id", "==", firebase_user.uid));
         const querySnapshotS = await getDocs(qS);
@@ -77,56 +88,61 @@ const CreateResume = ({params}) => {
             let res = doc.data();
             exps += `${res.name},`;
         });
-        //get users about me
-        let about = '';
-        const docRef = doc(db, "about", firebase_user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            about = docSnap.data()['description'];
-        }
+        
 
         // languages
-        let languages = [];
+        exps += 'languages i speak include ';
         const qL = query(collection(db, "languages"), where("user_id", "==", firebase_user.uid));
         const querySnapshotL = await getDocs(qL);
         querySnapshotL.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
             let res = doc.data();
-            languages.push(res.name)
+            exps += `${res.name},`;
         });
 
         //hobbies
         let hobbies = [];
+        exps += 'I also have hobbies like ';
         const qH = query(collection(db, "hobbies"), where("user_id", "==", firebase_user.uid));
         const querySnapshotH = await getDocs(qH);
         querySnapshotH.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
             let res = doc.data();
-            hobbies.push(res.title);
+            exps += `${res.title},`;
         });
 
-        console.log(exps);
+        exps += ' Be creative in making the about wordings mix things up and give me two versions that is version-1 version-2.';
 
 
-        // const options = {
-        //     method: 'POST',
-        //     body: JSON.stringify({
-        //         "jobDescription": jobDescription,
+        const options = {
+            method: 'POST',
+            body: JSON.stringify({
+                "userContent": exps,
+            }),
+        };
 
-        //     }),
-        // };
-
-        // try {
-        //     let aboutAI = await fetch('/api/open-ai', options);
-        //     let res = await aboutAI.json();
-        //     console.log(res.about);
-        //     // setAboutAi(res.about);
-        //     // setSkillsAi(res.skills);
-        //     // setShowJobDescriptionInput(false);
-        //     // toggleVisible();
-        // } catch (error) {
-        //     console.log(error);
-        // }
+        try {
+            let aboutAI = await fetch('/api/open-ai', options);
+            let res = await aboutAI.json();
+            console.log(res);
+            let resAiAbout = [
+                {id: 1, checked: false, about: res['version-1']},
+                {id: 2, checked: false, about: res['version-2']}
+            ]
+            let resAiSkills = res['recommended-skills'];
+            let resAiSkillsFormarted = [];
+            let skillId = 1;
+            for (let i = 0; i < resAiSkills.length; i++) {
+                let inner = {id: skillId, skill: resAiAbout[i], checked: false};
+                resAiSkillsFormarted.push(inner);
+            }
+            setAboutAi(resAiAbout);
+            setSkillsAi(resAiSkillsFormarted);
+            setShowJobDescriptionInput(false);
+            toggleVisible();
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     function setActive(value) {
