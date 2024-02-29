@@ -15,6 +15,7 @@ import ExperienceWidget from "./template-two-components/experience";
 import References from "./template-two-components/references";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import Internship from "./template-two-components/internship";
 
 const TemplateTwo = ({ userId }) => {
 
@@ -151,7 +152,7 @@ const TemplateTwo = ({ userId }) => {
                     </div>
                     {/* location email */}
                     <div className="md:mt-5 lg:mt-5">
-                        <AboutMe useId={userId} />
+
                     </div>
                     <div className="mt-5">
                         <SkillWidget user_id={userId} />
@@ -163,23 +164,18 @@ const TemplateTwo = ({ userId }) => {
                 <div className="col-span-4 bg-white p-2 md:p-[5%] lg:p-[5%]">
                     {
                         profile != null ?
-                            <p className="border-b-2  md:text-3xl lg:text-3xl font-semibold pb-5 text-green-700">{profile.full_name}</p>
+                            <p className="md:text-3xl lg:text-3xl font-semibold pb-5 text-green-700">{profile.full_name}</p>
                             :
                             <Skeleton className="h-4 w-[60%] bg-slate-400"></Skeleton>
                     }
 
-                    <EducationWidget user_id={userId} />
-                    <EducationWidget user_id={userId} />
-                    <EducationWidget user_id={userId} />
-                    <EducationWidget user_id={userId} />
+                    <AboutMe useId={userId} />
+
                     <EducationWidget user_id={userId} />
 
                     <ExperienceWidget user_id={userId} />
-                    <ExperienceWidget user_id={userId} />
-                    <ExperienceWidget user_id={userId} />
-                    <ExperienceWidget user_id={userId} />
-                    <ExperienceWidget user_id={userId} />
-                    <ExperienceWidget user_id={userId} />
+
+                    <Internship userId={userId} />
 
                     <References userId={userId} />
                 </div>

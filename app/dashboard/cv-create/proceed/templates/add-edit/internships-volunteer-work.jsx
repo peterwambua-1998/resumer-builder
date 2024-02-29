@@ -4,7 +4,8 @@ import { db } from "@/app/firebase/firebase";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Timestamp, addDoc, collection, deleteDoc, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Accordion, Badge, Button, Modal, Input, Textarea, Loading } from "react-daisyui";
 
 const Internship = ({userId}) => {
     const [internships, setInternships] = useState([]);
@@ -15,6 +16,8 @@ const Internship = ({userId}) => {
     const [roleNameValueError, setRoleNameValueError] = useState(null);
     const [durationValue, setDurationValue] = useState(null);
     const [durationValueError, setDurationValueError] = useState(null);
+    const [descriptionValue, setDescriptionValue] = useState(null);
+    const [descriptionValueError, setDescriptionValueError] = useState(null);
 
     const [visible, setVisible] = useState(false);
     const [visibleEdit, setVisibleEdit] = useState(false);
@@ -54,6 +57,7 @@ const Internship = ({userId}) => {
             setOrgNameValue(data.organization);
             setRoleNameValue(data.role);
             setDurationValue(data.duration);
+            setDescriptionValue(data.description);
         }
     }
 
@@ -77,12 +81,19 @@ const Internship = ({userId}) => {
             setDurationValueError('');
         }
 
+        if (!descriptionValue || descriptionValue == null) {
+            setDescriptionValueError('field required');
+        } else {
+            setDescriptionValueError('');
+        }
+
         try {
             let data = {
                 user_id: userId,
                 organization: orgNameValue,
                 role: roleNameValue,
                 duration: durationValue,
+                description: descriptionValue,
                 created_at: Timestamp.now()
             }
 
@@ -130,12 +141,19 @@ const Internship = ({userId}) => {
             setDurationValueError('');
         }
 
+        if (!descriptionValue || descriptionValue == null) {
+            setDescriptionValueError('field required');
+        } else {
+            setDescriptionValueError('');
+        }
+
         try {
             let data = {
                 user_id: userId,
                 organization: orgNameValue,
                 role: roleNameValue,
                 duration: durationValue,
+                description: descriptionValue,
                 created_at: Timestamp.now()
             }
 
@@ -157,6 +175,10 @@ const Internship = ({userId}) => {
         }
     }
 
+    useEffect(() => {
+        getInternships();
+    }, []);
+
     return (  
         <div className="mb-3">
             <Accordion className="bg-amber-400 text-black">
@@ -174,6 +196,12 @@ const Internship = ({userId}) => {
                                 </Badge>
                             </div>
                         ))}
+                    </div>
+
+                    <div className="form-control w-full grow">
+                        <div className="flex flex-wrap gap-4">
+                            <Button className="bg-amber-200 border-amber-500 text-black" onClick={() => { toggleVisible() }}>Add</Button>
+                        </div>
                     </div>
                 </Accordion.Content>
             </Accordion>
@@ -204,32 +232,44 @@ const Internship = ({userId}) => {
                     <form>
                         <Modal.Header className="font-bold">Internship</Modal.Header>
                         <Modal.Body className="p-0">
-                            <div className="md:grid grid-cols-2 gap-4">
+                            <div className="md:grid grid-cols-3 gap-4">
                                 <div className="form-control w-full">
                                     <label className="label">
                                         <span className="">Organization</span>
                                     </label>
                                     <div>
-                                        <Input type="text" defaultValue={selectedRecord.organization ? selectedRecord.organization : ''} className="bg-white text-black grow" placeholder="Ex: Safaricom" onChange={(e) => setOrgNameValue(e.target.value)} />
+                                        <Input type="text" defaultValue={selectedRecord.organization ? selectedRecord.organization : ''} className="bg-white text-black w-full" placeholder="Ex: Safaricom" onChange={(e) => setOrgNameValue(e.target.value)} />
                                         <div className="text-red-600 text-sm">{orgNameValueError}</div>
                                     </div>
                                 </div>
-                                <div className="form-control w-full grow">
+                                <div className="form-control w-full">
                                     <label className="label">
                                         <span className="">Role</span>
                                     </label>
                                     <div>
-                                        <Input type="text" defaultValue={selectedRecord.role ? selectedRecord.role : ''} className="bg-white text-black grow" placeholder="Ex: Coordinator" onChange={(e) => setRoleNameValue(e.target.value)} />
+                                        <Input type="text" defaultValue={selectedRecord.role ? selectedRecord.role : ''} className="bg-white text-black w-full" placeholder="Ex: Coordinator" onChange={(e) => setRoleNameValue(e.target.value)} />
                                         <div className="text-red-600 text-sm">{roleNameValueError}</div>
                                     </div>
                                 </div>
-                                <div className="form-control w-full grow">
+                                <div className="form-control w-full">
                                     <label className="label">
                                         <span className="">Duration (Months)</span>
                                     </label>
                                     <div>
-                                        <Input type="number" defaultValue={selectedRecord.duration ? selectedRecord.duration : ''} className="bg-white text-black grow" placeholder="Ex: 200" onChange={(e) => setDurationValue(e.target.value)} />
+                                        <Input type="number" defaultValue={selectedRecord.duration ? selectedRecord.duration : ''} className="bg-white text-black w-full" placeholder="Ex: 200" onChange={(e) => setDurationValue(e.target.value)} />
                                         <div className="text-red-600 text-sm">{durationValueError}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="md:grid grid-cols-1 gap-4">
+
+                                <div className="form-control w-full">
+                                    <label className="label">
+                                        <span className="">Description</span>
+                                    </label>
+                                    <div>
+                                        <Textarea className="bg-white text-black w-full" defaultValue={selectedRecord.description ? selectedRecord.description : ''} placeholder="Ex: What you did" onChange={(e) => setDescriptionValue(e.target.value)} />
+                                        <div className="text-red-600 text-sm">{descriptionValueError}</div>
                                     </div>
                                 </div>
                             </div>
@@ -247,37 +287,47 @@ const Internship = ({userId}) => {
 
             <Modal.Legacy open={visible} className="bg-white max-w-5xl">
                 <form>
-                    <Modal.Header className="font-bold">Award</Modal.Header>
+                    <Modal.Header className="font-bold">Internship Work</Modal.Header>
                     <Modal.Body className="p-0">
-                        <div className="md:grid grid-cols-2 gap-4">
-                        <div className="form-control w-full">
+                            <div className="md:grid md:grid-cols-3 gap-4">
+                                <div className="form-control md:w-full">
                                     <label className="label">
                                         <span className="">Organization</span>
                                     </label>
                                     <div>
-                                        <Input type="text" className="bg-white text-black grow" placeholder="Ex: Safaricom" onChange={(e) => setOrgNameValue(e.target.value)} />
+                                        <Input type="text" className="bg-white text-black grow w-full" placeholder="Ex: Safaricom" onChange={(e) => setOrgNameValue(e.target.value)} />
                                         <div className="text-red-600 text-sm">{orgNameValueError}</div>
                                     </div>
                                 </div>
-                                <div className="form-control w-full grow">
+                                <div className="form-control w-full">
                                     <label className="label">
                                         <span className="">Role</span>
                                     </label>
                                     <div>
-                                        <Input type="text" className="bg-white text-black grow" placeholder="Ex: Coordinator" onChange={(e) => setRoleNameValue(e.target.value)} />
+                                        <Input type="text" className="bg-white text-black w-full" placeholder="Ex: Coordinator" onChange={(e) => setRoleNameValue(e.target.value)} />
                                         <div className="text-red-600 text-sm">{roleNameValueError}</div>
                                     </div>
                                 </div>
-                                <div className="form-control w-full grow">
+                                <div className="form-control w-full">
                                     <label className="label">
                                         <span className="">Duration (Months)</span>
                                     </label>
                                     <div>
-                                        <Input type="number" className="bg-white text-black grow" placeholder="Ex: 200" onChange={(e) => setDurationValue(e.target.value)} />
+                                        <Input type="number" className="bg-white text-black w-full" placeholder="Ex: 200" onChange={(e) => setDurationValue(e.target.value)} />
                                         <div className="text-red-600 text-sm">{durationValueError}</div>
                                     </div>
                                 </div>
-                            
+                            </div>
+                            <div className="md:grid md:grid-cols-1 gap-4">
+                                <div className="form-control w-full">
+                                    <label className="label">
+                                        <span className="">Description</span>
+                                    </label>
+                                    <div>
+                                        <Textarea className="bg-white text-black w-full" placeholder="Ex: What you did" onChange={(e) => setDescriptionValue(e.target.value)} />
+                                        <div className="text-red-600 text-sm">{descriptionValueError}</div>
+                                    </div>
+                                </div>
                         </div>
                     </Modal.Body>
                     <Modal.Actions>

@@ -48,16 +48,9 @@ const ExperienceWidget = ({user_id}) => {
                             <p className="text-sm text-[#808080]">{exp.description}</p>
                         </div>
                     </div>
-                ))) : (
-                    <div className="md:grid md:grid-cols-5 mt-2" >
-                        <div className="col-span-1 pl-2 text-right mb-6">
-                            <p></p>
-                        </div>
-                        <div className="col-span-4 pl-10 mb-6">
-                            <p className="text-sm text-[#808080]">You currently have no experience data</p>
-                        </div>
-                    </div>
-                )
+                ))) : 
+                    <div></div>
+                
                 }
 
         </div> 

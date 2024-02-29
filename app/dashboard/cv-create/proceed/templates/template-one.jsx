@@ -21,6 +21,7 @@ import html2canvas from "html2canvas";
 import ProfilePhoto from "./template-one-components/profilePhoto";
 import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import Internship from "./template-one-components/internship";
 // import { html2pdf } from "html2pdf.js";
 
 
@@ -100,7 +101,8 @@ const TemplateOne = ({ userId }) => {
 
                         <Projects userId={userId} />
 
-                        
+                        <Internship userId={userId} />
+
                         <References userId={userId} />
                     </div>
                 </div>

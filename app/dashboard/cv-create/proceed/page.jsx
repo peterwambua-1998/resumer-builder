@@ -25,6 +25,7 @@ import TemplateFour from "./templates/template-four";
 import ResumeParser from "../../resume-parser";
 import ResumeAi from "../../openiai/page";
 import TemplateFive from "./templates/template-five";
+import Internship from "./templates/add-edit/internships-volunteer-work";
 
 
 // componentDidMount() {
@@ -73,6 +74,7 @@ const CvPageDesign = () => {
                 <Languages userId={firebase_user.uid} />
                 <LinksUser userId={firebase_user.uid} />
                 <ProjectsAddEdit userId={firebase_user.uid} />
+                <Internship userId={firebase_user.uid} />
             </div>
             <div className="md:col-span-3 p-10">
                 {/* tabs */}

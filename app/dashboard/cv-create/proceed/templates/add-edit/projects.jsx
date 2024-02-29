@@ -147,7 +147,7 @@ const ProjectsAddEdit = ({ userId }) => {
     }
 
     return (
-        <div>
+        <div className="mb-3">
             <Accordion className="bg-amber-400 text-black">
                 <Accordion.Title>
                     <p className="text-base font-semibold">Projects</p>

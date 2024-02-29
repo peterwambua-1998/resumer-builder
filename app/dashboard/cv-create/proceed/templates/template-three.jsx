@@ -11,12 +11,13 @@ import References from "./template-three-components/references";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { useRef, useState } from "react";
+import Internship from "./template-three-components/internship";
 
-const TemplateThree = ({userId}) => {
+const TemplateThree = ({ userId }) => {
     const pdfRef = useRef();
     const [mDownload, setMDownload] = useState(false);
 
-    function downloadPDF () {
+    function downloadPDF() {
         setMDownload(true);
         let input = pdfRef.current;
         html2canvas(input).then((canvas) => {
@@ -35,15 +36,15 @@ const TemplateThree = ({userId}) => {
 
         })
     }
-    return (  
+    return (
         <div>
             <div className="flex flex-row-reverse mb-4">
                 <Button onClick={() => downloadPDF()} color="primary">
-                    {mDownload == true ?  <Loading /> : ''}
+                    {mDownload == true ? <Loading /> : ''}
                     download pdf
                 </Button>
             </div>
-            <div  ref={pdfRef} className="bg-white p-10 border-t-4 border-blue-500">
+            <div ref={pdfRef} className="bg-white p-10 border-t-4 border-blue-500">
                 {/* cv header */}
                 <div className="flex justify-between mb-4">
                     <Image src={profileImg} width={80} height={80} className="rounded-full" />
@@ -68,6 +69,8 @@ const TemplateThree = ({userId}) => {
                 {/* Education */}
                 <EducationWidget user_id={userId} />
                 {/* Education */}
+                <Divider></Divider>
+                <Internship userId={userId} />
                 <Divider></Divider>
                 {/* skills */}
                 <SkillWidget user_id={userId} />
@@ -104,5 +107,5 @@ const TemplateThree = ({userId}) => {
         </div>
     );
 }
- 
+
 export default TemplateThree;

@@ -33,6 +33,26 @@ const Internship = ({userId}) => {
     
     return (  
         <div>
+            {
+                internships.length > 0 ? <p className="mb-2 font-bold">Internship Work</p> : <div></div>
+            }
+
+            {
+                internships.length > 0 ?
+                internships.map((internship, index) => (
+                    <div>
+                        <div className="mb-8" >
+                            <p className="text-blue-600 font-bold mb-2 text-lg">{internship.organization}, {internship.role}</p>
+                            <p className="text-sm mb-2">{internship.duration} month(s)</p>
+                            <div className="pl-3">
+                                <ul style={{ listStyleType: 'disc' }}>
+                                    <li>{internship.description}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                )): <div></div>
+            }
             
         </div>
     );

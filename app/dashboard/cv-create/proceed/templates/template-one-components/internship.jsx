@@ -1,11 +1,9 @@
 'use client'
-
 import { db } from "@/app/firebase/firebase";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 const Internship = ({userId}) => {
-    const [visibleEdu, setVisibleEdu] = useState(false);
     const [internships, setInternships] = useState([]);
 
     function getInternships() {
@@ -33,7 +31,25 @@ const Internship = ({userId}) => {
     
     return (  
         <div>
-            
+            <div>
+            {
+                internships.length > 0 ? <p className="font-bold text-[12px] md:text-lg lg:text-lg text-center mt-2 border-b">Work Experience</p> : <div></div>
+            }
+            {
+                internships.length > 0 ?
+                internships.map((internship, index) => (
+                    <div className="mt-5" key={index}>
+                        <p className="text-blue-600 font-bold mb-2 text-[8px] md:text-lg lg:text-lg">{internship.organization}, {internship.role}</p>
+                        <p className="text-[2%] md:text-sm lg:text-sm mb-2">{internship.duration} month(s)</p>
+                        <div className="pl-3">
+                            <ul style={{ listStyleType: 'disc' }}>
+                                <li className="text-[5%] md:text-base lg:text-base">{internship.description}</li>
+                            </ul>
+                        </div>
+                    </div>
+                )): <div></div>
+            }
+            </div>
         </div>
     );
 }

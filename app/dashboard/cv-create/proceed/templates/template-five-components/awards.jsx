@@ -32,35 +32,7 @@ const Award = ({userId}) => {
             console.log(error);
         }
     }
-
-
-    async function addAward() {
-        if (!awardValue || awardValue == null) {
-            setTitleError('field required');
-        } else {
-            setTitleError('');
-        }
-
-        if (!descriptionValue || descriptionValue == null) {
-            setDescriptionError('field required');
-        } else {
-            setDescriptionError('');
-        }
-
-        try {
-            const data = {
-                user_id: userId,
-                award: awardValue,
-                description: descriptionValue,
-                created_at: Timestamp.now()
-            }
-            
-            const collectionRef =  collection(db, 'award');
-            const res = await addDoc(collectionRef, data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
+   
 
     useEffect(() => {
         getAwards();
