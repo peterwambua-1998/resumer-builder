@@ -3,12 +3,12 @@
 import { db } from "@/app/firebase/firebase";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Timestamp, addDoc, collection, deleteDoc, doc, onSnapshot, query, updateDoc } from "firebase/firestore";
-import { Input } from "postcss";
-import { useState } from "react";
-import { Accordion, Modal } from "react-daisyui";
+import { Timestamp, addDoc, collection, deleteDoc, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { Accordion, Badge, Button, Modal, Loading, Input } from "react-daisyui";
 
-const Publications = () => {
+
+const Publications = ({ userId }) => {
     const [publications, setPublications] = useState([]);
 
     const [titleValue, setTitleValue] = useState(null);
@@ -68,7 +68,7 @@ const Publications = () => {
         } else {
             setLinkValueError('');
         }
-       
+
 
         try {
             let data = {
@@ -147,7 +147,7 @@ const Publications = () => {
         getPublications();
     }, []);
 
-    return (  
+    return (
         <div className="mb-3">
             <Accordion className="bg-amber-400 text-black">
                 <Accordion.Title >
@@ -164,6 +164,12 @@ const Publications = () => {
                                 </Badge>
                             </div>
                         ))}
+                    </div>
+
+                    <div className="form-control w-full grow">
+                        <div className="flex flex-wrap gap-4">
+                            <Button className="bg-amber-200 border-amber-500 text-black" onClick={() => { toggleVisible() }}>Add</Button>
+                        </div>
                     </div>
                 </Accordion.Content>
             </Accordion>
@@ -199,7 +205,7 @@ const Publications = () => {
                                         <span className="">Title</span>
                                     </label>
                                     <div>
-                                        <Input type="text" defaultValue={selectedRecord.title ? selectedRecord.title : ''} className="bg-white text-black grow" placeholder="Ex: Safaricom" onChange={(e) => setTitleValue(e.target.value)} />
+                                        <Input type="text" defaultValue={selectedRecord.title ? selectedRecord.title : ''} className="bg-white text-black w-full" placeholder="Ex: Safaricom" onChange={(e) => setTitleValue(e.target.value)} />
                                         <div className="text-red-600 text-sm">{titleValueError}</div>
                                     </div>
                                 </div>
@@ -208,11 +214,11 @@ const Publications = () => {
                                         <span className="">Link</span>
                                     </label>
                                     <div>
-                                        <Input type="text" defaultValue={selectedRecord.link ? selectedRecord.link : ''} className="bg-white text-black grow" placeholder="Ex: Coordinator" onChange={(e) => setLinkValue(e.target.value)} />
+                                        <Input type="text" defaultValue={selectedRecord.link ? selectedRecord.link : ''} className="bg-white text-black w-full" placeholder="Ex: Coordinator" onChange={(e) => setLinkValue(e.target.value)} />
                                         <div className="text-red-600 text-sm">{linkValueError}</div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </Modal.Body>
                         <Modal.Actions>
@@ -225,9 +231,9 @@ const Publications = () => {
                 <div></div>
             }
 
-        <Modal.Legacy open={visible} className="bg-white max-w-5xl">
+            <Modal.Legacy open={visible} className="bg-white max-w-5xl">
                 <form>
-                    <Modal.Header className="font-bold">Award</Modal.Header>
+                    <Modal.Header className="font-bold">Publication</Modal.Header>
                     <Modal.Body className="p-0">
                         <div className="md:grid grid-cols-2 gap-4">
                             <div className="form-control w-full">
@@ -235,7 +241,7 @@ const Publications = () => {
                                     <span className="">Title</span>
                                 </label>
                                 <div>
-                                    <Input type="text" className="bg-white text-black grow" placeholder="Ex: Safaricom" onChange={(e) => setTitleValue(e.target.value)} />
+                                    <Input type="text" className="bg-white text-black w-full" placeholder="Ex: Publication" onChange={(e) => setTitleValue(e.target.value)} />
                                     <div className="text-red-600 text-sm">{titleValueError}</div>
                                 </div>
                             </div>
@@ -244,7 +250,7 @@ const Publications = () => {
                                     <span className="">Link</span>
                                 </label>
                                 <div>
-                                    <Input type="text"  className="bg-white text-black grow" placeholder="Ex: Coordinator" onChange={(e) => setLinkValue(e.target.value)} />
+                                    <Input type="text" className="bg-white text-black w-full" placeholder="Ex: https://link.com" onChange={(e) => setLinkValue(e.target.value)} />
                                     <div className="text-red-600 text-sm">{linkValueError}</div>
                                 </div>
                             </div>
@@ -259,5 +265,5 @@ const Publications = () => {
         </div>
     );
 }
- 
+
 export default Publications;

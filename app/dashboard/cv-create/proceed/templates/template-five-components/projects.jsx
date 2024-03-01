@@ -26,24 +26,30 @@ const Projects = ({userId}) => {
     }, []);
 
     
-    return (  
-        <div className="mt-8">
-            <p className="text-[10px] md:text-sm lg:text-base font-semibold text-[#1E1B4B] border-b border-[#808080] pb-2">Work Experience</p>
+    return (
+        <div>
             {projects.length > 0 ? 
-                projects.map((project, index) => (
-                <div className="pr-2 pl-2 md:pl-4 md:pr-4" key={index}>
-                    <div className="mb-3 md:mb-6 lg:mb-6">
-                        <p className="text-[8px] md:text-xs lg:text-sm mb-2 font-semibold mt-2 md:mt-5 lg:mt-5">{project.title}</p>
-                        <p className="text-[6px] md:text-[10px] lg:text-xs">
-                            {project.description}
-                        </p>
+            <div className="mt-8">
+                <p className="text-[10px] md:text-sm lg:text-base font-semibold text-[#1E1B4B] border-b border-[#808080] pb-2">Projects</p>
+                
+                    {projects.map((project, index) => (
+                    <div className="pr-2 pl-2 md:pl-4 md:pr-4" key={index}>
+                        <div className="mb-3 md:mb-6 lg:mb-6">
+                            <p className="text-[8px] md:text-xs lg:text-sm mb-2 font-semibold mt-2 md:mt-5 lg:mt-5">{project.title}</p>
+                            <p className="text-[6px] md:text-[10px] lg:text-xs">
+                                {project.description}
+                            </p>
+                        </div>
                     </div>
-                </div>
-                ))
-                :
-                <div className="text-[#808080] mb-5">You currently have no projects saved</div>
+                    ))}
+                    
+            </div>
+            :
+            <div></div>
             }
-        </div>
+
+        </div>  
+        
     );
 }
  

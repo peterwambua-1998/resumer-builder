@@ -3,11 +3,11 @@
 import { db } from "@/app/firebase/firebase";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Timestamp, addDoc, collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
+import { Timestamp, addDoc, collection, deleteDoc, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Accordion, Badge, Button } from "react-daisyui";
+import { Accordion, Badge, Button, Modal, Loading, Input } from "react-daisyui";
 
-const Memberships = () => {
+const Memberships = ({userId}) => {
     const [memberships, setMemberships] = useState([]);
 
     const [orgNameValue, setOrgNameValue] = useState(null);
@@ -127,7 +127,7 @@ const Memberships = () => {
     }
 
     useEffect(() => {
-        getInternships();
+        getMemberships();
     }, []);
 
 
@@ -135,7 +135,7 @@ const Memberships = () => {
         <div className="mb-3">
             <Accordion className="bg-amber-400 text-black">
                 <Accordion.Title >
-                    <p className="text-base font-semibold">Internships</p>
+                    <p className="text-base font-semibold">Membership</p>
                 </Accordion.Title>
                 <Accordion.Content>
                     <div className=" mb-2 ">
@@ -148,6 +148,12 @@ const Memberships = () => {
                                 </Badge>
                             </div>
                         ))}
+                    </div>
+
+                    <div className="form-control w-full grow">
+                        <div className="flex flex-wrap gap-4">
+                            <Button className="bg-amber-200 border-amber-500 text-black" onClick={() => { toggleVisible() }}>Add</Button>
+                        </div>
                     </div>
                 </Accordion.Content>
             </Accordion>
@@ -183,7 +189,7 @@ const Memberships = () => {
                                         <span className="">Organization</span>
                                     </label>
                                     <div>
-                                        <Input type="text" defaultValue={selectedRecord.organization ? selectedRecord.organization : ''} className="bg-white text-black grow" placeholder="Ex: Safaricom" onChange={(e) => setOrgNameValue(e.target.value)} />
+                                        <Input type="text" defaultValue={selectedRecord.organization ? selectedRecord.organization : ''} className="bg-white text-black w-full" placeholder="Ex: Safaricom" onChange={(e) => setOrgNameValue(e.target.value)} />
                                         <div className="text-red-600 text-sm">{orgNameValueError}</div>
                                     </div>
                                 </div>
@@ -201,7 +207,7 @@ const Memberships = () => {
 
             <Modal.Legacy open={visible} className="bg-white max-w-5xl">
                 <form>
-                    <Modal.Header className="font-bold">Award</Modal.Header>
+                    <Modal.Header className="font-bold">Membership</Modal.Header>
                     <Modal.Body className="p-0">
                         <div className="md:grid grid-cols-2 gap-4">
                             <div className="form-control w-full">
@@ -209,7 +215,7 @@ const Memberships = () => {
                                     <span className="">Organization</span>
                                 </label>
                                 <div>
-                                    <Input type="text" className="bg-white text-black grow" placeholder="Ex: Organization" onChange={(e) => setOrgNameValue(e.target.value)} />
+                                    <Input type="text" className="bg-white text-black w-full" placeholder="Ex: Organization" onChange={(e) => setOrgNameValue(e.target.value)} />
                                     <div className="text-red-600 text-sm">{orgNameValueError}</div>
                                 </div>
                             </div>
@@ -217,7 +223,7 @@ const Memberships = () => {
                     </Modal.Body>
                     <Modal.Actions>
                         <Button type="button" onClick={toggleVisible} >Close</Button>
-                        <Button type="button" className="bg-[#F59E0B] text-white border-none" onClick={() => { addInternship() }}>Save</Button>
+                        <Button type="button" className="bg-[#F59E0B] text-white border-none" onClick={() => { addMembership() }}>Save</Button>
                     </Modal.Actions>
                 </form>
             </Modal.Legacy>

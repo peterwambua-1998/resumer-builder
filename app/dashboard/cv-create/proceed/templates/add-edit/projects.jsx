@@ -76,14 +76,14 @@ const ProjectsAddEdit = ({ userId }) => {
             setProjectValueError('field required');
             return;
         } else {
-            setProjectValueError('field required');
+            setProjectValueError('');
         }
 
         if (!descriptionValue || descriptionValue == null) {
             setDescriptionValueError('field required');
             return;
         } else {
-            setDescriptionValueError('field required');
+            setDescriptionValueError('');
         }
 
         try {
@@ -121,14 +121,14 @@ const ProjectsAddEdit = ({ userId }) => {
             setProjectValueError('field required');
             return;
         } else {
-            setProjectValueError('field required');
+            setProjectValueError('');
         }
 
         if (!descriptionValue || descriptionValue == null) {
             setDescriptionValueError('field required');
             return;
         } else {
-            setDescriptionValueError('field required');
+            setDescriptionValueError('');
         }
 
         try {

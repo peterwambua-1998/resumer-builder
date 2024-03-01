@@ -24,14 +24,11 @@ const Languages = ({userId}) => {
         getLanguages();
     }, []);
 
-    if (languages.length < 1) {
-        return (
-            <div className="text-[#808080] pl-5 pr-5 pt-5">You currently have no hobbies saved</div>
-        )
-    } else {
-        return (
-            <div>
-                <div className="md:mt-10 md:pl-2 md:pr-2 lg:mt-10 lg:pl-4 lg:pr-4">
+    return (
+        <div>
+            {
+                languages.length > 0 ? 
+                    <div className="md:mt-10 md:pl-2 md:pr-2 lg:mt-10 lg:pl-4 lg:pr-4">
                     <p className="text-center text-[7px] md:text-base font-semibold border-b md:pb-2 lg:pb-2 border-[#808080] md:mb-5 lg:mb-5">Languages</p>
                     {languages.map((lang, index) => (
                         // <li key={index}>{lang.name} (lang.description)</li>
@@ -40,10 +37,10 @@ const Languages = ({userId}) => {
                             <p className="text-[5px] md:text-xs text-[#808080]">({lang.description})</p>
                         </div>
                     ))}
-                </div>
-            </div>
-        );
-    }
+                </div>: <div></div>
+            }
+        </div>
+    );
 }
 
  

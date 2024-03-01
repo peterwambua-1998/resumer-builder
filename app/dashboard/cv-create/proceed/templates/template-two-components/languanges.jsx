@@ -2,7 +2,7 @@ import { db } from "@/app/firebase/firebase";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
-const Languages = ({userId}) => {
+const Languages = ({ userId }) => {
     const [languages, setLanguages] = useState([]);
 
     function getLanguages() {
@@ -24,24 +24,29 @@ const Languages = ({userId}) => {
         getLanguages();
     }, []);
 
-    if (hobbies.length < 1) {
-        return (
-            <div className="text-[#808080] pl-5 pr-5 pt-5">You currently have no hobbies saved</div>
-        )
-    } else {
-        return (
-            <div>
-                <div className="flex justify-center text-black">
-                    <ul style={{ listStyleType: 'disc' }} className="text-black pl-10 pr-10 ">
-                        {languages.map((lang, index) => (
-                            <li key={index}>{lang.name} (lang.description)</li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
-        );
-    }
+
+    return (
+        <div>
+            {
+                languages.length > 0 ?
+                    <p className="font-bold text-[8px] md:text-lg lg:text-lg border-b md:border-b-2 lg:border-b-2 border-green-500">Languages</p>
+                    : <p></p>
+            }
+
+            {
+                languages.length > 0 ? (languages.map((language, index) => (
+                    <div key={index}>
+                        <div className="mt-3">
+                            <p className="text-[7px] font-semibold md:text-base lg:text-base pl-5 pr-5">{language.name}</p>
+                            <p className="text-[5px] md:text-sm lg:text-sm pl-5 pr-5">{language.description}</p>
+                        </div>
+                    </div>
+
+                ))) : <div></div>
+            }
+        </div>
+    );
 }
 
- 
+
 export default Languages;

@@ -79,7 +79,7 @@ const AboutMe = ({ useId }) => {
     } else {
         return (
             <div className="">
-                <p className="text-[8px] md:text-base lg:text-base ">{about}</p>
+                <p className="text-[8px] md:text-sm lg:text-sm ">{about}</p>
             </div>
         );
     }

@@ -39,10 +39,11 @@ const References = ({ userId }) => {
 
     return (
         <div>
-            <div className="mt-5 mb-10">
-            <p className="text-[10px] md:text-sm lg:text-base font-semibold text-[#1E1B4B] border-b border-[#808080] pb-2">Education</p>
             {
-                refrences.length > 0 ? refrences.map((refrence, index) => (
+            refrences.length > 0 ?
+            <div className="mt-5 mb-10">
+            <p className="text-[10px] md:text-sm lg:text-base font-semibold text-[#1E1B4B] border-b border-[#808080] pb-2">References</p>
+             {refrences.map((refrence, index) => (
                    
                         <div className="pr-2 pl-2 md:pl-4 md:pr-4 lg:pl-4 lg:pr-4 flex flex-wrap gap-8" key={index}>
                             <div className="text-xs">
@@ -54,9 +55,11 @@ const References = ({ userId }) => {
                             </div>
                         </div>
                     
-                )) : (<div className="text-[#808080] mb-5">You currently have no references</div>)
-            }
+                )) }
             </div>
+            : <div></div>
+            }
+
         </div>
     );
 }

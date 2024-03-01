@@ -40,7 +40,7 @@ const EducationWidget = ({user_id}) => {
                         <p className="text-[2%] md:text-sm lg:text-sm mb-2">{edu.school} ({edu.startDate} - {edu.endDate})</p>
                         <div className="pl-3">
                             <ul style={{ listStyleType: 'disc' }}>
-                                <li className="text-[5%] md:text-base lg:text-base">{edu.descriptionEdu}</li>
+                                <li className="text-[5%] md:text-sm lg:text-sm">{edu.descriptionEdu}</li>
                             </ul>
                         </div>
                     </div>

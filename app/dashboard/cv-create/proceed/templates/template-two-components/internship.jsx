@@ -37,7 +37,7 @@ const Internship = ({userId}) => {
                 {
                     internships.length > 0 ? 
                     internships.map((internship, index) => (
-                        <div className="p-2 md:p-5 lg:p-5">
+                        <div className="p-2 md:p-5 lg:p-5" key={index}>
                             <p className="font-bold text-[8px] md:text-xl lg:text-xl mb-3">Internship Work</p>
                             <div className="flex  text-black">
                                 <div className="mb-8 ">

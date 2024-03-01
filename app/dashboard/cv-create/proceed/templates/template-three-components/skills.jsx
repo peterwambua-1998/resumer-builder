@@ -1,23 +1,23 @@
 import { useState, useEffect } from "react";
-import { Button, Input, Modal, Badge } from "react-daisyui";
-import { collection, addDoc, query, where, getDoc, getDocs, onSnapshot, Timestamp } from "firebase/firestore"; 
-import {  db } from "@/app/firebase/firebase";
+import { Button, Input, Modal, Badge, Divider } from "react-daisyui";
+import { collection, addDoc, query, where, getDoc, getDocs, onSnapshot, Timestamp } from "firebase/firestore";
+import { db } from "@/app/firebase/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
-const SkillWidget = ({user_id}) => {
+const SkillWidget = ({ user_id }) => {
     const [visibleEdu, setVisibleEdu] = useState(false);
     var [skillName, setSkillName] = useState([]);
     var [skillNameError, setSkillNameError] = useState(null);
     var [skillData, setSkillData] = useState([]);
-    
+
     const toggleVisibleEdu = () => {
         setVisibleEdu(!visibleEdu);
     };
 
     async function checkSkill(userId) {
-        let skillRef =  collection(db, 'skill');
-        let q =  query(skillRef, where("user_id", "==", userId));
+        let skillRef = collection(db, 'skill');
+        let q = query(skillRef, where("user_id", "==", userId));
         onSnapshot(q, (doc) => {
             setSkillData([]);
             doc.forEach((data) => {
@@ -33,10 +33,10 @@ const SkillWidget = ({user_id}) => {
         } else {
             setSkillNameError(null);
         }
-        
+
 
         try {
-            let skillRef =  collection(db, 'skill');
+            let skillRef = collection(db, 'skill');
             await addDoc(skillRef, {
                 name: skillName,
                 user_id: user_id,
@@ -51,17 +51,23 @@ const SkillWidget = ({user_id}) => {
         checkSkill(user_id);
     }, [])
 
-    return (  
+    return (
         <div>
-            <p className="mb-2 font-bold">Skills</p>
-            <div className="flex gap-4">
-                {skillData.map((skill, index) => (
-                <Badge className="p-4 bg-amber-300 text-black" key={index}>{skill.name}</Badge>
-                ))}
-            </div>
+            {
+                skillData.length > 0 ?
+                    <div>
+                        <p className="mb-2 font-bold">Skills</p>
+                        <div className="flex gap-4">
+                            {skillData.map((skill, index) => (
+                                <Badge className="p-4 bg-amber-600 text-black" key={index}>{skill.name}</Badge>
+                            ))}
+                        </div>
+                        <Divider></Divider>
+                    </div>
+                    : <div></div>
+            }
         </div>
-        
     );
 }
- 
+
 export default SkillWidget;

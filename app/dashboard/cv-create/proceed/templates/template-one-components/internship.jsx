@@ -33,7 +33,7 @@ const Internship = ({userId}) => {
         <div>
             <div>
             {
-                internships.length > 0 ? <p className="font-bold text-[12px] md:text-lg lg:text-lg text-center mt-2 border-b">Work Experience</p> : <div></div>
+                internships.length > 0 ? <p className="font-bold text-[12px] md:text-lg lg:text-lg text-center mt-2 border-b">Internship Work</p> : <div></div>
             }
             {
                 internships.length > 0 ?
@@ -43,7 +43,7 @@ const Internship = ({userId}) => {
                         <p className="text-[2%] md:text-sm lg:text-sm mb-2">{internship.duration} month(s)</p>
                         <div className="pl-3">
                             <ul style={{ listStyleType: 'disc' }}>
-                                <li className="text-[5%] md:text-base lg:text-base">{internship.description}</li>
+                                <li className="text-[5%] md:text-sm lg:text-sm">{internship.description}</li>
                             </ul>
                         </div>
                     </div>

@@ -3,7 +3,7 @@ import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Timestamp, doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState, useRef } from "react";
-import { Skeleton } from "react-daisyui";
+import { Divider, Skeleton } from "react-daisyui";
 
 const AboutMe = ({ useId }) => {
     var [about, setAbout] = useState(null);
@@ -69,7 +69,8 @@ const AboutMe = ({ useId }) => {
         return (
             <div>
                 <p className="mb-2 font-bold">About</p>
-                <p>{about}</p>
+                <p className="text-sm">{about}</p>
+                <Divider></Divider>
             </div>
         );
     }

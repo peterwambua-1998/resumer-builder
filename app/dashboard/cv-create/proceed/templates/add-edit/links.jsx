@@ -77,14 +77,14 @@ const LinksUser = ({ userId }) => {
             setTitleValueError('field required');
             return;
         } else {
-            setTitleValueError('field required');
+            setTitleValueError('');
         }
 
         if (linkValue == "Pick one" || linkValue == null) {
             setLinkValueError('field required');
             return;
         } else {
-            setLinkValueError('field required');
+            setLinkValueError('');
         }
 
         try {

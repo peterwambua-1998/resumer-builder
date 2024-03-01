@@ -18,6 +18,10 @@ import References from "./template-four-components/references";
 import SkillWidget from "./template-four-components/skills";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import Internship from "./template-four-components/internship";
+import Memberships from "./template-four-components/membership";
+import Publications from "./template-four-components/publications";
+import LinksUser from "./template-four-components/links";
 
 const TemplateFour = ({ userId }) => {
     const pdfRef = useRef();
@@ -115,6 +119,12 @@ const TemplateFour = ({ userId }) => {
                 <EducationWidget user_id={userId} />
                 {/* education */}
 
+                <Internship userId={userId} />
+
+                <Publications userId={userId} />
+
+                <LinksUser userId={userId} />
+
                 {/* awards */}
                 <Award userId={userId} />
                 {/* awards */}
@@ -132,12 +142,13 @@ const TemplateFour = ({ userId }) => {
                 <Hobbies userId={userId} />
                 {/* hobbie */}
 
+                <Memberships  userId={userId} />
+
                 {/* languages */}
                 <Languages userId={userId} />
                 {/* languages */}
                 
-
-
+                
 
                 {/* references */}
                 <References userId={userId}  />

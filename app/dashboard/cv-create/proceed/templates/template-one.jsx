@@ -22,6 +22,9 @@ import ProfilePhoto from "./template-one-components/profilePhoto";
 import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import Internship from "./template-one-components/internship";
+import Memberships from "./template-one-components/membership";
+import Publications from "./template-one-components/publications";
+import LinksUser from "./template-one-components/links";
 // import { html2pdf } from "html2pdf.js";
 
 
@@ -82,26 +85,27 @@ const TemplateOne = ({ userId }) => {
 
                         <SkillWidget user_id={userId} />
 
+                        <Hobbies userId={userId} />
 
-                        
+                        <Memberships userId={userId} />
+
                         <Award userId={userId} />
 
-                        <div className="bg-indigo-950 ">
-                            <p className="font-bold text-[8px] md:text-lg lg:text-lg text-center">Hobbies</p>
-                        </div>
-                        <Hobbies userId={userId} />
 
                     </div>
                     <div className="col-span-3 pl-5 pr-5 md:pl-10 md:pr-10 lg:pl-10 lg:pr-10 border-t border-amber-400">
-                        
+
                         <ExperienceWidget user_id={userId} />
 
-                        
                         <EducationWidget user_id={userId} />
 
                         <Projects userId={userId} />
 
                         <Internship userId={userId} />
+
+                        <Publications userId={userId} />
+
+                        <LinksUser userId={userId} />
 
                         <References userId={userId} />
                     </div>

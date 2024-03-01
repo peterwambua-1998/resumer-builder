@@ -5,9 +5,9 @@ import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Timestamp, addDoc, collection, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Accordion, Badge, Button } from "react-daisyui";
+import { Accordion, Badge, Button, Divider } from "react-daisyui";
 
-const Memberships = () => {
+const Memberships = ({userId}) => {
     const [memberships, setMemberships] = useState([]);
     
     function getMemberships() {
@@ -30,13 +30,25 @@ const Memberships = () => {
 
    
     useEffect(() => {
-        getInternships();
+        getMemberships();
     }, []);
 
 
     return (  
-        <div className="">
-            
+        <div>
+            {
+                memberships.length > 0 ?
+                <div>
+                    <p className="mb-2 font-bold">Memberships</p>
+                    <div className="flex gap-4">
+                        {memberships.map((membership, index) => (
+                        <Badge className="p-4 bg-amber-600 text-black" key={index}>{membership.organization}</Badge>
+                        ))}
+                    </div>
+                    <Divider></Divider>
+                </div>
+                : <div></div>
+            }
         </div>
     );
 }

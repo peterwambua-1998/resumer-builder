@@ -43,9 +43,6 @@ const ExperienceWidget = ({user_id}) => {
                 ))}
 
             </div>
-            
-
-           
         </div>
     );
 }

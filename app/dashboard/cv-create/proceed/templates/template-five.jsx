@@ -16,6 +16,10 @@ import References from './template-five-components/references';
 import SkillWidget from './template-five-components/skills';
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import Internship from './template-five-components/internship';
+import Memberships from './template-five-components/membership';
+import Publications from './template-five-components/publications';
+import LinksUser from './template-five-components/links';
 
 const TemplateFive = ({userId}) => {
     const [profile, setProfile] = useState(null);
@@ -110,6 +114,8 @@ const TemplateFive = ({userId}) => {
                         <Languages userId={userId} />
                         {/* languages */}
 
+                        <Memberships userId={userId} />
+
                     </div>
 
                     
@@ -167,6 +173,14 @@ const TemplateFive = ({userId}) => {
                         {/* work experience */}
                         <EducationWidget user_id={userId} />
                         {/* work experience */}
+
+                        {/* internship work */}
+                        <Internship userId={userId} />
+                        {/* internship work */}
+
+                        <Publications userId={userId} />
+
+                        <LinksUser userId={userId} />
 
                         {/* projects */}
                         <Projects userId={userId} />

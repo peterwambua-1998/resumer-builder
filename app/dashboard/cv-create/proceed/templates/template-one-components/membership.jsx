@@ -7,9 +7,9 @@ import { Timestamp, addDoc, collection, doc, onSnapshot, query, updateDoc, where
 import { useEffect, useState } from "react";
 import { Accordion, Badge, Button } from "react-daisyui";
 
-const Memberships = () => {
+const Memberships = ({ userId }) => {
     const [memberships, setMemberships] = useState([]);
-    
+
     function getMemberships() {
         try {
             let membershipRef = collection(db, 'memberships');
@@ -28,17 +28,32 @@ const Memberships = () => {
         }
     }
 
-   
+
     useEffect(() => {
-        getInternships();
+        getMemberships();
     }, []);
 
 
-    return (  
-        <div className="">
-            
+    return (
+        <div className="mb-5">
+            {
+                memberships.length > 0 ?
+                    <div >
+                        <div className="bg-indigo-950 ">
+                            <p className="font-bold text-[8px] md:text-lg lg:text-lg text-center">Memberships</p>
+                        </div>
+                        <div className="flex justify-center text-black pt-2">
+                            <ul style={{ listStyleType: 'disc' }} className="text-black pl-10 pr-10 ">
+                                {memberships.map((membership, index) => (
+                                    <li key={index}>{membership.organization}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                    : <div></div>
+            }
         </div>
     );
 }
- 
+
 export default Memberships;

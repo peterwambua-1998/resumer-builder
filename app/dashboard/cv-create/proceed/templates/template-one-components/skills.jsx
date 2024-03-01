@@ -1,23 +1,23 @@
 import { useState, useEffect } from "react";
 import { Button, Input, Modal, Badge } from "react-daisyui";
-import { collection, addDoc, query, where, getDoc, getDocs, onSnapshot, Timestamp } from "firebase/firestore"; 
-import {  db } from "@/app/firebase/firebase";
+import { collection, addDoc, query, where, getDoc, getDocs, onSnapshot, Timestamp } from "firebase/firestore";
+import { db } from "@/app/firebase/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
-const SkillWidget = ({user_id}) => {
+const SkillWidget = ({ user_id }) => {
     const [visibleEdu, setVisibleEdu] = useState(false);
     var [skillName, setSkillName] = useState([]);
     var [skillNameError, setSkillNameError] = useState(null);
     var [skillData, setSkillData] = useState([]);
-    
+
     const toggleVisibleEdu = () => {
         setVisibleEdu(!visibleEdu);
     };
 
     async function checkSkill(userId) {
-        let skillRef =  collection(db, 'skill');
-        let q =  query(skillRef, where("user_id", "==", userId));
+        let skillRef = collection(db, 'skill');
+        let q = query(skillRef, where("user_id", "==", userId));
         onSnapshot(q, (doc) => {
             setSkillData([]);
             doc.forEach((data) => {
@@ -33,10 +33,10 @@ const SkillWidget = ({user_id}) => {
         } else {
             setSkillNameError(null);
         }
-        
+
 
         try {
-            let skillRef =  collection(db, 'skill');
+            let skillRef = collection(db, 'skill');
             await addDoc(skillRef, {
                 name: skillName,
                 user_id: user_id,
@@ -51,9 +51,9 @@ const SkillWidget = ({user_id}) => {
         checkSkill(user_id);
     }, [])
 
-    return (  
-        
-        <div className="mb-5 p-2">
+    return (
+
+        <div className="mb-5">
             {/* <Accordion className="bg-black text-white">
                 <Accordion.Title className="text-xl font-medium text-white">
                     Skills
@@ -70,7 +70,7 @@ const SkillWidget = ({user_id}) => {
                         
                 </Accordion.Content>
             </Accordion> */}
-            <div className="flex justify-center mb-2 text-[5px] md:text-base lg:text-base">
+            <div className="flex justify-center mb-2 text-[5px] md:text-base lg:text-base pt-2">
                 <ul style={{ listStyleType: 'disc' }} className="text-black pl-10 pr-10 ">
                     {skillData.map((skill, index) => (
                         <li key={index}>{skill.name}</li>
@@ -78,7 +78,7 @@ const SkillWidget = ({user_id}) => {
                 </ul>
             </div>
 
-           
+
             <Modal.Legacy open={visibleEdu} className="bg-white max-w-5xl">
                 <form>
                     <Modal.Header className="font-bold text-black">Skill</Modal.Header>
@@ -95,12 +95,12 @@ const SkillWidget = ({user_id}) => {
                     </Modal.Body>
                     <Modal.Actions>
                         <Button type="button" onClick={toggleVisibleEdu} >Close</Button>
-                        <Button type="button" className="bg-[#F59E0B] text-white border-none" onClick={() => {addSkill()}}>Save</Button>
+                        <Button type="button" className="bg-[#F59E0B] text-white border-none" onClick={() => { addSkill() }}>Save</Button>
                     </Modal.Actions>
                 </form>
             </Modal.Legacy>
         </div>
     );
 }
- 
+
 export default SkillWidget;

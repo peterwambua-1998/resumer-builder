@@ -38,7 +38,7 @@ const ExperienceWidget = ({user_id}) => {
                         <p className="text-[2%] md:text-sm lg:text-sm mb-2">{exp.location} ({exp.startDate} - {exp.endDate})</p>
                         <div className="pl-3">
                             <ul style={{ listStyleType: 'disc' }}>
-                                <li className="text-[5%] md:text-base lg:text-base">{exp.description}</li>
+                                <li className="text-[5%] md:text-sm lg:text-sm">{exp.description}</li>
                             </ul>
                         </div>
                     </div>

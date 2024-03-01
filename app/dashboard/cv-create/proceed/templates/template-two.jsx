@@ -16,6 +16,10 @@ import References from "./template-two-components/references";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Internship from "./template-two-components/internship";
+import Memberships from "./template-two-components/membership";
+import Publications from "./template-two-components/publications";
+import LinksUser from "./template-two-components/links";
+import Languages from "./template-two-components/languanges";
 
 const TemplateTwo = ({ userId }) => {
 
@@ -160,6 +164,12 @@ const TemplateTwo = ({ userId }) => {
                     <div className="mt-5">
                         <Award userId={userId} />
                     </div>
+                    <div className="mt-5">
+                        <Memberships userId={userId} />
+                    </div>
+                    <div className="mt-5">
+                        <Languages userId={userId} />
+                    </div>
                 </div>
                 <div className="col-span-4 bg-white p-2 md:p-[5%] lg:p-[5%]">
                     {
@@ -176,6 +186,10 @@ const TemplateTwo = ({ userId }) => {
                     <ExperienceWidget user_id={userId} />
 
                     <Internship userId={userId} />
+
+                    <Publications userId={userId} />
+
+                    <LinksUser userId={userId} />
 
                     <References userId={userId} />
                 </div>
