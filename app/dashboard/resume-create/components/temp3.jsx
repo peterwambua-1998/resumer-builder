@@ -18,7 +18,7 @@ import LinksUser from "./template-three-components/links";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "@/app/firebase/firebase";
 
-const TemplateThree = ({ userId }) => {
+const TempThree = ({ userId, about, skills }) => {
     const pdfRef = useRef();
     const [mDownload, setMDownload] = useState(false);
     const [profile, setProfile] = useState(null);
@@ -40,23 +40,7 @@ const TemplateThree = ({ userId }) => {
     }
 
     function downloadPDF() {
-        setMDownload(true);
-        let input = pdfRef.current;
-        html2canvas(input).then((canvas) => {
-            let imageData = canvas.toDataURL('image/png');
-            let pdf = new jsPDF('p', 'mm', 'a4', true);
-            let pdfWidth = pdf.internal.pageSize.getWidth();
-            let pdfHeight = pdf.internal.pageSize.getHeight();
-            let imgWidth = canvas.width;
-            let imgHeight = canvas.height;
-            let ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-            let imgX = (pdfWidth - imgWidth * ratio) / 2;
-            let imgY = 0;
-            pdf.addImage(imageData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-            pdf.save();
-            setMDownload(false);
-
-        })
+       
     }
 
     useEffect(()=> {
@@ -91,7 +75,7 @@ const TemplateThree = ({ userId }) => {
                 </div>
                 {/* cv header end */}
                 {/* about me */}
-                <AboutMe useId={userId} />
+                <AboutMe useId={userId} about={about}/>
                 {/* experience */}
                 <ExperienceWidget user_id={userId} />
                 {/* experience */}
@@ -103,7 +87,7 @@ const TemplateThree = ({ userId }) => {
                 {/* Education */}
                 <Internship userId={userId} />
                 {/* skills */}
-                <SkillWidget user_id={userId} />
+                <SkillWidget  skills={skills} />
                 {/* skills */}
                 {/* skills */}
                 <Memberships userId={userId} />
@@ -124,4 +108,4 @@ const TemplateThree = ({ userId }) => {
     );
 }
 
-export default TemplateThree;
+export default TempThree;

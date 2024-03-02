@@ -2,7 +2,7 @@
 import { auth, db } from "@/app/firebase/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
-import { Divider, Loading, Button, Badge} from "react-daisyui";
+import { Divider, Loading, Button, Badge } from "react-daisyui";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Image from "next/image";
 import TemplateOne from "./templates/template-one";
@@ -53,7 +53,7 @@ const CvPageDesign = () => {
 
     const [firebase_user, loading, error] = useAuthState(auth);
 
-    async function extractResume () {
+    async function extractResume() {
         console.log('waiting');
         return await ResumeAi();
     }
@@ -61,7 +61,7 @@ const CvPageDesign = () => {
     useEffect(() => {
         extractResume();
     }, []);
-    
+
     return (
         <div className="md:grid md:grid-cols-4 bg-slate-200">
             <div className="bg-white pt-10 pl-5 pr-5">
@@ -106,13 +106,13 @@ const CvPageDesign = () => {
                         <TemplateFive userId={firebase_user.uid} />
                     </TabPanel>
                 </Tabs>
-                
+
             </div>
 
         </div>
     )
 }
- 
+
 export default CvPageDesign;
 
-{/* {ab != null ? (<div>{ab.description}</div>) : (<p>lb</p>)} */}
+{/* {ab != null ? (<div>{ab.description}</div>) : (<p>lb</p>)} */ }

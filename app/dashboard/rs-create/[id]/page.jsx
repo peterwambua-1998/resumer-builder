@@ -1,14 +1,14 @@
 'use client'
 import { useEffect, useState } from 'react';
 import ResumeAi from '@/app/dashboard/openiai/page';
-import { Accordion, Button, Checkbox, Divider, Input, Loading, Modal, Textarea, Toggle } from 'react-daisyui';
+import { Accordion, Alert, Button, Checkbox, Divider, Input, Loading, Modal, Textarea, Toggle } from 'react-daisyui';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '@/app/firebase/firebase';
 
 import Image from 'next/image';
 import resumeImage from '@/app/images/peter2.png';
-import { Timestamp, addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+import { Timestamp, addDoc, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
 import ProfileDetails from '../../cv-create/proceed/templates/add-edit/profile';
 import ExperienceAddEdit from '../../cv-create/proceed/templates/add-edit/experience';
 import EducationAddEdit from '../../cv-create/proceed/templates/add-edit/education';
@@ -19,9 +19,14 @@ import HobbiesAddEdit from '../../cv-create/proceed/templates/add-edit/hobbies';
 import Languages from '../../cv-create/proceed/templates/add-edit/languages';
 import LinksUser from '../../cv-create/proceed/templates/add-edit/links';
 import ProjectsAddEdit from '../../cv-create/proceed/templates/add-edit/projects';
+import Internship from '../../cv-create/proceed/templates/add-edit/internships-volunteer-work';
+import Memberships from '../../cv-create/proceed/templates/add-edit/membership';
+import Publications from '../../cv-create/proceed/templates/add-edit/publications';
+import TempOne from '../../resume-create/components/temp1';
+import Wrapper from '../../resume-create/components/wrapper';
 
 
-const CreateResume = ({params}) => {
+const CreateResume = ({ params }) => {
     // used to store ids for the document
     const [resumeId, setResumeId] = useState(null);
     const [aboutAiSaved, setAboutAiSaved] = useState(null);
@@ -41,6 +46,8 @@ const CreateResume = ({params}) => {
     const [activeAbout, setActiveAbout] = useState(null);
     const [activeSkills, setActiveSkills] = useState([]);
 
+    const [showSaveAlert, setShowSaveAlert] = useState(false);
+
     const [checkboxes, setCheckboxes] = useState({
         checkbox1: false,
         checkbox2: false,
@@ -52,11 +59,13 @@ const CreateResume = ({params}) => {
     };
 
     const toggleVisibleSave = () => {
+        setShowSaveAlert(false);
         setVisibleSave(!visibleSave);
     };
 
     async function getAboutAi() {
         //get users about me
+        setQueryForJobDesc(true);
         let exps = 'i would like a well crafted and creative about me based on job description. My current about ';
         const docRef = doc(db, "about", firebase_user.uid);
         const docSnap = await getDoc(docRef);
@@ -74,7 +83,7 @@ const CreateResume = ({params}) => {
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
-            let res  = doc.data();
+            let res = doc.data();
             exps += `${res.title} ${res.companyName} - ${res.employmentType} ${res.startDate} - ${res.endDate} ${res.location} - ${res.locationType} ${res.description}.`;
         });
 
@@ -88,7 +97,7 @@ const CreateResume = ({params}) => {
             let res = doc.data();
             exps += `${res.name},`;
         });
-        
+
 
         // languages
         exps += 'languages i speak include ';
@@ -111,7 +120,7 @@ const CreateResume = ({params}) => {
             exps += `${res.title},`;
         });
 
-        exps += ' Be creative in making the about wordings mix things up and give me two versions that is version-1 version-2.';
+        exps += ' Be creative in making the about wordings mix things up and give me two versions that is version-1 version-2. Also recommend additions skills as recommended-skills';
 
 
         const options = {
@@ -126,20 +135,23 @@ const CreateResume = ({params}) => {
             let res = await aboutAI.json();
             console.log(res);
             let resAiAbout = [
-                {id: 1, checked: false, about: res['version-1']},
-                {id: 2, checked: false, about: res['version-2']}
+                { id: 1, checked: false, about: res['version-1'] },
+                { id: 2, checked: false, about: res['version-2'] }
             ]
             let resAiSkills = res['recommended-skills'];
             let resAiSkillsFormarted = [];
             let skillId = 1;
             for (let i = 0; i < resAiSkills.length; i++) {
-                let inner = {id: skillId, skill: resAiAbout[i], checked: false};
+                let inner = { id: skillId, skill: resAiSkills[i], checked: false };
                 resAiSkillsFormarted.push(inner);
+                skillId++;
             }
             setAboutAi(resAiAbout);
             setSkillsAi(resAiSkillsFormarted);
+            setQueryForJobDesc(false);
             setShowJobDescriptionInput(false);
             toggleVisible();
+            checkSkill(skillId);
         } catch (error) {
             console.log(error);
         }
@@ -181,14 +193,57 @@ const CreateResume = ({params}) => {
     }
 
     function initiateSave() {
-        console.log(resumeId, aboutAiSaved, skillAiSaved);
         toggleVisibleSave();
     }
 
-    // check if the resume is already saved
+    async function checkSkill(skillId) {
+        let id = skillId;
+        id++;
+        let skillRef = collection(db, 'skill');
+        let q = query(skillRef, where("user_id", "==", firebase_user.uid));
+        onSnapshot(q, (doc) => {
+            doc.forEach((data) => {
+                let d = data.data();
+                let sk = { id: id, checked: false, skill: d['name'] }
+                setSkillsAi((prev) => [...prev, sk]);
+                id++;
+            })
+        })
+    }
 
+    // check if the resume is already saved
     async function checkIfResumeIsSaved() {
-        console.log(resumeId, aboutAiSaved, skillAiSaved);
+        // get resume by id
+        try {
+            let resumeRef = doc(db, 'users-resumes', params.id);
+            const res = await getDoc(resumeRef);
+            let data = res.data();
+            if (res) {
+                let description = data['jobDescription'];
+                if (description) {
+                    // delete previous saved data
+                    const q = query(collection(db, "user-resume-ai-suggestions"), where("resume_id", "==", params.id));
+                    const querySnapshot = await getDocs(q);
+                    querySnapshot.forEach(async (data) => {
+                        if (data.data()) {
+                            await deleteDoc(doc(db, 'user-resume-ai-suggestions', data.id));
+                        }
+                    });
+
+                    const qT = query(collection(db, "user-resume-ai-suggestions-skills"), where("resume_id", "==", params.id));
+                    const querySnapshotT = await getDocs(qT);
+                    querySnapshotT.forEach(async (data) => {
+                        if (data.data()) {
+                            await deleteDoc(doc(db, 'user-resume-ai-suggestions-skills', data.id));
+                        }
+                    });
+                }
+            }
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
     }
 
     // determine if it has jo description first before even showing it
@@ -209,6 +264,15 @@ const CreateResume = ({params}) => {
 
     async function getResumeDataAsItWas() {
         try {
+            //resume title
+            let resumeRef = doc(db, 'users-resumes', params.id);
+            let res = await getDoc(resumeRef);
+            let data = res.data();
+            if (data) {
+                setResumeTitle(data['title']);
+                setJobDescription(data['jobDescription'])
+            }
+
             // get about from firestore
             const q = query(collection(db, "user-resume-ai-suggestions"), where("resume_id", "==", params.id));
             const querySnapshot = await getDocs(q);
@@ -216,8 +280,8 @@ const CreateResume = ({params}) => {
                 if (doc.data()) {
                     let data = doc.data();
                     let d = [
-                        {id: data.about_one_id, checked: data.about_one_checked, about: data.about_one_about},
-                        {id: data.about_two_id, checked: data.about_two_checked, about: data.about_two_about},
+                        { id: data.about_one_id, checked: data.about_one_checked, about: data.about_one_about },
+                        { id: data.about_two_id, checked: data.about_two_checked, about: data.about_two_about },
                     ]
                     setAboutAi(d);
                 }
@@ -226,13 +290,15 @@ const CreateResume = ({params}) => {
             // get skills
             const qT = query(collection(db, "user-resume-ai-suggestions-skills"), where("resume_id", "==", params.id));
             const querySnapshotT = await getDocs(qT);
+            setSkillsAi([]);
             querySnapshotT.forEach((doc) => {
                 if (doc.data()) {
                     let data = doc.data();
-                    setSkillsAi((prev) => [...prev, {id: data.skill_id, checked: data.skill_checked, skill: data.skill}])
+                    setSkillsAi((prev) => [...prev, { id: data.skill_id, checked: data.skill_checked, skill: data.skill }])
                     setSkillAiSaved(prev => [...prev, doc.id]);
                 }
             });
+
         } catch (error) {
             console.log(error);
         }
@@ -240,41 +306,47 @@ const CreateResume = ({params}) => {
 
     async function saveResume() {
         // check if there is recent save if setSkillAiSaved has data
-        
-        // save resume at current state including ai suggestions including resume name
-        try {
-            let resumeRef = doc(db, 'users-resumes', params.id);
-            let aiSuggestionsRef = collection(db, 'user-resume-ai-suggestions');
-            let aiSuggestionsSkillsRef = collection(db, 'user-resume-ai-suggestions-skills');
-            const res = await updateDoc(resumeRef, {
-                'title': resumeTitle,
-                'jobDescription': jobDescription,
-            });
-
-            const aboutAiAboutResponse = await addDoc(aiSuggestionsRef, {
-                'resume_id': params.id,
-                'about_one_id': aboutAi[0].id,
-                'about_one_about': aboutAi[0].about,
-                'about_one_checked': aboutAi[0].checked,
-                'about_two_id': aboutAi[1].id,
-                'about_two_about': aboutAi[1].about,
-                'about_two_checked': aboutAi[1].checked,
-            });
-
-            setAboutAiSaved(aboutAiAboutResponse.id);
-
-            skillsAi.forEach(async (skill, index) => {
-                let skillAdds = await addDoc(aiSuggestionsSkillsRef, {
-                    'resume_id': params.id,
-                    'skill': skill.skill,
-                    'skill_id': skill.id,
-                    'skill_checked': skill.checked
+        let deletes = await checkIfResumeIsSaved();
+        if (deletes) {
+            //save resume at current state including ai suggestions including resume name
+            console.log(skillsAi);
+            try {
+                let resumeRef = doc(db, 'users-resumes', params.id);
+                let aiSuggestionsRef = collection(db, 'user-resume-ai-suggestions');
+                let aiSuggestionsSkillsRef = collection(db, 'user-resume-ai-suggestions-skills');
+                const res = await updateDoc(resumeRef, {
+                    'title': resumeTitle,
+                    'jobDescription': jobDescription,
                 });
 
-                setSkillAiSaved(prev => [...prev, skillAdds.id]);
-            });
-        } catch (error) {
-            console.log(error);
+                const aboutAiAboutResponse = await addDoc(aiSuggestionsRef, {
+                    'resume_id': params.id,
+                    'about_one_id': aboutAi[0].id,
+                    'about_one_about': aboutAi[0].about,
+                    'about_one_checked': aboutAi[0].checked,
+                    'about_two_id': aboutAi[1].id,
+                    'about_two_about': aboutAi[1].about,
+                    'about_two_checked': aboutAi[1].checked,
+                });
+
+                setAboutAiSaved(aboutAiAboutResponse.id);
+
+                skillsAi.forEach(async (skill, index) => {
+                    let skillAdds = await addDoc(aiSuggestionsSkillsRef, {
+                        'resume_id': params.id,
+                        'skill': skill.skill,
+                        'skill_id': skill.id,
+                        'skill_checked': skill.checked
+                    });
+
+                    setSkillAiSaved(prev => [...prev, skillAdds.id]);
+                });
+
+                setShowSaveAlert(true);
+
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 
@@ -282,7 +354,7 @@ const CreateResume = ({params}) => {
         detJobDesc();
     }, []);
 
-    return (  
+    return (
         <div className="md:grid md:grid-cols-4 bg-slate-200">
             <div className="bg-white pt-10 pl-5 pr-5">
 
@@ -309,41 +381,38 @@ const CreateResume = ({params}) => {
                 <Languages userId={firebase_user.uid} />
                 <LinksUser userId={firebase_user.uid} />
                 <ProjectsAddEdit userId={firebase_user.uid} />
+                <Internship userId={firebase_user.uid} />
+                <Memberships userId={firebase_user.uid} />
+                <Publications userId={firebase_user.uid} />
             </div>
             <div className="md:col-span-3 p-10">
-                {queryingForJobDesc ? <Loading /> : showJobDescriptionInput ?
-                    // job desc input
-                    <div className='pl-8 pr-8  flex flex-col gap-10 items-center'>
-                        <Image src={resumeImage} alt='ai-resume' width={120} height={120} className='w-[40%] h-[40%]' />
-                        <div className='w-full text-center'>
-                            <p className='font-semibold mb-4'>Welcome, spark up your resume</p>
+                {queryingForJobDesc ?
+                    <div className='text-center mt-[20%]'>
+                        <p>Getting your resume ready, hang on!</p>
+                        <Loading />
+                    </div>
+                    : showJobDescriptionInput ?
+                        // job desc input
+                        <div className='pl-8 pr-8  flex flex-col gap-10 items-center'>
+                            <Image src={resumeImage} alt='ai-resume' width={120} height={120} className='w-[40%] h-[40%]' />
+                            <div className='w-full text-center'>
+                                <p className='font-semibold mb-4'>Welcome, spark up your resume</p>
 
-                            <div className='border-amber-500 bg-white flex p-2 rounded-lg'>
-                                <Input onChange={(e) => setJobDescription(e.target.value)} type='text' className='w-full bg-transparent border-none rounded-none' placeholder='Enter job description here...' />
-                                <Button onClick={getAboutAi}>submit</Button>
+                                <div className='border-amber-500 bg-white flex p-2 rounded-lg'>
+                                    <Input onChange={(e) => setJobDescription(e.target.value)} type='text' className='w-full bg-transparent border-none rounded-none' placeholder='Enter job description here...' />
+                                    <Button onClick={getAboutAi}>submit</Button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    :
-                    // resume
-                    <div>
-                        <div className='flex justify-end'>
-                            <Button onClick={initiateSave}>Save</Button>
+                        :
+                        // resume
+                        <div>
+                            <div className='flex justify-end'>
+                                <Button onClick={initiateSave}>Save</Button>
+                            </div>
+                            <Wrapper userId={firebase_user.uid} about={aboutAi} skills={skillsAi} />
+
                         </div>
-                        show content from open ai
-
-                        {aboutAi
-                            .filter((skill) => skill.checked === true)
-                            .map((skill) => (
-                                <div className="show-selected-skills" key={skill.id}>{skill.about}</div>
-                            ))}
-
-                        {skillsAi
-                            .filter((skill) => skill.checked === true)
-                            .map((skill) => (
-                                <div className="show-selected-skills" key={skill.id}>{skill.skill}</div>
-                            ))}
-                    </div>
                 }
             </div>
 
@@ -352,9 +421,17 @@ const CreateResume = ({params}) => {
                     <p className="text-lg mb-0 border-b pb-4">Save Resume</p>
                 </Modal.Header>
                 <Modal.Body className="p-0">
+                    {
+                        showSaveAlert ?
+                            <Alert icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info shrink-0 w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>}>
+                                <span>Document saved!</span>
+                            </Alert> : <div></div>
+                    }
                     <div>
                         <label className="label">Resume title</label>
-                        <Input placeholder='Ex: Job title' onChange={(e) => setResumeTitle(e.target.value)} />
+                        <Input className='bg-white w-full' placeholder='Ex: Job title' defaultValue={resumeTitle} onChange={(e) => setResumeTitle(e.target.value)} />
                     </div>
                 </Modal.Body>
                 <Modal.Actions>
@@ -392,7 +469,7 @@ const CreateResume = ({params}) => {
 
                     <div className='border border-slate-500 rounded-lg p-6 w-full'>
                         <p className='text-base mb-6'>Skills</p>
-                        <div className='flex gap-8'>
+                        <div className='flex gap-8 flex-wrap'>
                             {
                                 skillsAi.length > 0 ?
                                     skillsAi.map((skill, index) => (
@@ -414,11 +491,11 @@ const CreateResume = ({params}) => {
                 </Modal.Body>
                 <Modal.Actions>
                     <Button type="button" onClick={toggleVisible} >Close</Button>
-                    <Button type="button" className="bg-[#F59E0B] text-white border-none">Save</Button>
+
                 </Modal.Actions>
             </Modal.Legacy>
         </div>
     );
 }
- 
+
 export default CreateResume;

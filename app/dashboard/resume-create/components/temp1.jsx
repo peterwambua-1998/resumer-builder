@@ -29,7 +29,7 @@ import LinksUser from "./template-one-components/links";
 
 
 
-const TemplateOne = ({ userId }) => {
+const TempOne = ({ userId, about, skills }) => {
     const [user, setUser] = useState(userId);
     const [visibleEdu, setVisibleEdu] = useState(false);
     const toggleVisibleEdu = () => {
@@ -71,7 +71,7 @@ const TemplateOne = ({ userId }) => {
                     </div>
                     <div className="col-span-3 md:pr-10 lg:pr-10">
                         <p className="mb-2 font-bold text-indigo-950 text-xs md:text-lg lg:text-lg">Profile </p>
-                        <AboutMe useId={userId} />
+                        <AboutMe about={about} />
                     </div>
                 </div>
                 {/* profile photo and about */}
@@ -83,7 +83,7 @@ const TemplateOne = ({ userId }) => {
                             <p className="font-bold text-[8px] md:text-lg lg:text-lg text-center">Skills</p>
                         </div>
 
-                        <SkillWidget user_id={userId} />
+                        <SkillWidget skills={skills} />
 
                         <Hobbies userId={userId} />
 
@@ -115,4 +115,4 @@ const TemplateOne = ({ userId }) => {
     );
 }
 
-export default TemplateOne;
+export default TempOne;

@@ -36,7 +36,7 @@ export async function POST(req, res) {
          model: 'gpt-3.5-turbo',
          response_format: { type: "json_object" },
          messages: [
-            {role: "system", content: "from now on you will generate resume content. I need two version in the form of version-1 and version-2. Always return JSON."},
+            {role: "system", content: "from now on you will generate resume content. I need two version in the form of version-1 and version-2. Also recommend additional skills and add to recommended-skills in the JSON response always recommend skills. Always return JSON."},
             {role: 'user', content: `${userContent}` }
          ],
             temperature: 0.65,
