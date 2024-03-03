@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "react-daisyui";
 import Image from "next/image";
 
-const ProfilePhoto = ({userId, smWidth, mdWidth, lgWidth}) => {
+const ProfilePhoto = ({ userId, smWidth, mdWidth, lgWidth }) => {
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -12,6 +12,7 @@ const ProfilePhoto = ({userId, smWidth, mdWidth, lgWidth}) => {
         try {
             const usb = onSnapshot(doc(db, 'profile', userId), doc => {
                 if (doc.data()) {
+                    console.log(doc.data());
                     setProfile(doc.data());
                 } else {
                     setProfile(null);
@@ -34,18 +35,17 @@ const ProfilePhoto = ({userId, smWidth, mdWidth, lgWidth}) => {
                 <Skeleton className="h-6 mb-2 w-[20%] bg-slate-400"></Skeleton>
             </div>
         )
-    } 
+    }
 
     if (profile) {
-
-        return (  
+        return (
             <div>
-                <Image alt="profile" src={profile.file_url} width={120} height={120} className={'rounded-full w-['+smWidth+'px] h-['+smWidth+'px] md:w-['+mdWidth+'px] md:h-['+mdWidth+'px] lg:w-['+lgWidth+'px] lg:h-['+lgWidth+'px]'} />
+                <Image alt="profile" src={profile.file_url} width={120} height={120} className={'rounded-full w-[' + smWidth + 'px] h-[' + smWidth + 'px] md:w-[' + mdWidth + 'px] md:h-[' + mdWidth + 'px] lg:w-[' + lgWidth + 'px] lg:h-[' + lgWidth + 'px]'} />
             </div>
         );
     }
 
-   
+
 }
- 
+
 export default ProfilePhoto;

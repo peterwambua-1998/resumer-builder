@@ -17,7 +17,7 @@ const AboutMe = ({ about }) => {
                     .map((skill) => (
                         <div  key={skill.id}>
                             <p className="font-bold text-[8px] md:text-lg lg:text-lg border-b md:border-b-2 lg:border-b-2 border-green-500">About</p>
-                            <p className="mt-3 text-[5px] md:text-base lg:text-base">{skill.about}</p>
+                            <p className="mt-3 text-[5px] md:text-sm lg:text-sm">{skill.about}</p>
                         </div>
                     ))
             }

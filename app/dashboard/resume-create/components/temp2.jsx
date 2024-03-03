@@ -21,7 +21,7 @@ import Publications from "./template-two-components/publications";
 import LinksUser from "./template-two-components/links";
 import Languages from "./template-two-components/languanges";
 
-const TempTwo = ({  userId, about, skills }) => {
+const TempTwo = ({ userId, about, skills }) => {
 
     const pdfRef = useRef();
     const [mDownload, setMDownload] = useState(false);
@@ -42,7 +42,7 @@ const TempTwo = ({  userId, about, skills }) => {
     }
 
     function downloadPDF() {
-    
+
     }
 
 
@@ -61,7 +61,12 @@ const TempTwo = ({  userId, about, skills }) => {
             <div ref={pdfRef} className=" bg-white grid grid-cols-6 md:grid md:grid-cols-6">
                 <div className="col-span-2 bg-stone-700 pt-2 pl-2 pr-2 md:pt-5 md:pl-10 md:pr-10 text-white">
                     <div className="flex justify-center">
-                        <Image src={profileImg} width={120} height={120} className="rounded-full w-[40px] h-[40px] md:w-[120px] md:h-[120px] lg:w-[120px] lg:h-[120px]" />
+                        {
+                            profile == null ?
+                                <Skeleton className="h-[40px] w-[40px] bg-slate-400 rounded-full"></Skeleton>
+                                :
+                                <Image alt="profile-photo" src={profile.file_url} width={120} height={120} className="rounded-full w-[40px] h-[40px] md:w-[120px] md:h-[120px] lg:w-[120px] lg:h-[120px]" />
+                        }
                     </div>
                     {/* location email */}
                     <div className="flex flex-col mt-5">

@@ -309,7 +309,6 @@ const CreateResume = ({ params }) => {
         let deletes = await checkIfResumeIsSaved();
         if (deletes) {
             //save resume at current state including ai suggestions including resume name
-            console.log(skillsAi);
             try {
                 let resumeRef = doc(db, 'users-resumes', params.id);
                 let aiSuggestionsRef = collection(db, 'user-resume-ai-suggestions');
@@ -355,9 +354,8 @@ const CreateResume = ({ params }) => {
     }, []);
 
     return (
-        <div className="md:grid md:grid-cols-4 bg-slate-200">
-            <div className="bg-white pt-10 pl-5 pr-5">
-
+        <div className="md:grid md:grid-cols-4 bg-slate-200 ">
+            <div className="bg-white pt-10 pl-5 pr-5 ">
                 <Accordion defaultChecked className="bg-amber-400 text-black mb-3">
                     <Accordion.Title className="text-xl font-medium text-black">
                         <p className="text-base font-semibold">Ai Suggestions</p>
@@ -385,7 +383,7 @@ const CreateResume = ({ params }) => {
                 <Memberships userId={firebase_user.uid} />
                 <Publications userId={firebase_user.uid} />
             </div>
-            <div className="md:col-span-3 p-10">
+            <div className="md:col-span-3 p-10 ">
                 {queryingForJobDesc ?
                     <div className='text-center mt-[20%]'>
                         <p>Getting your resume ready, hang on!</p>
@@ -407,11 +405,10 @@ const CreateResume = ({ params }) => {
                         :
                         // resume
                         <div>
-                            <div className='flex justify-end'>
-                                <Button onClick={initiateSave}>Save</Button>
+                            <div className='flex justify-end mb-5'>
+                                <Button className='bg-amber-300 hover:bg-amber-400 text-black border-slate-400' onClick={initiateSave}>Save Resume</Button>
                             </div>
                             <Wrapper userId={firebase_user.uid} about={aboutAi} skills={skillsAi} />
-
                         </div>
                 }
             </div>

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Badge, Button, Divider } from "react-daisyui";
+import { Badge, Button, Divider, Skeleton } from "react-daisyui";
 import profileImg from '@/app/images/profile.jpeg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faCoffee } from "@fortawesome/free-solid-svg-icons";
@@ -40,12 +40,12 @@ const TempThree = ({ userId, about, skills }) => {
     }
 
     function downloadPDF() {
-       
+
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         getProfile();
-    },[])
+    }, [])
     return (
         <div>
             <div className="flex flex-row-reverse mb-4">
@@ -57,25 +57,31 @@ const TempThree = ({ userId, about, skills }) => {
             <div ref={pdfRef} className="bg-white p-10 border-t-4 border-amber-600">
                 {/* cv header */}
                 <div className="flex justify-between mb-4">
-                    <Image src={profileImg} width={80} height={80} className="rounded-full" />
+                    {
+                        profile == null ?
+                            <Skeleton className="h-[40px] w-[40px] bg-slate-400 rounded-full"></Skeleton>
+                            :
+                            <Image alt="profile-photo" src={profile.file_url} width={80} height={80} className="rounded-full" />
+                    }
+
                     <div className="text-=center">
-                            {
-                                profile == null ? (<div>Loading...</div>) : (
-                                    <div>
-                                        <h3 className="md:font-bold md:text-xl mb-2">{profile.full_name}</h3>
-                                        <p className="text-[#808080] text-sm mb-2">{profile.professionTitle}</p>
-                                    </div>
-                                
-                                )
-                            }
-                        
+                        {
+                            profile == null ? (<div>Loading...</div>) : (
+                                <div>
+                                    <h3 className="md:font-bold md:text-xl mb-2">{profile.full_name}</h3>
+                                    <p className="text-[#808080] text-sm mb-2">{profile.professionTitle}</p>
+                                </div>
+
+                            )
+                        }
+
                         {/* <Profile userId={firebase_user.uid} /> */}
                     </div>
                     <div></div>
                 </div>
                 {/* cv header end */}
                 {/* about me */}
-                <AboutMe useId={userId} about={about}/>
+                <AboutMe useId={userId} about={about} />
                 {/* experience */}
                 <ExperienceWidget user_id={userId} />
                 {/* experience */}
@@ -87,7 +93,7 @@ const TempThree = ({ userId, about, skills }) => {
                 {/* Education */}
                 <Internship userId={userId} />
                 {/* skills */}
-                <SkillWidget  skills={skills} />
+                <SkillWidget skills={skills} />
                 {/* skills */}
                 {/* skills */}
                 <Memberships userId={userId} />

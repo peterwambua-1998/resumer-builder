@@ -52,7 +52,7 @@ const TempOne = ({ userId, about, skills }) => {
         <div>
             <div className="flex flex-row-reverse mb-4">
                 {/* className="bg-blue-300 border-blue-300 text-black" */}
-                <Button onClick={() => downloadPDF()} color="primary">
+                <Button className="border-slate-400 bg-blue-300 hover:bg-blue-400 text-black" onClick={() => downloadPDF()} >
                     {mDownload == true ? <Loading /> : ''}
                     download pdf
                 </Button>

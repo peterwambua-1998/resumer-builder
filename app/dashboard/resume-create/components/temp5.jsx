@@ -70,7 +70,7 @@ const TempFive = ({userId, about, skills}) => {
                                 </div>) :
 
                             (
-                                <Image src={profile.file_url} width={120} height={120} alt="profile-image" className="w-[45%] md:w-[45%] lg:w-[30%] rounded-full" />
+                                <Image  src={profile.file_url} width={120} height={120} alt="profile-image" className="w-[45%] md:w-[45%] lg:w-[30%] rounded-full" />
                             )
                         }
                         </div>
