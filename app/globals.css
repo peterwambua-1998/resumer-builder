@@ -4,7 +4,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -19,6 +19,8 @@
     
   }
 } */
+
+
 html {
   background-color: #ffff !important;
 }
@@ -125,4 +127,8 @@ body {
 
 .page-br {
   page-break-after: always;
+}
+
+.my-font-two {
+  font-family: "Playfair Display", serif !important;
 }
