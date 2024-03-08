@@ -1,6 +1,8 @@
 'use client'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import TemplateOne from './cmponents/template-one';
+import TemplateTwo from './cmponents/template-two';
+import TemplateThree from './cmponents/template-three';
 
 
 const CoverLetterDesign = () => {
@@ -19,10 +21,10 @@ const CoverLetterDesign = () => {
                         <TemplateOne />
                     </TabPanel>
                     <TabPanel>
-                        <p>wambua</p>
+                        <TemplateTwo />
                     </TabPanel>
                     <TabPanel>
-                        <p>wambua</p>
+                        <TemplateThree />
                     </TabPanel>
                     <TabPanel>
                         <p>wambua</p>
