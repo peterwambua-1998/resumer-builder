@@ -15,8 +15,9 @@ import Internship from "./template-three-components/internship";
 import Memberships from "./template-three-components/membership";
 import Publications from "./template-three-components/publications";
 import LinksUser from "./template-three-components/links";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from "@/app/firebase/firebase";
+import ProfilePhoto from "./template-three-components/profilePhoto";
 
 const TemplateThree = ({ userId }) => {
     const pdfRef = useRef();
@@ -27,7 +28,6 @@ const TemplateThree = ({ userId }) => {
         try {
             const usb = onSnapshot(doc(db, 'profile', userId), doc => {
                 if (doc.data()) {
-                    console.log(doc.data());
                     setProfile(doc.data());
                 } else {
                     setProfile(null);
@@ -39,24 +39,14 @@ const TemplateThree = ({ userId }) => {
         }
     }
 
-    function downloadPDF() {
+    async function downloadPDF() {
+        // check if user has subscription
         setMDownload(true);
-        let input = pdfRef.current;
-        html2canvas(input).then((canvas) => {
-            let imageData = canvas.toDataURL('image/png');
-            let pdf = new jsPDF('p', 'mm', 'a4', true);
-            let pdfWidth = pdf.internal.pageSize.getWidth();
-            let pdfHeight = pdf.internal.pageSize.getHeight();
-            let imgWidth = canvas.width;
-            let imgHeight = canvas.height;
-            let ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-            let imgX = (pdfWidth - imgWidth * ratio) / 2;
-            let imgY = 0;
-            pdf.addImage(imageData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-            pdf.save();
-            setMDownload(false);
-
-        })
+        let subDoc = await getDoc(doc(db, 'subscriptions', userId));
+        // take user to subscription page to begin payment
+        if (subDoc.exists() == false) {
+            router.replace('/dashboard/subscription');
+        }
     }
 
     useEffect(()=> {
@@ -73,7 +63,8 @@ const TemplateThree = ({ userId }) => {
             <div ref={pdfRef} className="bg-white p-10 border-t-4 border-amber-600">
                 {/* cv header */}
                 <div className="flex justify-between mb-4">
-                    <Image src={profileImg} width={80} height={80} className="rounded-full" />
+                    {/* <Image src={profileImg} width={80} height={80} className="rounded-full" /> */}
+                    <ProfilePhoto userId={userId} />
                     <div className="text-=center">
                             {
                                 profile == null ? (<div>Loading...</div>) : (

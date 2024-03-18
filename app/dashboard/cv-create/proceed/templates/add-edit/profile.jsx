@@ -3,7 +3,7 @@ import { db } from "@/app/firebase/firebase";
 import { Timestamp, doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { useEffect, useState } from "react";
-import { Skeleton, Button, Modal, Accordion, Input, Select } from "react-daisyui";
+import { Skeleton, Button, Modal, Accordion, Input, Select, FileInput } from "react-daisyui";
 
 const ProfileDetails = ({ userId }) => {
     const [profile, setProfile] = useState(null);
@@ -72,10 +72,8 @@ const ProfileDetails = ({ userId }) => {
             //const buffer = Buffer.from(bytes);
             const uploadTask = uploadBytesResumable(storageRef, file);
             downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            console.log(downloadURL);
         }
 
-        console.log('url=='+downloadURL);
         if (fullName == null || !fullName) {
             setFullNameError('field required');
             return;
@@ -121,18 +119,34 @@ const ProfileDetails = ({ userId }) => {
 
 
         try {
-            const data = {
-                full_name: fullName,
-                email: email,
-                professionTitle: professionTitle,
-                location: location,
-                DOB: dob,
-                martial_status: martialStatus,
-                phoneNumber: phoneNumber,
-                file_url: downloadURL,
-                created_at: Timestamp.now(),
+            if (downloadURL != '') {
+                const data = {
+                    full_name: fullName,
+                    email: email,
+                    professionTitle: professionTitle,
+                    location: location,
+                    DOB: dob,
+                    martial_status: martialStatus,
+                    phoneNumber: phoneNumber,
+                    file_url: downloadURL,
+                    created_at: Timestamp.now(),
+                }
+                await setDoc(doc(db, "profile", userId), data);
+            } else {
+                const data = {
+                    full_name: fullName,
+                    email: email,
+                    professionTitle: professionTitle,
+                    location: location,
+                    DOB: dob,
+                    martial_status: martialStatus,
+                    phoneNumber: phoneNumber,
+                    created_at: Timestamp.now(),
+                }
+                await setDoc(doc(db, "profile", userId), data);
             }
-            await setDoc(doc(db, "profile", userId), data);
+            
+            
         } catch (error) {
             console.log(error);
         }
@@ -169,12 +183,15 @@ const ProfileDetails = ({ userId }) => {
                     <form>
                         <Modal.Header className="font-bold">About me</Modal.Header>
                         <Modal.Body className="p-0">
-                            <div className="md:grid md:grid-cols-3">
-                                <label className="label">
-                                    <span className="label-text text-black">Full name</span>
-                                </label>
+                            <div className="flex justify-center">
+                                <div className="pl-4 pr-4 ">
+                                    <label className="label text-center">
+                                        <span className="label-text text-black ">Photo</span>
+                                    </label>
+                                    <FileInput color="warning" placeholder="choose" className="bg-white" onChange={(e) => setFile(e.target.files?.[0])} />
+                                </div>
 
-                                <Input className="bg-white" type="file"  onChange={(e) => setFile(e.target.files?.[0])} />
+                                {/* <Input className="bg-white" type="file"  onChange={(e) => setFile(e.target.files?.[0])} /> */}
                             </div>
                             <div className="md:grid md:grid-cols-3">
                                 <div>

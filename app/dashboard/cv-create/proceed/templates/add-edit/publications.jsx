@@ -157,7 +157,7 @@ const Publications = ({ userId }) => {
                     <div className=" mb-2 ">
                         {publications.map((publication, index) => (
                             <div key={index} className="mb-2">
-                                <Badge className="w-fit">
+                                <Badge className="w-fit p-4">
                                     {publication.title}
                                     <FontAwesomeIcon className="pl-3 pr-3 hover:cursor-pointer" onClick={() => toggleVisibleEdit(publication)} icon={faPencilAlt} />
                                     <FontAwesomeIcon icon={faTrash} onClick={() => toggleVisibleDelete(publication)} className="hover:cursor-pointer" />

@@ -69,37 +69,7 @@ const Award = ({ userId }) => {
     return (
         <div>
 
-            {/* <Accordion className="bg-black text-white">
-                <Accordion.Title className="text-xl font-medium text-white">
-                    Awards
-                </Accordion.Title>
-                <Accordion.Content>
-                        <div className="md:grid md:grid-cols-2 gap-2 mb-2 items-center">
-                            {awards.map((award, index) => (
-                                <div key={index}>
-                                    <Card>
-                                        <Card.Body>
-                                            <Card.Title tag="h2">{award.award}</Card.Title>
-                                            <p>{award.description}</p>
-                                        </Card.Body>
-                                    </Card>
-                                </div>
-                                
-                            ))}
-                        </div>
-                        
-                        <div className="form-control w-full grow">
-                            <label className="label">
-                                <span className="label-text">Add Award</span>
-                            </label>
-                            <div className="flex gap-4">
-                                
-                                <Button onClick={() => {addAward()}}>Save</Button>
-                            </div>
-                        </div>
-                        
-                </Accordion.Content>
-            </Accordion> */}
+           
             {
                 awards.length > 0 ? <div className="bg-indigo-950 ">
                     <p className="font-bold text-[8px] md:text-lg lg:text-lg text-center">Awards</p>
@@ -120,37 +90,6 @@ const Award = ({ userId }) => {
                 ))) : (<div></div>)
             }
 
-            {/* <Modal.Legacy open={visibleEdu} className="bg-white max-w-5xl">
-                <form>
-                    <Modal.Header className="font-bold">Award</Modal.Header>
-                    <Modal.Body className="p-0">
-                        <div className="md:grid grid-cols-2 gap-4">
-                            <div className="form-control w-full">
-                                <label className="label">
-                                    <span className="">Title</span>
-                                </label>
-                                <div>
-                                    <Input className="bg-white text-black grow" placeholder="Title" onChange={(e) => setAwardValue(e.target.value)} />
-                                    <div className="text-red-600 text-sm">{titleError}</div>
-                                </div>
-                            </div>
-                            <div className="form-control w-full grow">
-                                <label className="label">
-                                    <span className="">Description</span>
-                                </label>
-                                <div>
-                                    <Input className="bg-white text-black grow" placeholder="Description" onChange={(e) => setDescriptionValue(e.target.value)} />
-                                    <div className="text-red-600 text-sm">{descriptionError}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </Modal.Body>
-                    <Modal.Actions>
-                        <Button type="button" onClick={toggleVisibleEdu} >Close</Button>
-                        <Button type="button" className="bg-[#F59E0B] text-white border-none" onClick={() => {addReferences()}}>Save</Button>
-                    </Modal.Actions>
-                </form>
-            </Modal.Legacy> */}
         </div>
     );
 }

@@ -1,11 +1,16 @@
 'use client'
 
 import { auth, db } from "@/app/firebase/firebase";
-import { collection, deleteDoc, doc, getDoc, getDocs, query, where } from "firebase/firestore";
-import { useState } from "react";
+import { Timestamp, addDoc, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
+import { useEffect, useState } from "react";
+import { Accordion, Alert, Button, Checkbox, Divider, Input, Loading, Modal, Textarea, Toggle } from 'react-daisyui';
 import { useAuthState } from "react-firebase-hooks/auth";
+import WrapperCoverLetter from "../../cover-letter-design/wrapper";
+import resumeImage from '@/app/images/rm2.png';
+import Image from 'next/image';
 
-const CoverLetter = () => {
+
+const CoverLetter = ({ params }) => {
     const [coverLetterTitle, setCoverLetterTitle] = useState(null);
     // check if there is content in firebase and ai content
     const [queryingForJobDesc, setQueryForJobDesc] = useState(true);
@@ -16,6 +21,9 @@ const CoverLetter = () => {
     const [visibleSave, setVisibleSave] = useState(false);
     // store the response from open ai - cover letter content
     const [coverLetterAi, setCoverLetterAi] = useState([]);
+    const [activeAbout, setActiveAbout] = useState(null);
+
+    const [viewHeight, setViewHeight] = useState('h-[120vh]');
 
     // modal content
     const toggleVisible = () => {
@@ -28,12 +36,12 @@ const CoverLetter = () => {
     };
 
 
-    async function getCoverLetterAi () {
+    async function getCoverLetterAi() {
         // show loading spinner
         setQueryForJobDesc(true);
 
         let exps = `i would like a well crafted and creative cover letter based on job description. Job description is ${jobDescription}. My current about`;
-        
+
         // about content
         const docRef = doc(db, "about", firebase_user.uid);
         const docSnap = await getDoc(docRef);
@@ -98,6 +106,7 @@ const CoverLetter = () => {
         try {
             const aboutAI = await fetch('/api/open-ai-cover-letter', options);
             const res = await aboutAI.json();
+            console.log(res['version-1']);
             let resCoverLetterAi = [
                 { id: 1, checked: false, coverLetter: res['version-1'] },
                 { id: 2, checked: false, coverLetter: res['version-2'] }
@@ -106,10 +115,11 @@ const CoverLetter = () => {
             setQueryForJobDesc(false);
             setShowJobDescriptionInput(false);
             toggleVisible();
+            setViewHeight('h-[100%]');
         } catch (error) {
-            
+
         }
-    }    
+    }
 
     function setActive(value) {
         setActiveAbout(value);
@@ -169,11 +179,14 @@ const CoverLetter = () => {
         if (data.jobDescription === null) {
             setQueryForJobDesc(false);
             setShowJobDescriptionInput(true);
+            setViewHeight('h-[120vh]');
         } else {
             // get the data from firebase and show resume as it was saved
             await getResumeDataAsItWas();
             setQueryForJobDesc(false);
             setShowJobDescriptionInput(false);
+            setViewHeight('h-[100%]');
+
         }
     }
 
@@ -239,9 +252,112 @@ const CoverLetter = () => {
         }
     }
 
-    return (  
-        <div>cover letter</div>
+    function changeMarkedCheckBox(id) {
+        const updatedCheckboxes = coverLetterAi.map((checkbox) => {
+            return checkbox.id === id ? { ...checkbox, checked: !checkbox.checked } : { ...checkbox, checked: false }
+        });
+        setCoverLetterAi(updatedCheckboxes);
+    }
+
+    useEffect(() => {
+        detJobDesc();
+    }, []);
+
+    return (
+        <div className={"bg-slate-200 " + viewHeight + ""}>
+            {
+                queryingForJobDesc ?
+                    <div className='text-center pt-[20%]'>
+                        <p>Getting your resume ready, hang on!</p>
+                        <Loading />
+                    </div>
+
+                    : showJobDescriptionInput ?
+
+
+                        <div className='pl-8 pr-8 pt-16 flex flex-col gap-10 items-center'>
+                            <Image src={resumeImage} alt='ai-resume' width={520} height={520} className='w-[40%] h-[40%]' />
+                            {/* <Image src={resumeImage} alt='ai-resume' width={120} height={120} className='w-[40%] h-[40%]' /> */}
+                            <div className='w-full text-center'>
+                                <p className='font-semibold mb-4'>Welcome, spark up your cover letter</p>
+
+                                <div className='border-amber-500 bg-white flex p-2 rounded-lg'>
+                                    <Input onChange={(e) => setJobDescription(e.target.value)} type='text' className='w-full bg-transparent border-none rounded-none' placeholder='Enter job description here...' />
+                                    <Button onClick={getCoverLetterAi}>submit</Button>
+                                </div>
+                            </div>
+                        </div>
+
+                        :
+                        <div className="md:grid md:grid-cols-4 ">
+                            <div className="bg-white pt-2 pl-5 pr-5 ">
+                                <div className='mb-5'>
+                                    <Button className='bg-amber-400 hover:bg-amber-500 text-black border-slate-400' onClick={initiateSave}>Save Resume</Button>
+                                </div>
+                                <Accordion defaultChecked className="bg-amber-400 text-black mb-3">
+                                    <Accordion.Title className="text-xl font-medium text-black">
+                                        <p className="text-base font-semibold">Ai Suggestions</p>
+                                    </Accordion.Title>
+                                    <Accordion.Content>
+                                        <div className="form-control w-full grow">
+                                            <div className="">
+                                                <Button className="bg-amber-200 border-amber-500 text-black" onClick={toggleVisible}>Add / Edit</Button>
+                                            </div>
+                                        </div>
+                                    </Accordion.Content>
+                                </Accordion>
+                            </div>
+
+                            <div className="md:col-span-3">
+
+                                <div>
+                                    <WrapperCoverLetter coverLetter={coverLetterAi} />
+                                </div>
+
+
+                                <Modal.Legacy open={visible} className="bg-white max-w-5xl">
+                                    <Modal.Header >
+                                        <p className="text-lg mb-0 border-b pb-4">Ai Content suggestions</p>
+                                    </Modal.Header>
+                                    <Modal.Body className="p-0">
+                                        <div className='border border-slate-500 rounded-lg p-6 w-full mb-8'>
+                                            <p className='text-base mb-6'>About</p>
+                                            {
+                                                coverLetterAi.length > 0 ?
+                                                    coverLetterAi.map((about, index) => (
+                                                        <div className='flex gap-4 mb-3' key={index}>
+                                                            <Checkbox
+                                                                checked={about.checked}
+                                                                color="primary"
+                                                                value={about.coverLetter}
+                                                                onClick={(e) => {
+                                                                    setActive(e.target.value);
+                                                                    changeMarkedCheckBox(about.id);
+                                                                }}
+                                                            />
+                                                            <Textarea onChange={(e) => setChangedAboutAi(e.target.value, about.id)} defaultValue={about.coverLetter} className='w-full bg-white' />
+                                                        </div>
+                                                    ))
+                                                    : ''
+                                            }
+
+                                        </div>
+                                    </Modal.Body>
+                                    <Modal.Actions>
+                                        <Button type="button" onClick={toggleVisible} >Close</Button>
+
+                                    </Modal.Actions>
+                                </Modal.Legacy>
+                            </div>
+                        </div>
+
+
+
+            }
+
+        </div>
+
     );
 }
- 
+
 export default CoverLetter;

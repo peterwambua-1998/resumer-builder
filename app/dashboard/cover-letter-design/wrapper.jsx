@@ -4,10 +4,10 @@ import TemplateOne from './cmponents/template-one';
 import TemplateTwo from './cmponents/template-two';
 import TemplateThree from './cmponents/template-three';
 
-const CoverLetterDesign = () => {
+const WrapperCoverLetter = ({coverLetter}) => {
     return (
         <div>
-            <div className='p-10'>
+            <div className='pl-10 pr-10 pt-2 pb-2'>
                 <Tabs>
                     <TabList className='flex gap-4 bg-blue-950 p-3 rounded-lg mb-5 text-sm'>
                         <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template One</Tab>
@@ -17,19 +17,19 @@ const CoverLetterDesign = () => {
                         <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template Five</Tab>
                     </TabList>
                     <TabPanel>
-                        <TemplateOne />
+                        <TemplateOne coverLetter={coverLetter} />
                     </TabPanel>
                     <TabPanel>
-                        <TemplateTwo />
+                        <TemplateTwo coverLetter={coverLetter} />
                     </TabPanel>
                     <TabPanel>
-                        <TemplateThree />
+                        <TemplateThree coverLetter={coverLetter} />
                     </TabPanel>
                     <TabPanel>
-                        <p>wambua</p>
+                        <TemplateThree coverLetter={coverLetter} />
                     </TabPanel>
                     <TabPanel>
-                        <p>wambua</p>
+                        <TemplateThree coverLetter={coverLetter} />
                     </TabPanel>
                 </Tabs>
             </div>
@@ -38,4 +38,4 @@ const CoverLetterDesign = () => {
     );
 }
 
-export default CoverLetterDesign;
+export default WrapperCoverLetter;

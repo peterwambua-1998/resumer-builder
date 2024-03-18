@@ -30,31 +30,11 @@ import Memberships from "./templates/add-edit/membership";
 import Publications from "./templates/add-edit/publications";
 
 
-// componentDidMount() {
-//     // Logging to prove _app.js only mounts once,
-//     // but initializing router events here will also accomplishes
-//     // goal of setting state on route change
-//     console.log('MOUNT');
-
-//     Router.events.on('routeChangeStart', () => {
-//       this.setState({ isLoading: true });
-//     });
-
-//     Router.events.on('routeChangeComplete', () => {
-//       this.setState({ isLoading: false });
-//     });
-
-//     Router.events.on('routeChangeError', () => {
-//       this.setState({ isLoading: false });
-//     });
-//   }
-
 const CvPageDesign = () => {
 
     const [firebase_user, loading, error] = useAuthState(auth);
 
     async function extractResume() {
-        console.log('waiting');
         return await ResumeAi();
     }
 

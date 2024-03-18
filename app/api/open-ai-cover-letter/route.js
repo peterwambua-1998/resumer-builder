@@ -15,10 +15,10 @@ export async function POST(req, res) {
             model: 'gpt-3.5-turbo',
             response_format: { type: "json_object" },
             messages: [
-               {role: "system", content: "from now on you will generate cover letter content. I need two version in the form of version-1 and version-2. Always return JSON."},
+               {role: "system", content: "from now on you will generate cover letter content. I need two version in the form of version-1 and version-2 for example {version-1: cover letter content, version-2: cover letter content}. Always return JSON."},
                {role: 'user', content: `${userContent}` }
             ],
-               temperature: 0.65,
+               temperature: 1,
                max_tokens: 2150,
                top_p: 1,
                frequency_penalty: 0,

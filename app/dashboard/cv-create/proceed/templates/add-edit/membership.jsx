@@ -7,7 +7,7 @@ import { Timestamp, addDoc, collection, deleteDoc, doc, onSnapshot, query, updat
 import { useEffect, useState } from "react";
 import { Accordion, Badge, Button, Modal, Loading, Input } from "react-daisyui";
 
-const Memberships = ({userId}) => {
+const Memberships = ({ userId }) => {
     const [memberships, setMemberships] = useState([]);
 
     const [orgNameValue, setOrgNameValue] = useState(null);
@@ -131,7 +131,7 @@ const Memberships = ({userId}) => {
     }, []);
 
 
-    return (  
+    return (
         <div className="mb-3">
             <Accordion className="bg-amber-400 text-black">
                 <Accordion.Title >
@@ -141,7 +141,7 @@ const Memberships = ({userId}) => {
                     <div className=" mb-2 ">
                         {memberships.map((membership, index) => (
                             <div key={index} className="mb-2">
-                                <Badge className="w-fit">
+                                <Badge className="w-fit  p-4">
                                     {membership.organization}
                                     <FontAwesomeIcon className="pl-3 pr-3 hover:cursor-pointer" onClick={() => toggleVisibleEdit(membership)} icon={faPencilAlt} />
                                     <FontAwesomeIcon icon={faTrash} onClick={() => toggleVisibleDelete(membership)} className="hover:cursor-pointer" />
@@ -230,5 +230,5 @@ const Memberships = ({userId}) => {
         </div>
     );
 }
- 
+
 export default Memberships;

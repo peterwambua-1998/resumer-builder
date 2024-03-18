@@ -154,7 +154,7 @@ const AwardAddEdit = ({ userId }) => {
                     <div className=" mb-2 ">
                         {awards.map((award, index) => (
                             <div key={index} className="mb-2">
-                                <Badge className="w-fit">
+                                <Badge className="w-fit p-4">
                                     {award.award}
                                     <FontAwesomeIcon className="pl-3 pr-3 hover:cursor-pointer" onClick={() => toggleVisibleEdit(award)} icon={faPencilAlt} />
                                     <FontAwesomeIcon icon={faTrash} onClick={() => toggleVisibleDelete(award)} className="hover:cursor-pointer" />

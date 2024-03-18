@@ -1,12 +1,11 @@
 import Image from "next/image";
-import ProfilePhoto from "./template-one-components/profilePhoto";
 import profImage from '@/app/images/profile.jpeg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLocation, faPhone, faPhoneAlt } from "@fortawesome/free-solid-svg-icons";
 import { Button, Loading } from "react-daisyui";
 import AboutMe from "./template-four-components/about";
 import { useEffect, useRef, useState } from "react";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from "@/app/firebase/firebase";
 import Award from "./template-four-components/awards";
 import EducationWidget from "./template-four-components/education";
@@ -22,6 +21,7 @@ import Internship from "./template-four-components/internship";
 import Memberships from "./template-four-components/membership";
 import Publications from "./template-four-components/publications";
 import LinksUser from "./template-four-components/links";
+import ProfilePhoto from "./template-four-components/profilePhoto";
 
 const TemplateFour = ({ userId }) => {
     const pdfRef = useRef();
@@ -34,7 +34,6 @@ const TemplateFour = ({ userId }) => {
         try {
             const usb = onSnapshot(doc(db, 'profile', userId), doc => {
                 if (doc.data()) {
-                    console.log(doc.data());
                     setProfile(doc.data());
                 } else {
                     setProfile(null);
@@ -46,23 +45,14 @@ const TemplateFour = ({ userId }) => {
         }
     }
 
-    function downloadPDF () {
+    async function downloadPDF() {
+        // check if user has subscription
         setMDownload(true);
-        let input = pdfRef.current;
-        html2canvas(input).then((canvas) => {
-            let imageData = canvas.toDataURL('image/png');
-            let pdf = new jsPDF('p', 'mm', 'a4', true);
-            let pdfWidth = pdf.internal.pageSize.getWidth();
-            let pdfHeight = pdf.internal.pageSize.getHeight();
-            let imgWidth = canvas.width;
-            let imgHeight = canvas.height;
-            let ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-            let imgX = (pdfWidth - imgWidth * ratio) / 2;
-            let imgY = 0;
-            pdf.addImage(imageData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-            pdf.save();
-            setMDownload(false);
-        })
+        let subDoc = await getDoc(doc(db, 'subscriptions', userId));
+        // take user to subscription page to begin payment
+        if (subDoc.exists() == false) {
+            router.replace('/dashboard/subscription');
+        }
     }
 
     useEffect(() => {

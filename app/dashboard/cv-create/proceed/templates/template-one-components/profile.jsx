@@ -6,6 +6,8 @@ import { doc, onSnapshot, } from "firebase/firestore";
 import { useEffect, useState, useRef } from "react";
 import { Skeleton, Button, Modal, Textarea, Accordion, Badge, Input } from "react-daisyui";
 
+
+
 const Profile = ({ userId }) => {
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -43,7 +45,7 @@ const Profile = ({ userId }) => {
                             <div className="flex justify-center">
                                 <div className="dashed-text-container mb-3 w-full md:w-[90%] lg:w-[90%]">
                                     <div className="dashed-line"></div>
-                                    <span className="dashed-text font-semibold text-[10px] md:text-lg lg:text-lg ml-3 mr-3">data analyst</span>
+                                    <span className="dashed-text font-semibold text-[10px] md:text-lg lg:text-lg ml-3 mr-3">{profile.professionTitle}</span>
                                     <div className="dashed-line"></div>
                                 </div>
                             </div>

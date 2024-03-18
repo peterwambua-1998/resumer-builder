@@ -6,7 +6,7 @@ import profileImg from '@/app/images/profile.jpeg';
 import { Button, Loading, Skeleton } from "react-daisyui";
 import { useEffect, useRef, useState } from "react";
 import { db } from "@/app/firebase/firebase";
-import { doc, onSnapshot, } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, } from "firebase/firestore";
 import AboutMe from "./template-two-components/about";
 import SkillWidget from "./template-two-components/skills";
 import Award from "./template-two-components/achievements";
@@ -20,6 +20,7 @@ import Memberships from "./template-two-components/membership";
 import Publications from "./template-two-components/publications";
 import LinksUser from "./template-two-components/links";
 import Languages from "./template-two-components/languanges";
+import ProfilePhoto from "./template-two-components/profilePhoto";
 
 const TemplateTwo = ({ userId }) => {
 
@@ -41,61 +42,15 @@ const TemplateTwo = ({ userId }) => {
         }
     }
 
-    function downloadPDF() {
-        // setMDownload(true);
-        // let input = pdfRef.current;
-
-        var doc = new jsPDF('p', 'px', 'a4', true);
-        let input = `
-            <div style='color: red; background:red; width: 100px'>${userId}</div>
-        `;
-        doc.html(input, {
-            callback: function (doc) {
-                doc.save();
-            },
-            autoPaging: true
-        })
-        // window.print();
-
-        // html2canvas(input).then((canvas) => {
-        //     let pageTwo;
-        //     let imageData = canvas.toDataURL('image/png');
-        //     // 535374
-        //     console.log(imageData.length);
-        //     if (imageData.length > 270000) {
-        //         console.log(imageData);
-        //         let page1 = imageData.substring(0, 170000);
-        //         let imageDataPageOne = canvas.toDataURL(page1);
-        //         let page2 = imageData.substring(270001, imageData.length - 1);
-        //         let pdf = new jsPDF('p', 'mm', 'a4', true);
-        //         let pdfWidth = pdf.internal.pageSize.getWidth();
-        //         let pdfHeight = pdf.internal.pageSize.getHeight();
-        //         let imgWidth = canvas.width;
-        //         let imgHeight = canvas.height;
-        //         let ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-        //         let imgX = (pdfWidth - imgWidth * ratio) / 2;
-        //         let imgY = 0;
-        //         pdf.addImage(imageData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-
-        //         pdf.save();
-
-        //     } else {
-        //         let pdf = new jsPDF('p', 'in', 'letter', true);
-        //         let pdfWidth = pdf.internal.pageSize.getWidth();
-        //         let pdfHeight = pdf.internal.pageSize.getHeight();
-        //         let imgWidth = canvas.width;
-        //         let imgHeight = canvas.height;
-        //         let ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-        //         let imgX = (pdfWidth - imgWidth * ratio) / 2;
-        //         let imgY = 0;
-        //         pdf.addImage(imageData, 'PNG', imgX, imgY, imgWidth / 2, imgHeight / 2);
-        //         pdf.save();
-        //     }
-
-        //     setMDownload(false);
-        // })
+    async function downloadPDF() {
+        // check if user has subscription
+        setMDownload(true);
+        let subDoc = await getDoc(doc(db, 'subscriptions', userId));
+        // take user to subscription page to begin payment
+        if (subDoc.exists() == false) {
+            router.replace('/dashboard/subscription');
+        }
     }
-
 
     useEffect(() => {
         getProfile();
@@ -112,7 +67,8 @@ const TemplateTwo = ({ userId }) => {
             <div ref={pdfRef} className=" bg-white grid grid-cols-6 md:grid md:grid-cols-6">
                 <div className="col-span-2 bg-stone-700 pt-2 pl-2 pr-2 md:pt-5 md:pl-10 md:pr-10 text-white">
                     <div className="flex justify-center">
-                        <Image src={profileImg} width={120} height={120} className="rounded-full w-[40px] h-[40px] md:w-[120px] md:h-[120px] lg:w-[120px] lg:h-[120px]" />
+                        <ProfilePhoto userId={userId} smWidth={40} mdWidth={200} lgWidth={200} />
+                        {/* <Image src={profile.file_url} width={120} height={120} className="rounded-full w-[40px] h-[40px] md:w-[120px] md:h-[120px] lg:w-[120px] lg:h-[120px]" /> */}
                     </div>
                     {/* location email */}
                     <div className="flex flex-col mt-5">

@@ -40,7 +40,7 @@ const ProfilePhoto = ({userId}) => {
 
         return (  
             <div>
-                <Image alt="profile" src={profile.file_url} width={120} height={120} className={'rounded-full w-[40px] h-[40px] md:w-[120px] md:h-[120px] lg:w-[160px] lg:h-[160px]'} />
+                <Image alt="profile" src={profile.file_url} width={120} height={120} className={'rounded-full w-[40px] h-[40px] md:w-[60px] md:h-[60px] lg:w-[100px] lg:h-[100px]'} />
             </div>
         );
     }

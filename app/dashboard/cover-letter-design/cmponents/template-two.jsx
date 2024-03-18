@@ -1,4 +1,4 @@
-const TemplateTwo = () => {
+const TemplateTwo = ({coverLetter}) => {
     return (
         <div className="cover-letter-padding">
             <div className="bg-teal-200 text-black rounded pl-20 pt-5 pr-20 pb-5 text-sm ">
@@ -20,33 +20,13 @@ const TemplateTwo = () => {
                     <p className="font-semibold">To Mr. Felsted, History</p>
                     <p className="text-lg mt-5 mb-5">06/12/2022</p>
                     <p className="mb-2">Dear Mr. Felsted</p>
-                    <p>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
-                            Amet ratione cumque sit numquam facere obcaecati, quaerat delectus dolorum consequatur nihil mollitia nesciunt maxime dolorem. 
-                            Eos aliquam rem inventore provident obcaecati.
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Recusandae, nam iure. Debitis, sequi nam. Odit pariatur itaque qui fugit? Cum cupiditate similique, culpa sint ullam qui. Quisquam assumenda amet veniam!
-
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
-                            Amet ratione cumque sit numquam facere obcaecati, quaerat delectus dolorum consequatur nihil mollitia nesciunt maxime dolorem. 
-                            Eos aliquam rem inventore provident obcaecati.
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Recusandae, nam iure. Debitis, sequi nam. Odit pariatur itaque qui fugit? Cum cupiditate similique, culpa sint ullam qui. Quisquam assumenda amet veniam!
-
-
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
-                            Amet ratione cumque sit numquam facere obcaecati, quaerat delectus dolorum consequatur nihil mollitia nesciunt maxime dolorem. 
-                            Eos aliquam rem inventore provident obcaecati.
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Recusandae, nam iure. Debitis, sequi nam. Odit pariatur itaque qui fugit? Cum cupiditate similique, culpa sint ullam qui. Quisquam assumenda amet veniam!
-
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
-                            Amet ratione cumque sit numquam facere obcaecati, quaerat delectus dolorum consequatur nihil mollitia nesciunt maxime dolorem. 
-                            Eos aliquam rem inventore provident obcaecati.
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Recusandae, nam iure. Debitis, sequi nam. Odit pariatur itaque qui fugit? Cum cupiditate similique, culpa sint ullam qui. Quisquam assumenda amet veniam!
-
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
-                            Amet ratione cumque sit numquam facere obcaecati, quaerat delectus dolorum consequatur nihil mollitia nesciunt maxime dolorem. 
-                            Eos aliquam rem inventore provident obcaecati.
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Recusandae, nam iure. Debitis, sequi nam. Odit pariatur itaque qui fugit? Cum cupiditate similique, culpa sint ullam qui. Quisquam assumenda amet veniam!
-                    </p>
+                    {
+                        coverLetter
+                        .filter((skill) => skill.checked === true)
+                        .map((skill) => (
+                            <p  key={skill.id}>{skill.coverLetter}</p>
+                        ))
+                    }
                 </div>
             </div>
         </div>

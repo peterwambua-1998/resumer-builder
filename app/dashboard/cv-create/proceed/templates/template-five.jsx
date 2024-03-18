@@ -8,7 +8,7 @@ import ExperienceWidget from './template-five-components/experience';
 import Hobbies from './template-five-components/hobbies';
 import Languages from './template-five-components/languages';
 import { useEffect, useRef, useState } from 'react';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/app/firebase/firebase';
 import { Button, Loading, Skeleton } from 'react-daisyui';
 import Projects from './template-five-components/projects';
@@ -20,8 +20,9 @@ import Internship from './template-five-components/internship';
 import Memberships from './template-five-components/membership';
 import Publications from './template-five-components/publications';
 import LinksUser from './template-five-components/links';
+import ProfilePhoto from './template-five-components/profilePhoto';
 
-const TemplateFive = ({userId}) => {
+const TemplateFive = ({ userId }) => {
     const [profile, setProfile] = useState(null);
     let [loading, setLoading] = useState(true);
     const pdfRef = useRef();
@@ -43,23 +44,15 @@ const TemplateFive = ({userId}) => {
         }
     }
 
-    function downloadPDF () {
+    async function downloadPDF() {
+        // check if user has subscription
         setMDownload(true);
-        let input = pdfRef.current;
-        html2canvas(input).then((canvas) => {
-            let imageData = canvas.toDataURL('image/png');
-            let pdf = new jsPDF('p', 'mm', 'a4', true);
-            let pdfWidth = pdf.internal.pageSize.getWidth();
-            let pdfHeight = pdf.internal.pageSize.getHeight();
-            let imgWidth = canvas.width;
-            let imgHeight = canvas.height;
-            let ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-            let imgX = (pdfWidth - imgWidth * ratio) / 2;
-            let imgY = 0;
-            pdf.addImage(imageData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-            pdf.save();
-            setMDownload(false);
-        })
+        let subDoc = await getDoc(doc(db, 'subscriptions', userId));
+        // take user to subscription page to begin payment
+        if (subDoc.exists() == false) {
+            router.replace('/dashboard/subscription');
+        }
+        // from here we submit template as string for download
     }
 
     useEffect(() => {
@@ -67,17 +60,17 @@ const TemplateFive = ({userId}) => {
     }, [])
 
 
-    return ( 
+    return (
         <div>
             <div className="flex flex-row-reverse mb-4">
                 <Button onClick={() => downloadPDF()} color="primary">
-                    {mDownload == true ?  <Loading /> : ''}
+                    {mDownload == true ? <Loading /> : ''}
                     download pdf
                 </Button>
             </div>
             <div ref={pdfRef} className="grid grid-cols-5 md:grid md:grid-cols-5 bg-white">
-                    <div className="col-span-2 bg-[#1E1B4B] text-white text-sm p-5 ">
-                        <div className="w-fill flex justify-center">
+                <div className="col-span-2 bg-[#1E1B4B] text-white text-sm p-5 ">
+                    <div className="w-fill flex justify-center">
                         {profile == null ?
                             (
                                 <div>
@@ -85,115 +78,115 @@ const TemplateFive = ({userId}) => {
                                 </div>) :
 
                             (
-                                <Image src={profile.file_url} width={120} height={120} alt="profile-image" className="w-[45%] md:w-[45%] lg:w-[30%] rounded-full" />
+                                // <Image src={profile.file_url} width={120} height={120} alt="profile-image" className="w-[45%] md:w-[45%] lg:w-[30%] rounded-full" />
+                                <ProfilePhoto userId={userId} />
                             )
                         }
-                        </div>
-                        {profile == null ?
-                            (
-                                <div>
-                                    <Skeleton className="h-4 w-full bg-slate-300 md:mt-2 lg:mt-2"></Skeleton>
-                                </div>
-                            ):
-                            (
-                                <p className="md:mt-2 lg:mt-2 text-[8px] md:text-base text-center font-semibold">{profile.professionTitle}</p>
-                            )}
-                        {/* skills */}
-                        <SkillWidget user_id={userId} />
-                        {/* skills */}
-
-                        {/* awards */}
-                        <Award userId={userId} />
-                        {/* awards */}
-
-                        {/* hobbies */}
-                        <Hobbies userId={userId} />
-                        {/* hobbies */}
-
-                        {/* languages */}
-                        <Languages userId={userId} />
-                        {/* languages */}
-
-                        <Memberships userId={userId} />
-
                     </div>
+                    {profile == null ?
+                        (
+                            <div>
+                                <Skeleton className="h-4 w-full bg-slate-300 md:mt-2 lg:mt-2"></Skeleton>
+                            </div>
+                        ) :
+                        (
+                            <p className="md:mt-2 lg:mt-2 text-[8px] md:text-base text-center font-semibold">{profile.professionTitle}</p>
+                        )}
+                    {/* skills */}
+                    <SkillWidget user_id={userId} />
+                    {/* skills */}
 
-                    
-                    <div className="col-span-3 md:col-span-3 pl-3 pr-3 md:pl-10 md:pr-10 lg:pl-10 lg:pr-10 pt-5">
+                    {/* awards */}
+                    <Award userId={userId} />
+                    {/* awards */}
+
+                    {/* hobbies */}
+                    <Hobbies userId={userId} />
+                    {/* hobbies */}
+
+                    {/* languages */}
+                    <Languages userId={userId} />
+                    {/* languages */}
+
+                    <Memberships userId={userId} />
+                </div>
+
+
+                <div className="col-span-3 md:col-span-3 pl-3 pr-3 md:pl-10 md:pr-10 lg:pl-10 lg:pr-10 pt-5">
                     {
                         profile == null ?
 
-                        (
-                            <div className="grid grid-cols-3 gap-2 text-[5px] md:text-sm lg:text-sm w-full">
-                                <div className="flex gap-2">
-                                    <Skeleton className='w-[8%] md:w-[8%] lg:w-[8%]'></Skeleton>
-                                    <Skeleton className='h-2 w-full bg-slate-300'></Skeleton>
-                                </div>
-                                <div className="flex gap-2">
-                                    <Skeleton className='w-[8%] md:w-[8%] lg:w-[8%]'></Skeleton>
-                                    <Skeleton className='h-2 w-full bg-slate-300'></Skeleton>
-                                </div>
-                                <div className="flex gap-2">
-                                    <Skeleton className='w-[8%] md:w-[8%] lg:w-[8%]'></Skeleton>
-                                    <Skeleton className='h-2 w-full bg-slate-300'></Skeleton>
-                                </div>
-                            </div>
-                        ) :
-
-                        (
-                            <div>
-                                <p className="text-[10px] md:text-lg lg:text-xl font-bold mb-2 md:mb-4 lg:mb-8 text-[#1E1B4B]">Peter Wambua Mutuku</p>
+                            (
                                 <div className="grid grid-cols-3 gap-2 text-[5px] md:text-sm lg:text-sm w-full">
                                     <div className="flex gap-2">
-                                        <FontAwesomeIcon icon={faPhone} className="w-[8%] md:w-[8%] lg:w-[8%]" />
-                                        <p className="md:text-[8px] lg:text-[12px]">{profile.phoneNumber}</p>
+                                        <Skeleton className='w-[8%] md:w-[8%] lg:w-[8%]'></Skeleton>
+                                        <Skeleton className='h-2 w-full bg-slate-300'></Skeleton>
                                     </div>
                                     <div className="flex gap-2">
-                                        <FontAwesomeIcon icon={faEnvelope} className="w-[8%] md:w-[8%] lg:w-[8%]" />
-                                        <p className="md:text-[8px] lg:text-[12px]">{profile.email}</p>
+                                        <Skeleton className='w-[8%] md:w-[8%] lg:w-[8%]'></Skeleton>
+                                        <Skeleton className='h-2 w-full bg-slate-300'></Skeleton>
                                     </div>
                                     <div className="flex gap-2">
-                                        <FontAwesomeIcon icon={faLocation} className="w-[8%] md:w-[8%] lg:w-[8%]" />
-                                        <p className="md:text-[8px] lg:text-[12px]">{profile.location}</p>
+                                        <Skeleton className='w-[8%] md:w-[8%] lg:w-[8%]'></Skeleton>
+                                        <Skeleton className='h-2 w-full bg-slate-300'></Skeleton>
                                     </div>
                                 </div>
-                            </div>
-                        )
+                            ) :
+
+                            (
+                                <div>
+                                    <p className="text-[10px] md:text-lg lg:text-xl font-bold mb-2 md:mb-4 lg:mb-8 text-[#1E1B4B]">Peter Wambua Mutuku</p>
+                                    <div className="grid grid-cols-3 gap-2 text-[5px] md:text-sm lg:text-sm w-full">
+                                        <div className="flex gap-2">
+                                            <FontAwesomeIcon icon={faPhone} className="w-[8%] md:w-[8%] lg:w-[8%]" />
+                                            <p className="md:text-[8px] lg:text-[12px]">{profile.phoneNumber}</p>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <FontAwesomeIcon icon={faEnvelope} className="w-[8%] md:w-[8%] lg:w-[8%]" />
+                                            <p className="md:text-[8px] lg:text-[12px]">{profile.email}</p>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <FontAwesomeIcon icon={faLocation} className="w-[8%] md:w-[8%] lg:w-[8%]" />
+                                            <p className="md:text-[8px] lg:text-[12px]">{profile.location}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
                     }
-                        
 
-                        {/* about */}
-                        <AboutMe useId={userId} />
-                        {/* about */}
 
-                        {/* work experience */}
-                        <ExperienceWidget user_id={userId} />
-                        {/* work experience */}
+                    {/* about */}
+                    <AboutMe useId={userId} />
+                    {/* about */}
 
-                        {/* work experience */}
-                        <EducationWidget user_id={userId} />
-                        {/* work experience */}
+                    {/* work experience */}
+                    <ExperienceWidget user_id={userId} />
+                    {/* work experience */}
 
-                        {/* internship work */}
-                        <Internship userId={userId} />
-                        {/* internship work */}
+                    {/* work experience */}
+                    <EducationWidget user_id={userId} />
+                    {/* work experience */}
 
-                        <Publications userId={userId} />
+                    {/* internship work */}
+                    <Internship userId={userId} />
+                    {/* internship work */}
 
-                        <LinksUser userId={userId} />
+                    <Publications userId={userId} />
 
-                        {/* projects */}
-                        <Projects userId={userId} />
-                        {/* projects */}
+                    <LinksUser userId={userId} />
 
-                        {/* references */}
-                        <References userId={userId} />
-                        {/* references */}
+                    {/* projects */}
+                    <Projects userId={userId} />
+                    {/* projects */}
 
-                    </div>
+                    {/* references */}
+                    <References userId={userId} />
+                    {/* references */}
+
+                </div>
             </div>
-        </div> 
+        </div>
     );
 }
- 
+
 export default TemplateFive;

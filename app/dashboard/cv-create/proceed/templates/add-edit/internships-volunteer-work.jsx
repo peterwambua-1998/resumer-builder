@@ -7,7 +7,7 @@ import { Timestamp, addDoc, collection, deleteDoc, doc, onSnapshot, query, updat
 import { useEffect, useState } from "react";
 import { Accordion, Badge, Button, Modal, Input, Textarea, Loading } from "react-daisyui";
 
-const Internship = ({userId}) => {
+const Internship = ({ userId }) => {
     const [internships, setInternships] = useState([]);
 
     const [orgNameValue, setOrgNameValue] = useState(null);
@@ -179,7 +179,7 @@ const Internship = ({userId}) => {
         getInternships();
     }, []);
 
-    return (  
+    return (
         <div className="mb-3">
             <Accordion className="bg-amber-400 text-black">
                 <Accordion.Title >
@@ -189,7 +189,7 @@ const Internship = ({userId}) => {
                     <div className=" mb-2 ">
                         {internships.map((internship, index) => (
                             <div key={index} className="mb-2">
-                                <Badge className="w-fit">
+                                <Badge className="w-fit p-4">
                                     {internship.organization}
                                     <FontAwesomeIcon className="pl-3 pr-3 hover:cursor-pointer" onClick={() => toggleVisibleEdit(internship)} icon={faPencilAlt} />
                                     <FontAwesomeIcon icon={faTrash} onClick={() => toggleVisibleDelete(internship)} className="hover:cursor-pointer" />
@@ -289,45 +289,45 @@ const Internship = ({userId}) => {
                 <form>
                     <Modal.Header className="font-bold">Internship Work</Modal.Header>
                     <Modal.Body className="p-0">
-                            <div className="md:grid md:grid-cols-3 gap-4">
-                                <div className="form-control md:w-full">
-                                    <label className="label">
-                                        <span className="">Organization</span>
-                                    </label>
-                                    <div>
-                                        <Input type="text" className="bg-white text-black grow w-full" placeholder="Ex: Safaricom" onChange={(e) => setOrgNameValue(e.target.value)} />
-                                        <div className="text-red-600 text-sm">{orgNameValueError}</div>
-                                    </div>
-                                </div>
-                                <div className="form-control w-full">
-                                    <label className="label">
-                                        <span className="">Role</span>
-                                    </label>
-                                    <div>
-                                        <Input type="text" className="bg-white text-black w-full" placeholder="Ex: Coordinator" onChange={(e) => setRoleNameValue(e.target.value)} />
-                                        <div className="text-red-600 text-sm">{roleNameValueError}</div>
-                                    </div>
-                                </div>
-                                <div className="form-control w-full">
-                                    <label className="label">
-                                        <span className="">Duration (Months)</span>
-                                    </label>
-                                    <div>
-                                        <Input type="number" className="bg-white text-black w-full" placeholder="Ex: 200" onChange={(e) => setDurationValue(e.target.value)} />
-                                        <div className="text-red-600 text-sm">{durationValueError}</div>
-                                    </div>
+                        <div className="md:grid md:grid-cols-3 gap-4">
+                            <div className="form-control md:w-full">
+                                <label className="label">
+                                    <span className="">Organization</span>
+                                </label>
+                                <div>
+                                    <Input type="text" className="bg-white text-black grow w-full" placeholder="Ex: Safaricom" onChange={(e) => setOrgNameValue(e.target.value)} />
+                                    <div className="text-red-600 text-sm">{orgNameValueError}</div>
                                 </div>
                             </div>
-                            <div className="md:grid md:grid-cols-1 gap-4">
-                                <div className="form-control w-full">
-                                    <label className="label">
-                                        <span className="">Description</span>
-                                    </label>
-                                    <div>
-                                        <Textarea className="bg-white text-black w-full" placeholder="Ex: What you did" onChange={(e) => setDescriptionValue(e.target.value)} />
-                                        <div className="text-red-600 text-sm">{descriptionValueError}</div>
-                                    </div>
+                            <div className="form-control w-full">
+                                <label className="label">
+                                    <span className="">Role</span>
+                                </label>
+                                <div>
+                                    <Input type="text" className="bg-white text-black w-full" placeholder="Ex: Coordinator" onChange={(e) => setRoleNameValue(e.target.value)} />
+                                    <div className="text-red-600 text-sm">{roleNameValueError}</div>
                                 </div>
+                            </div>
+                            <div className="form-control w-full">
+                                <label className="label">
+                                    <span className="">Duration (Months)</span>
+                                </label>
+                                <div>
+                                    <Input type="number" className="bg-white text-black w-full" placeholder="Ex: 200" onChange={(e) => setDurationValue(e.target.value)} />
+                                    <div className="text-red-600 text-sm">{durationValueError}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="md:grid md:grid-cols-1 gap-4">
+                            <div className="form-control w-full">
+                                <label className="label">
+                                    <span className="">Description</span>
+                                </label>
+                                <div>
+                                    <Textarea className="bg-white text-black w-full" placeholder="Ex: What you did" onChange={(e) => setDescriptionValue(e.target.value)} />
+                                    <div className="text-red-600 text-sm">{descriptionValueError}</div>
+                                </div>
+                            </div>
                         </div>
                     </Modal.Body>
                     <Modal.Actions>
@@ -339,5 +339,5 @@ const Internship = ({userId}) => {
         </div>
     );
 }
- 
+
 export default Internship;

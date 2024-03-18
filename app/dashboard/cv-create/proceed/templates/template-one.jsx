@@ -25,8 +25,8 @@ import Internship from "./template-one-components/internship";
 import Memberships from "./template-one-components/membership";
 import Publications from "./template-one-components/publications";
 import LinksUser from "./template-one-components/links";
+import PdfGenerationTemplateOne from "./template-one-components/pdf-generate";
 // import { html2pdf } from "html2pdf.js";
-
 
 
 const TemplateOne = ({ userId }) => {
@@ -39,35 +39,106 @@ const TemplateOne = ({ userId }) => {
     const pdfRef = useRef();
     const router = useRouter();
 
-    async function downloadPDF() {
-        // check if user has subscription
-        let subDoc = await getDoc(doc(db, 'subscriptions', userId));
-        // take user to subscription page to begin payment
-        if (subDoc.exists() == false) {
-            router.replace('/dashboard/subscription');
-        }
-    }
+    // async function downloadPDF() {
+    //     // check if user has subscription
+    //     setMDownload(true);
+    //     let subDoc = await getDoc(doc(db, 'subscriptions', userId));
+    //     // take user to subscription page to begin payment
+    //     if (subDoc.exists() == false) {
+    //         return router.replace('/dashboard/subscription');
+    //     } 
+    //     let profData = null;
+
+    //     profData = profileData(userId);
+
+    //     console.log(profData);
+
+    //     let template = `
+    //     <!DOCTYPE html>
+    //     <html lang="en">
+    //     <head>
+    //         <meta charset="UTF-8">
+    //         <meta name="viewport" content="width=device-width, initial-scale=1">
+    //         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    //             integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    //         <title>Document</title>
+    //         <script src="https://kit.fontawesome.com/6557f5a19c.js" crossorigin="anonymous"></script>
+    //         <style>
+    //             .dashed-text-container {
+    //                 display: flex;
+    //                 align-items: center;
+    //             }
+
+    //             .dashed-line {
+    //                 flex: 1;
+    //                 height: 1px;
+    //                 background: #f59e0b;
+    //                 margin: 0 10px;
+    //             }
+
+    //             .dashed-text {
+    //                 white-space: nowrap;
+    //                 /* Prevent text from wrapping */
+    //             }
+
+    //             .wrapper {
+    //                 color: white !important;
+    //             }
+    //         </style>
+    //     </head>
+    //     <body>
+    //         <div class="wrapper">
+    //             <div style="background-color: #1e1b4b; text-center">
+    //                 <p style="font-size: 30px; font-weight:bold;" class="mb-3 text-center">Peter Wambua</p>
+    //                 <div class="dashed-text-container mb-3" style="width: 100%;">
+    //                     <div class="dashed-line"></div>
+    //                     <span class="dashed-text ml-3 mr-3" style="font-weight:bold; font-size: 18px;">data analyst</span>
+    //                     <div class="dashed-line"></div>
+    //                 </div>
+
+    //                 <!-- icons and text -->
+    //                 <div class="row text-center">
+    //                     <div class="col-lg-4 m-flex">
+    //                         <i class="fa-solid fa-location-pin" style="color: #f59e0b;"></i>
+    //                         <p>Athiriver, Machakos</p>
+    //                     </div>
+    //                     <div class="col-lg-4 m-flex">
+    //                         <i class="fa-solid fa-envelope" style="color: #f59e0b;"></i>
+    //                         <p>pwambuch@mail.com</p>
+    //                     </div>
+    //                     <div class="col-lg-4 m-flex">
+    //                         <i class="fa-solid fa-phone" style="color: #f59e0b;"></i>
+    //                         <p>07891011764822</p>
+    //                     </div>
+    //                 </div>
+    //                 <!-- icons and text -->
+    //             </div>
+    //         </div>
+    //     </body>
+    //     `;
+    // }
 
     return (
         <div>
             <div className="flex flex-row-reverse mb-4">
                 {/* className="bg-blue-300 border-blue-300 text-black" */}
-                <Button onClick={() => downloadPDF()} color="primary">
+                {/* <Button onClick={() => downloadPDF()} color="primary">
                     {mDownload == true ? <Loading /> : ''}
                     download pdf
-                </Button>
+                </Button> */}
+                <PdfGenerationTemplateOne userId={userId} />
             </div>
             <div id="template-one" ref={pdfRef} className=" bg-white ">
                 {/* top dark area */}
                 <div className=" bg-indigo-950 text-white p-2 md:p-10 lg:p-10">
-                    <Profile userId={userId} smWidth={40} mdWidth={60} lgWidth={60} />
+                    <Profile userId={userId} />
                 </div>
                 {/* top dark area */}
 
                 {/* profile photo and about */}
                 <div className="grid grid-cols-4 md:grid md:grid-cols-4 mt-5">
                     <div className="pl-5 pr-0 md:pl-20 md:pr-0 lg:pl-10 lg:pr-0">
-                        <ProfilePhoto userId={userId} />
+                        <ProfilePhoto userId={userId} smWidth={40} mdWidth={180} lgWidth={'190px'} />
                     </div>
                     <div className="col-span-3 md:pr-10 lg:pr-10">
                         <p className="mb-2 font-bold text-indigo-950 text-xs md:text-lg lg:text-lg">Profile </p>
