@@ -21,6 +21,7 @@ import Publications from "./template-two-components/publications";
 import LinksUser from "./template-two-components/links";
 import Languages from "./template-two-components/languanges";
 import ProfilePhoto from "./template-two-components/profilePhoto";
+import GeneratePDF from "./template-two-components/generate-pdf";
 
 const TemplateTwo = ({ userId }) => {
 
@@ -59,10 +60,11 @@ const TemplateTwo = ({ userId }) => {
     return (
         <div>
             <div className="flex flex-row-reverse mb-4">
-                <Button onClick={() => downloadPDF()} color="primary">
+                {/* <Button onClick={() => downloadPDF()} color="primary">
                     {mDownload == true ? <Loading /> : ''}
                     download pdf
-                </Button>
+                </Button> */}
+                <GeneratePDF userId={userId} />
             </div>
             <div ref={pdfRef} className=" bg-white grid grid-cols-6 md:grid md:grid-cols-6">
                 <div className="col-span-2 bg-stone-700 pt-2 pl-2 pr-2 md:pt-5 md:pl-10 md:pr-10 text-white">

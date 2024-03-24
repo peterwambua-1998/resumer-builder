@@ -43,25 +43,25 @@ const Profile = ({ userId }) => {
                             <div className="flex justify-center">
                                 <div className="dashed-text-container mb-3 w-full md:w-[90%] lg:w-[90%]">
                                     <div className="dashed-line"></div>
-                                    <span className="dashed-text font-semibold text-[10px] md:text-lg lg:text-lg ml-3 mr-3">data analyst</span>
+                                    <span className="dashed-text font-semibold text-[10px] md:text-lg lg:text-lg ml-3 mr-3">{profile.professionTitle}</span>
                                     <div className="dashed-line"></div>
                                 </div>
                             </div>
 
-                                <div className="grid grid-cols-3 md:grid md:grid-cols-3">
-                                    <div className="flex flex-col items-center w-full ">
-                                        <FontAwesomeIcon icon={faLocationPin} className="text-amber-500 text-xs md:w-[22px]" />
-                                        <p className="text-[8px] md:text-base lg:text-base">{profile.location}</p>
-                                    </div>
-                                    <div className="flex flex-col items-center w-full">
-                                        <FontAwesomeIcon icon={faEnvelope} className="text-amber-500 text-xs md:w-[22px]" />
-                                        <p className="text-[8px] md:text-base lg:text-base">{profile.email}</p>
-                                    </div>
-                                    <div className="flex flex-col items-center w-full">
-                                        <FontAwesomeIcon icon={faPhone} className="text-amber-500 text-xs md:w-[22px]" />
-                                        <p className="text-[8px] md:text-base lg:text-base">{profile.phoneNumber}</p>
-                                    </div>
+                            <div className="grid grid-cols-3 md:grid md:grid-cols-3">
+                                <div className="flex flex-col items-center w-full ">
+                                    <FontAwesomeIcon icon={faLocationPin} className="text-amber-500 text-xs md:w-[22px]" />
+                                    <p className="text-[8px] md:text-base lg:text-base">{profile.location}</p>
                                 </div>
+                                <div className="flex flex-col items-center w-full">
+                                    <FontAwesomeIcon icon={faEnvelope} className="text-amber-500 text-xs md:w-[22px]" />
+                                    <p className="text-[8px] md:text-base lg:text-base">{profile.email}</p>
+                                </div>
+                                <div className="flex flex-col items-center w-full">
+                                    <FontAwesomeIcon icon={faPhone} className="text-amber-500 text-xs md:w-[22px]" />
+                                    <p className="text-[8px] md:text-base lg:text-base">{profile.phoneNumber}</p>
+                                </div>
+                            </div>
                         </div>
 
                     )
