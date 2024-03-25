@@ -153,6 +153,8 @@ const GeneratePDF = ({userId}) => {
             </div>
         </div>`;
         });
+
+        
                         
         template+=  `
                         <!-- loop about -->

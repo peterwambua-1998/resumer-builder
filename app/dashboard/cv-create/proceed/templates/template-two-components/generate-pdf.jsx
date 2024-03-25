@@ -91,9 +91,9 @@ const GeneratePDF = ({userId}) => {
             <script src="https://kit.fontawesome.com/6557f5a19c.js" crossorigin="anonymous"></script>
         </head>
         <body>
-            <div class="container">
+            <div>
                 <div class="row">
-                    <div class="col-md-3" style="background-color: slategray; color: white;">
+                    <div class="col-md-4" style="background-color: #44403c; color: white;">
                         <div class="text-center">
                             <img src="${profile.file_url}"  alt="" style="border-radius: 50%; width: 120px; height: 120px;">
                         </div>
@@ -101,19 +101,19 @@ const GeneratePDF = ({userId}) => {
                             <div >
                                 <table style="margin-bottom: 14px;">
                                     <tbody>
-                                        <td>icon</td>
+                                        <td><i class="fa-solid fa-phone" style="color: #22c55e;"></i></td>
                                         <td><p style="font-size: 14px;">${profile.phoneNumber}</p></td>
                                     </tbody>
                                 </table>
                                 <table style="margin-bottom: 14px;">
                                     <tbody>
-                                        <td>icon</td>
+                                        <td><i class="fa-solid fa-envelope" style="color: #22c55e;"></i></td>
                                         <td><p style="font-size: 14px;">${profile.email}</p></td>
                                     </tbody>
                                 </table>
                                 <table style="margin-bottom: 14px;">
                                     <tbody>
-                                        <td>icon</td>
+                                        <td><i class="fa-solid fa-location-pin" style="color: #22c55e;"></i></td>
                                         <td><p style="font-size: 14px;">${profile.location}</p></td>
                                     </tbody>
                                 </table>
@@ -127,7 +127,7 @@ const GeneratePDF = ({userId}) => {
                                 <ul>`;
         skills.map((skill,index) => { 
         template += `
-                <li  key={index}>${skill.skill}</li>
+                <li  key={index}>${skill.name}</li>
         `;
         });
 
@@ -198,7 +198,7 @@ const GeneratePDF = ({userId}) => {
                         </div>
                     </div>
                     <!-- grid col 9 -->
-                    <div class="col-md-9" style="padding:3%;">
+                    <div class="col-md-8" style="padding:3%;">
                         <p style="font-weight: bold; font-size: 30px; line-height: 36px; color: #4d7c0f;">${profile.full_name}</p>
                         <!-- about -->
                         <div style="padding: 20px;">
