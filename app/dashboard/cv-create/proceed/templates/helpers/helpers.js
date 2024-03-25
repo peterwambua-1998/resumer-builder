@@ -188,6 +188,39 @@ export async function linksGlobal(userId) {
     }
 }
 
+export async function projectsGlobal(userId) {
+    try {
+        let projects = [];
+        let awardsRef = collection(db, 'project');
+        let q = query(awardsRef, where('user_id', '==', userId));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            projects.push(doc.data());
+        });
+        return projects;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+export async function hobbiesGlobal(userId) {
+    try {
+        let hobbies = [];
+        let hobbiesRef = collection(db, 'hobbies');
+        let q = query(hobbiesRef, where('user_id', '==', userId));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            hobbies.push(doc.data());
+        });
+        return hobbies;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export async function referencesGlobal(userId) {
     try {
         let references = [];

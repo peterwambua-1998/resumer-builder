@@ -26,6 +26,7 @@ import Memberships from "./template-one-components/membership";
 import Publications from "./template-one-components/publications";
 import LinksUser from "./template-one-components/links";
 import PdfGenerationTemplateOne from "./template-one-components/pdf-generate";
+import Languages from "./template-one-components/languanges";
 // import { html2pdf } from "html2pdf.js";
 
 
@@ -157,6 +158,8 @@ const TemplateOne = ({ userId }) => {
                         <SkillWidget user_id={userId} />
 
                         <Hobbies userId={userId} />
+
+                        <Languages userId={userId} />
 
                         <Memberships userId={userId} />
 

@@ -43,7 +43,7 @@ const Publications = ({userId}) => {
                 {publications.map((publication, index) => (
                 <div className="mb-8" key={index}>
                     <p className="text-amber-600 font-bold mb-2 text-lg">{publication.title}</p>
-                    <div className="pl-3">
+                    <div className="pl-3 text-sm">
                         <ul style={{ listStyleType: 'disc' }}>
                             <li>{publication.link}</li>
                         </ul>

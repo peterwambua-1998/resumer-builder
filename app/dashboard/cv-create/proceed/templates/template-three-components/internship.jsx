@@ -46,7 +46,7 @@ const Internship = ({ userId }) => {
                                 <div className="mb-8" >
                                     <p className="text-amber-600 font-bold mb-2 text-lg">{internship.organization}, {internship.role}</p>
                                     <p className="text-sm mb-2">{internship.duration} month(s)</p>
-                                    <div className="pl-3">
+                                    <div className="pl-3 text-sm">
                                         <ul style={{ listStyleType: 'disc' }}>
                                             <li>{internship.description}</li>
                                         </ul>

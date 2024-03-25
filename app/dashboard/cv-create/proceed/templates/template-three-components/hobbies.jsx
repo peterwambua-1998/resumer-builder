@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
-import { Skeleton } from "react-daisyui";
+import { Badge, Divider, Skeleton } from "react-daisyui";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "@/app/firebase/firebase";
 
@@ -26,23 +26,24 @@ const Hobbies = ({ userId }) => {
         getHobbies();
     }, []);
 
-    if (hobbies.length < 1) {
-        return (
-            <div className="text-[#808080] pl-5 pr-5 pt-5">You currently have no hobbies saved</div>
-        )
-    } else {
-        return (
-            <div>
-                <div className="flex justify-center text-black">
-                    <ul style={{ listStyleType: 'disc' }} className="text-black pl-10 pr-10 ">
-                        {hobbies.map((hobby, index) => (
-                            <li key={index}>{hobby.title}</li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
-        );
-    }
+    return (
+        <div>
+            {
+                hobbies.length > 0 ?
+                    <div>
+                        <p className="mb-2 font-bold">Hobbies</p>
+                        <div className="flex gap-4 flex-wrap">
+                            {hobbies.map((hobby, index) => (
+                                <Badge className="p-4 bg-amber-600 text-black" key={index}>{hobby.title}</Badge>
+                            ))}
+                        </div>
+                        <Divider></Divider>
+                    </div>
+                    : <div></div>
+            }
+        </div>
+    );
+
 
 
 }

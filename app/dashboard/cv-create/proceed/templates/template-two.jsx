@@ -22,6 +22,7 @@ import LinksUser from "./template-two-components/links";
 import Languages from "./template-two-components/languanges";
 import ProfilePhoto from "./template-two-components/profilePhoto";
 import GeneratePDF from "./template-two-components/generate-pdf";
+import Projects from "./template-two-components/projects";
 
 const TemplateTwo = ({ userId }) => {
 
@@ -144,6 +145,8 @@ const TemplateTwo = ({ userId }) => {
                     <ExperienceWidget user_id={userId} />
 
                     <Internship userId={userId} />
+
+                    <Projects userId={userId} />
 
                     <Publications userId={userId} />
 

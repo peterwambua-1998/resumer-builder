@@ -18,6 +18,10 @@ import LinksUser from "./template-three-components/links";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from "@/app/firebase/firebase";
 import ProfilePhoto from "./template-three-components/profilePhoto";
+import Projects from "./template-three-components/projects";
+import Languages from "./template-three-components/languanges";
+import Hobbies from "./template-three-components/hobbies";
+import Award from "./template-three-components/achievements";
 
 const TemplateThree = ({ userId }) => {
     const pdfRef = useRef();
@@ -49,9 +53,9 @@ const TemplateThree = ({ userId }) => {
         }
     }
 
-    useEffect(()=> {
+    useEffect(() => {
         getProfile();
-    },[])
+    }, [])
     return (
         <div>
             <div className="flex flex-row-reverse mb-4">
@@ -65,17 +69,17 @@ const TemplateThree = ({ userId }) => {
                 <div className="flex justify-between mb-4">
                     {/* <Image src={profileImg} width={80} height={80} className="rounded-full" /> */}
                     <ProfilePhoto userId={userId} />
-                    <div className="text-=center">
-                            {
-                                profile == null ? (<div>Loading...</div>) : (
-                                    <div>
-                                        <h3 className="md:font-bold md:text-xl mb-2">{profile.full_name}</h3>
-                                        <p className="text-[#808080] text-sm mb-2">{profile.professionTitle}</p>
-                                    </div>
-                                
-                                )
-                            }
-                        
+                    <div className="text-center">
+                        {
+                            profile == null ? (<div>Loading...</div>) : (
+                                <div>
+                                    <h3 className="md:font-bold md:text-2xl mb-2">{profile.full_name}</h3>
+                                    <p className="text-[#808080] text-sm mb-2">{profile.professionTitle}</p>
+                                </div>
+
+                            )
+                        }
+
                         {/* <Profile userId={firebase_user.uid} /> */}
                     </div>
                     <div></div>
@@ -89,19 +93,32 @@ const TemplateThree = ({ userId }) => {
                 {/* Education */}
                 <EducationWidget user_id={userId} />
 
+                <Projects userId={userId} />
+
                 <Publications userId={userId} />
 
                 {/* Education */}
                 <Internship userId={userId} />
+
+                <Award userId={userId} />
+
+                <LinksUser userId={userId} />
+
                 {/* skills */}
                 <SkillWidget user_id={userId} />
                 {/* skills */}
+
+                {/* languages */}
+                <Languages userId={userId} />
+                {/* languages */}
+
+
                 {/* skills */}
                 <Memberships userId={userId} />
                 {/* skills */}
                 {/* Links */}
 
-                <LinksUser userId={userId} />
+                <Hobbies userId={userId} />
 
                 {/* Links */}
 

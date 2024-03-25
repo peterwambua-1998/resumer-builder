@@ -36,7 +36,7 @@ const ExperienceWidget = ({user_id}) => {
                     <div className="mb-8" key={index}>
                         <p className="text-amber-600 font-bold mb-2 text-lg">{exp.title}, {exp.companyName}</p>
                         <p className="text-sm mb-2">{exp.location} ({exp.startDate} - {exp.endDate})</p>
-                        <div className="pl-3">
+                        <div className="pl-3 text-sm">
                             <ul style={{ listStyleType: 'disc' }}>
                                 <li>{exp.description}</li>
                             </ul>

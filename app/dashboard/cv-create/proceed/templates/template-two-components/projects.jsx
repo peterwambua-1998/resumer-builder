@@ -27,19 +27,21 @@ const Projects = ({userId}) => {
 
     
     return (  
-        <div>
-            <p className="font-bold text-[12px] md:text-lg lg:text-lg text-center mt-2 border-b">Projects</p>
+        <div className=" p-2 md:p-5 lg:p-5"> 
+            <p className="font-bold text-[8px] md:text-xl lg:text-xl mb-3">Projects</p>
             {projects.length > 0 ? 
                 projects.map((project, index) => (
-                <div className="mt-5" key={index}>
-                    <p className="text-blue-600 font-bold mb-2 text-[8px] md:text-lg lg:text-lg">{project.title}</p>
-                    <div className="pl-3">
-                        <p>{project.description}</p>
+                <div className="flex  text-black"  key={index}>
+                    <div className="mb-8 ">
+                        <p className="text-green-600 font-bold mb-2 text-[6px] md:text-base lg:text-base">{project.title}</p>
+                        <div className="text-[5px] md:text-sm lg:text-sm">
+                            <p>{project.description}</p>
+                        </div>
                     </div>
                 </div>
                 ))
                 :
-                <div className="text-[#808080] mb-5">You currently have no projects saved</div>
+                <div></div>
             }
         </div>
     );

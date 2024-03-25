@@ -69,7 +69,7 @@ const AboutMe = ({ useId }) => {
         return (
             <div className="p-2 md:p-5 lg:p-5">
                 <p className="font-bold text-[8px] md:text-lg lg:text-lg border-b md:border-b-2 lg:border-b-2 border-green-500">About</p>
-                <p className="mt-3 text-[5px] md:text-base lg:text-base">{about}</p>
+                <p className="mt-3 text-[5px] md:text-sm lg:text-sm">{about}</p>
             </div>
         );
     }

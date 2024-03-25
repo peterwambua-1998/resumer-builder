@@ -51,10 +51,10 @@ const References = ({ userId }) => {
                             <div key={index}>
                                 <div className="">
                                     <p className="font-bold text-green-500">{refrence.referee_name}</p>
-                                    <p>{refrence.organization}</p>
-                                    <p>{refrence.role}</p>
-                                    <p>{refrence.email}</p>
-                                    <p>{refrence.phone}</p>
+                                    <p className="text-sm">{refrence.organization}</p>
+                                    <p className="text-sm">{refrence.role}</p>
+                                    <p className="text-sm">{refrence.email}</p>
+                                    <p className="text-sm">{refrence.phone}</p>
                                 </div>
                             </div>
                         )) : (<div className="text-[#808080] mb-5">You currently have no references</div>)

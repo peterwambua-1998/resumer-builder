@@ -57,7 +57,7 @@ const SkillWidget = ({ user_id }) => {
                 skillData.length > 0 ?
                     <div>
                         <p className="mb-2 font-bold">Skills</p>
-                        <div className="flex gap-4">
+                        <div className="flex gap-4 flex-wrap">
                             {skillData.map((skill, index) => (
                                 <Badge className="p-4 bg-amber-600 text-black" key={index}>{skill.name}</Badge>
                             ))}

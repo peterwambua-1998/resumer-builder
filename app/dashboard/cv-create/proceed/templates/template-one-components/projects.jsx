@@ -36,7 +36,7 @@ const Projects = ({userId}) => {
                 projects.map((project, index) => (
                     <div className="mt-5" key={index}>
                         <p className="text-blue-600 font-bold mb-2 text-[8px] md:text-lg lg:text-lg">{project.title}</p>
-                        <div className="pl-3">
+                        <div className="pl-3 text-sm">
                             <p>{project.description}</p>
                         </div>
                     </div>

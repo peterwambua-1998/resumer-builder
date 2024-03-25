@@ -24,6 +24,28 @@ const Languages = ({userId}) => {
         getLanguages();
     }, []);
 
+    return (
+        <div className="mb-5">
+            {
+                languages.length > 0 ?
+                    <div>
+                        <div className="bg-indigo-950 ">
+                            <p className="font-bold text-[8px] md:text-lg lg:text-lg text-center">Languages</p>
+                        </div>
+                        <div className="flex justify-center text-black pt-2">
+                            <ul style={{ listStyleType: 'disc' }} className="text-black pl-10 pr-10 ">
+                                {languages.map((lang, index) => (
+                                    <li key={index}>{lang.name} ({lang.description})</li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                    : <div></div>
+            }
+
+        </div>
+    );
+
     if (hobbies.length < 1) {
         return (
             <div className="text-[#808080] pl-5 pr-5 pt-5">You currently have no hobbies saved</div>
@@ -34,7 +56,7 @@ const Languages = ({userId}) => {
                 <div className="flex justify-center text-black">
                     <ul style={{ listStyleType: 'disc' }} className="text-black pl-10 pr-10 ">
                         {languages.map((lang, index) => (
-                            <li key={index}>{lang.name} (lang.description)</li>
+                            <li key={index}>{lang.name} ({lang.description})</li>
                         ))}
                     </ul>
                 </div>
