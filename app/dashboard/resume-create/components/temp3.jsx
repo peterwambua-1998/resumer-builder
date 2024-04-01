@@ -17,6 +17,8 @@ import Publications from "./template-three-components/publications";
 import LinksUser from "./template-three-components/links";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "@/app/firebase/firebase";
+import Hobbies from "../../cv-create/proceed/templates/template-three-components/hobbies";
+import Projects from "../../cv-create/proceed/templates/template-three-components/projects";
 
 const TempThree = ({ userId, about, skills }) => {
     const pdfRef = useRef();
@@ -88,6 +90,8 @@ const TempThree = ({ userId, about, skills }) => {
                 {/* Education */}
                 <EducationWidget user_id={userId} />
 
+                <Projects userId={userId} />
+
                 <Publications userId={userId} />
 
                 {/* Education */}
@@ -100,7 +104,11 @@ const TempThree = ({ userId, about, skills }) => {
                 {/* skills */}
                 {/* Links */}
 
+                <Hobbies userId={userId} />
+
+
                 <LinksUser userId={userId} />
+
 
                 {/* Links */}
 

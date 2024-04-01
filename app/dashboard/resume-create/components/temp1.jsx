@@ -25,6 +25,7 @@ import Internship from "./template-one-components/internship";
 import Memberships from "./template-one-components/membership";
 import Publications from "./template-one-components/publications";
 import LinksUser from "./template-one-components/links";
+import PdfGenerationTemplateOne from "./template-one-components/generate-pdf";
 // import { html2pdf } from "html2pdf.js";
 
 
@@ -52,10 +53,11 @@ const TempOne = ({ userId, about, skills }) => {
         <div>
             <div className="flex flex-row-reverse mb-4">
                 {/* className="bg-blue-300 border-blue-300 text-black" */}
-                <Button className="border-slate-400 bg-blue-300 hover:bg-blue-400 text-black" onClick={() => downloadPDF()} >
+                {/* <Button className="border-slate-400 bg-blue-300 hover:bg-blue-400 text-black" onClick={() => downloadPDF()} >
                     {mDownload == true ? <Loading /> : ''}
                     download pdf
-                </Button>
+                </Button> */}
+                <PdfGenerationTemplateOne userId={userId} skillsAi={skills} aboutAI={about} />
             </div>
             <div id="template-one" ref={pdfRef} className=" bg-white ">
                 {/* top dark area */}

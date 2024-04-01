@@ -22,6 +22,7 @@ import Projects from "./template-three-components/projects";
 import Languages from "./template-three-components/languanges";
 import Hobbies from "./template-three-components/hobbies";
 import Award from "./template-three-components/achievements";
+import GeneratePDF from "./template-three-components/generate-pdf";
 
 const TemplateThree = ({ userId }) => {
     const pdfRef = useRef();
@@ -59,10 +60,11 @@ const TemplateThree = ({ userId }) => {
     return (
         <div>
             <div className="flex flex-row-reverse mb-4">
-                <Button onClick={() => downloadPDF()} color="primary">
+                {/* <Button onClick={() => downloadPDF()} color="primary">
                     {mDownload == true ? <Loading /> : ''}
                     download pdf
-                </Button>
+                </Button> */}
+                <GeneratePDF userId={userId} />
             </div>
             <div ref={pdfRef} className="bg-white p-10 border-t-4 border-amber-600">
                 {/* cv header */}

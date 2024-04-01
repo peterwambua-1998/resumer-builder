@@ -21,6 +21,7 @@ import Memberships from './template-five-components/membership';
 import Publications from './template-five-components/publications';
 import LinksUser from './template-five-components/links';
 import ProfilePhoto from './template-five-components/profilePhoto';
+import GeneratePDF from './template-five-components/generate-pdf';
 
 const TemplateFive = ({ userId }) => {
     const [profile, setProfile] = useState(null);
@@ -63,10 +64,11 @@ const TemplateFive = ({ userId }) => {
     return (
         <div>
             <div className="flex flex-row-reverse mb-4">
-                <Button onClick={() => downloadPDF()} color="primary">
+                {/* <Button onClick={() => downloadPDF()} color="primary">
                     {mDownload == true ? <Loading /> : ''}
                     download pdf
-                </Button>
+                </Button> */}
+                <GeneratePDF userId={userId} />
             </div>
             <div ref={pdfRef} className="grid grid-cols-5 md:grid md:grid-cols-5 bg-white">
                 <div className="col-span-2 bg-[#1E1B4B] text-white text-sm p-5 ">
@@ -138,15 +140,15 @@ const TemplateFive = ({ userId }) => {
                                     <p className="text-[10px] md:text-lg lg:text-xl font-bold mb-2 md:mb-4 lg:mb-8 text-[#1E1B4B]">Peter Wambua Mutuku</p>
                                     <div className="grid grid-cols-3 gap-2 text-[5px] md:text-sm lg:text-sm w-full">
                                         <div className="flex gap-2">
-                                            <FontAwesomeIcon icon={faPhone} className="w-[8%] md:w-[8%] lg:w-[8%]" />
+                                            <p className='w-[8%] md:w-[8%] lg:w-[8%]'><FontAwesomeIcon icon={faPhone} className="w-[100%] md:w-[100%] lg:w-[100%] " /></p>
                                             <p className="md:text-[8px] lg:text-[12px]">{profile.phoneNumber}</p>
                                         </div>
                                         <div className="flex gap-2">
-                                            <FontAwesomeIcon icon={faEnvelope} className="w-[8%] md:w-[8%] lg:w-[8%]" />
+                                            <p><FontAwesomeIcon icon={faEnvelope} className="w-[100%] md:w-[100%] lg:w-[100%]" /></p>
                                             <p className="md:text-[8px] lg:text-[12px]">{profile.email}</p>
                                         </div>
                                         <div className="flex gap-2">
-                                            <FontAwesomeIcon icon={faLocation} className="w-[8%] md:w-[8%] lg:w-[8%]" />
+                                            <p><FontAwesomeIcon icon={faLocation} className="w-[100%] md:w-[100%] lg:w-[100%]" /></p>
                                             <p className="md:text-[8px] lg:text-[12px]">{profile.location}</p>
                                         </div>
                                     </div>

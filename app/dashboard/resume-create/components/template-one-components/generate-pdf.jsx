@@ -4,13 +4,14 @@ import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Button, Modal, Input, Skeleton, Loading } from "react-daisyui";
 import FileSaver from "file-saver";
-import { aboutGlobal, awardsGlobal, educationGlobal, experiencesGlobal, hobbiesGlobal, internshipsGlobal, languagesGlobal, linksGlobal, membershipsGlobal, profileGlobal, projectsGlobal, publicationsGlobal, referencesGlobal, skillsGlobal } from "../helpers/helpers";
-const PdfGenerationTemplateOne = ({ userId }) => {
+import { aboutGlobal, awardsGlobal, educationGlobal, experiencesGlobal, hobbiesGlobal, internshipsGlobal, languagesGlobal, linksGlobal, membershipsGlobal, profileGlobal, projectsGlobal, publicationsGlobal, referencesGlobal, skillsGlobal } from "@/app/dashboard/cv-create/proceed/templates/helpers/helpers";
+
+const PdfGenerationTemplateOne = ({ userId, aboutAI, skillsAi }) => {
 
 
     const [mDownload, setMDownload] = useState(false);
     const [profile, setProfile] = useState(null);
-    const [skills, setSkills] = useState(null);
+    const [skills, setSkills] = useState(skillsAi);
     const [awards, setAwards] = useState(null);
     const [memberships, setMemberships] = useState(null);
     const [languages, setLanguages] = useState(null);
@@ -20,19 +21,13 @@ const PdfGenerationTemplateOne = ({ userId }) => {
     const [publications, setPublications] = useState(null);
     const [links, setLinks] = useState(null);
     const [references, setReferences] = useState(null);
-    const [about, setAbout] = useState(null);
+    const [about, setAbout] = useState(aboutAI);
     const [projects, setProjects] = useState(null);
     const [hobbies, setHobbies] = useState(null);
 
     async function getData() {
-        let aboutData = await aboutGlobal(userId);
-        setAbout(aboutData);
-
         let profData = await profileGlobal(userId);
         setProfile(profData);
-
-        let skillData = await skillsGlobal(userId);
-        setSkills(skillData);
 
         let awardsData = await awardsGlobal(userId);
         setAwards(awardsData);
@@ -80,8 +75,6 @@ const PdfGenerationTemplateOne = ({ userId }) => {
         if (subDoc.exists() == false) {
             return router.replace('/dashboard/subscription');
         }
-
-
 
         // get profile data 
         let template = `
@@ -157,7 +150,15 @@ const PdfGenerationTemplateOne = ({ userId }) => {
             <div class="col-md-9">
                 <p style="font-size: 20px; font-weight: bold;">Profile</p>
                 <p style="font-size: 14px;">
-                    ${about}
+                `;
+        about
+            .filter((ab) => ab.checked === true)
+            .map((ab) => (
+                template += `
+                        ${ab.about}
+                    `
+            ));
+        template += `
                 </p>
             </div>
         </div>
@@ -169,11 +170,12 @@ const PdfGenerationTemplateOne = ({ userId }) => {
                     <p class="p-1 text-center" style="font-weight: bold; background-color: #1e1b4b;">Skills</p>
                     <div class="text-center" style="color: black;">
                         <!-- loop -->`
-        skills.map((skill, index) => {
-            template += `
-    <p>${skill.name}</p>
-`;
-        });
+        skills.filter((skill) => skill.checked === true)
+            .map((skill, index) => {
+                template += `
+                    <p>${skill.skill}</p>
+                `;
+            });
 
 
         template += `

@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react';
 import ResumeAi from '@/app/dashboard/openiai/page';
-import { Accordion, Alert, Button, Checkbox, Divider, Input, Loading, Modal, Textarea, Toggle } from 'react-daisyui';
+import { Accordion, Alert, Button, Checkbox, Divider, Input, Loading, Modal, Range, Textarea, Toggle } from 'react-daisyui';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '@/app/firebase/firebase';
@@ -372,7 +372,7 @@ const CreateResume = ({ params }) => {
                 <ProfileDetails userId={firebase_user.uid} />
                 <ExperienceAddEdit user_id={firebase_user.uid} />
                 <EducationAddEdit userId={firebase_user.uid} />
-                <SkillAddEdit user_id={firebase_user.uid} />
+                {/* <SkillAddEdit user_id={firebase_user.uid} /> */}
                 <AwardAddEdit userId={firebase_user.uid} />
                 <ReferencesEditDelete userId={firebase_user.uid} />
                 <HobbiesAddEdit userId={firebase_user.uid} />
@@ -466,22 +466,30 @@ const CreateResume = ({ params }) => {
 
                     <div className='border border-slate-500 rounded-lg p-6 w-full'>
                         <p className='text-base mb-6'>Skills</p>
-                        <div className='flex gap-8 flex-wrap'>
+                        <div className='grid grid-cols-2'>
                             {
                                 skillsAi.length > 0 ?
                                     skillsAi.map((skill, index) => (
-                                        <div className='flex gap-3 mb-3' key={index}>
-                                            <Checkbox
-                                                color="primary"
-                                                checked={skill.checked}
-                                                value={skill.skill}
-                                                onClick={() => addCheckedSkill(skill.id)}
-                                            />
-                                            <p className='text-sm'>{skill.skill}</p>
+                                        <div key={index} className='grid grid-cols-2'>
+                                            <div className='flex gap-3 mb-3' >
+                                                <Checkbox
+                                                    color="primary"
+                                                    checked={skill.checked}
+                                                    value={skill.skill}
+                                                    onClick={() => addCheckedSkill(skill.id)}
+                                                />
+                                                <p className='text-sm'>{skill.skill}</p>
+                                            </div>
+                                            <div>
+                                                <Range defaultValue="60" color="warning" />
+                                            </div>
                                         </div>
                                     ))
                                     : ''
                             }
+                        </div>
+                        <div className='flex gap-8 flex-wrap'>
+
                         </div>
 
                     </div>

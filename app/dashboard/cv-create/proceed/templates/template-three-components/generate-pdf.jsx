@@ -1,13 +1,13 @@
 'use client'
 import { useState, useEffect } from "react";
 import { Button, Loading } from "react-daisyui";
-import { aboutGlobal, awardsGlobal, educationGlobal, experiencesGlobal, internshipsGlobal, languagesGlobal, linksGlobal, membershipsGlobal, profileGlobal, projectsGlobal, publicationsGlobal, referencesGlobal, skillsGlobal } from "../helpers/helpers";
+import { aboutGlobal, awardsGlobal, educationGlobal, experiencesGlobal, hobbiesGlobal, internshipsGlobal, languagesGlobal, linksGlobal, membershipsGlobal, profileGlobal, projectsGlobal, publicationsGlobal, referencesGlobal, skillsGlobal } from "../helpers/helpers";
 import FileSaver from "file-saver";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/app/firebase/firebase";
 
 
-const GeneratePDF = ({userId}) => {
+const GeneratePDF = ({ userId }) => {
     const [mDownload, setMDownload] = useState(false);
     const [profile, setProfile] = useState(null);
     const [skills, setSkills] = useState(null);
@@ -22,6 +22,7 @@ const GeneratePDF = ({userId}) => {
     const [references, setReferences] = useState(null);
     const [about, setAbout] = useState(null);
     const [projects, setProjects] = useState(null);
+    const [hobbies, setHobbies] = useState(null);
 
     async function getData() {
         let aboutData = await aboutGlobal(userId);
@@ -60,6 +61,9 @@ const GeneratePDF = ({userId}) => {
         let projectsData = await projectsGlobal(userId);
         setProjects(projectsData);
 
+        let hobbiesData = await hobbiesGlobal(userId);
+        setHobbies(hobbiesData);
+
         let referencesData = await referencesGlobal(userId);
         setReferences(referencesData);
     }
@@ -68,20 +72,20 @@ const GeneratePDF = ({userId}) => {
         getData();
     }, []);
 
-  
+
 
     async function downloadPDF() {
-        
+
         setMDownload(true);
 
         let subDoc = await getDoc(doc(db, 'subscriptions', userId));
         // take user to subscription page to begin payment
         if (subDoc.exists() == false) {
             return router.replace('/dashboard/subscription');
-        } 
+        }
 
 
-        const template = `
+        let template = `
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -92,15 +96,15 @@ const GeneratePDF = ({userId}) => {
             <script src="https://kit.fontawesome.com/6557f5a19c.js" crossorigin="anonymous"></script>
         </head>
         <body>
-            <div class="container">
-                <div style="background-color: white; padding: 2.5rem; border: 4px solid #d97706;">
+            <div>
+                <div style="background-color: white; padding: 2.5rem; border-top: 4px solid #d97706;">
                     <!-- cv head -->
                     <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
                         <img src="${profile.file_url}" width="80" height="80" alt="profile" style="border-radius: 50%;">
-                        <div>
+                        <div style="width: 100%; text-align: center" >
                             <div>
                                 <h3 style="font-weight: bold; margin-bottom: 0.5rem; font-size: 1.25rem; line-height: 1.75rem;" >${profile.full_name}</h3>
-                                <p style="color: #808080; font-size: 0.875rem; line-height: 1.25rem; margin-bottom: 0.5rem;">${profile.professionalTitle}</p>
+                                <p style="color: #808080; font-size: 0.875rem; line-height: 1.25rem; margin-bottom: 0.5rem;">${profile.professionTitle}</p>
                             </div>
                         </div>
                     </div>
@@ -117,10 +121,10 @@ const GeneratePDF = ({userId}) => {
                      <div style="border-bottom: 1px solid #808080; margin-bottom: 1rem;">
                         <p style="margin-bottom: 0.5rem; font-weight: bold;">Experience</p>
                         <!-- loop about -->`;
-        
+
         experiences.map((exp, index) => {
-        
-        template+=  `
+
+            template += `
             <div>
                 <p style="color: #d97706; font-weight: bold; font-size: 1.125rem; line-height: 1.75rem;">${exp.title}, ${exp.companyName}</p>
                 <p style="font-size: 0.875rem; line-height: 1.25rem; margin-bottom: 0.5rem;">${exp.location} (${exp.startDate} - ${exp.endDate})</p>
@@ -131,8 +135,8 @@ const GeneratePDF = ({userId}) => {
                 </div>
             </div>`;
         });
-                        
-        template+=  `
+
+        template += `
                         <!-- loop about -->
                     </div>
                     <!-- Experience -->
@@ -142,7 +146,7 @@ const GeneratePDF = ({userId}) => {
                         <p style="margin-bottom: 0.5rem; font-weight: bold;">Education</p>
                         <!-- loop about -->`;
         education.map((edu, index) => {
-        template+=  `
+            template += `
         <div>
             <p style="color: #d97706; font-weight: bold; font-size: 1.125rem; line-height: 1.75rem;">${edu.degree}, ${edu.fieldStudy}</p>
             <p style="font-size: 0.875rem; line-height: 1.25rem; margin-bottom: 0.5rem;">${edu.school} (${edu.startDate} - ${edu.endDate})</p>
@@ -154,9 +158,30 @@ const GeneratePDF = ({userId}) => {
         </div>`;
         });
 
-        
-                        
-        template+=  `
+        template += `
+        <!-- loop about -->
+            </div>
+            <!-- Education -->
+
+            <!-- Publications -->
+            <div style="border-bottom: 1px solid #808080; margin-bottom: 1rem;">
+                <p style="margin-bottom: 0.5rem; font-weight: bold;">Projects</p>
+                <!-- loop about -->`;
+
+        projects.map((project, index) => {
+        template += `
+        <div>
+        <p style="color: #d97706; font-weight: bold; font-size: 1.125rem; line-height: 1.75rem;">${project.title}</p>
+        <div style="padding-left: 0.75rem;">
+        <ul>
+            <li>${project.description}</li>
+        </ul>
+        </div>
+        </div> `;
+        });
+
+
+        template += `
                         <!-- loop about -->
                     </div>
                     <!-- Education -->
@@ -165,9 +190,9 @@ const GeneratePDF = ({userId}) => {
                     <div style="border-bottom: 1px solid #808080; margin-bottom: 1rem;">
                         <p style="margin-bottom: 0.5rem; font-weight: bold;">Publications</p>
                         <!-- loop about -->`;
-        
-        publications.map((publication, index) => {        
-        template+=`
+
+        publications.map((publication, index) => {
+            template += `
         <div>
             <p style="color: #d97706; font-weight: bold; font-size: 1.125rem; line-height: 1.75rem;">${publication.title}</p>
             <div style="padding-left: 0.75rem;">
@@ -177,9 +202,9 @@ const GeneratePDF = ({userId}) => {
             </div>
         </div> `;
         });
-                   
-                        
-        template+=`
+
+
+        template += `
                         <!-- loop about -->
                     </div>
                     <!-- Publications -->
@@ -188,9 +213,9 @@ const GeneratePDF = ({userId}) => {
                      <div style="border-bottom: 1px solid #808080; margin-bottom: 1rem;">
                         <p style="margin-bottom: 0.5rem; font-weight: bold;">Internship</p>
                         <!-- loop about -->`
-        
-        internships.map((internship, index) => {  
-        template+=`
+
+        internships.map((internship, index) => {
+            template += `
             <div>
                 <p style="color: #d97706; font-weight: bold; font-size: 1.125rem; line-height: 1.75rem;">${internship.organization}, ${internship.role}</p>
                 <p style="font-size: 0.875rem; line-height: 1.25rem; margin-bottom: 0.5rem;">${internship.duration} month(s)</p>
@@ -201,9 +226,9 @@ const GeneratePDF = ({userId}) => {
                 </div>
             </div>`;
         });
-        
-                        
-        template+=`
+
+
+        template += `
                         <!-- loop about -->
                     </div>
                     <!-- Internship -->
@@ -213,13 +238,13 @@ const GeneratePDF = ({userId}) => {
                         <p style="margin-bottom: 0.5rem; font-weight: bold;">Skills</p>
                         <!-- loop -->
                         <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">`;
-        skills.map((skill,index) => {           
-        template+=`
-            <span key={index} style="padding: 1rem; background-color: #d97706; color: black; border-radius: 30.4px;" class="badge">${skill.skill}</span>
+        skills.map((skill, index) => {
+            template += `
+            <span key={index} style="padding: 1rem; background-color: #d97706; color: black; border-radius: 30.4px;" class="badge">${skill.name}</span>
         `;
         });
-                        
-                        `
+
+        template += `
                         </div>
                         <!-- loop -->
                     </div>
@@ -230,16 +255,35 @@ const GeneratePDF = ({userId}) => {
                         <p style="margin-bottom: 0.5rem; font-weight: bold;">Memberships</p>
                         <!-- loop -->
                         <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">`;
-        
-        memberships.map((membership,index) => { 
-        template+=`
+
+        memberships.map((membership, index) => {
+            template += `
             <span style="padding: 1rem; background-color: #d97706; color: black; border-radius: 30.4px;" class="badge">${membership.organization}</span>
         `;
         });
-           
-                            
+
+
+        template += `
+                        </div>
+                        <!-- loop -->
+                    </div>
+                    <!-- skills -->
         
-        template+=`
+                    <!-- Hobbies -->
+                    <div style="border-bottom: 1px solid #808080; margin-bottom: 1rem;">
+                        <p style="margin-bottom: 0.5rem; font-weight: bold;">Hobbies</p>
+                        <!-- loop -->
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">`;
+
+        hobbies.map((hobby, index) => {
+            template += `
+            <span style="padding: 1rem; background-color: #d97706; color: black; border-radius: 30.4px;" class="badge">${hobby.title}</span>
+        `;
+        });
+
+
+
+        template += `
                         </div>
                         <!-- loop -->
                     </div>
@@ -248,17 +292,17 @@ const GeneratePDF = ({userId}) => {
                     <!-- links -->
                     <div style="border-bottom: 1px solid #808080; margin-bottom: 1rem;">
                         <p style="margin-bottom: 0.5rem; font-weight: bold;">Links</p>`
-                        
-        links.map((link, index) => {             
-        template+=`
+
+        links.map((link, index) => {
+            template += `
         <div style="font-size: 0.875rem; line-height: 1.25rem; margin-bottom: 1rem;" >
             <p><span style="font-weight: bold; padding-right: 0.5rem;">${link.name}: </span><span style="color: #d97706;">${link.link}</span></p>
         </div>`;
         });
-                        
-        
-        
-        template+=`
+
+
+
+        template += `
                     </div>
                     <!-- links -->
         
@@ -266,12 +310,12 @@ const GeneratePDF = ({userId}) => {
                         <p style="margin-bottom: 0.5rem; font-weight: bold; margin-top: 2rem;" >References</p>
                         <div className="md:flex md:gap-20">
                             <!-- loop -->`;
-                            
-                            
-        
-        
+
+
+
+
         references.map((refrence, index) => {
-            template+=`
+            template += `
             <div>
                 <div style="font-size: 0.875rem; line-height: 1.25rem;">
                     <p style="font-weight: bold; color: #f59e0b;">${refrence.referee_name}</p>
@@ -282,9 +326,9 @@ const GeneratePDF = ({userId}) => {
                 </div>
             </div>`;
         });
-        
-                            
-        template+=`
+
+
+        template += `
                             <!-- loop -->
                         </div>
                         
@@ -307,7 +351,7 @@ const GeneratePDF = ({userId}) => {
                     "template": template,
                 }),
             };
-    
+
             let aboutAI = await fetch('/api/puppeteer', options);
             let blob = await aboutAI.blob();
             FileSaver.saveAs(blob, "cv.pdf");
@@ -318,12 +362,12 @@ const GeneratePDF = ({userId}) => {
     }
 
 
-    return (  
+    return (
         <Button onClick={() => downloadPDF()} color="primary">
             {mDownload == true ? <Loading /> : ''}
             download pdf
         </Button>
     );
 }
- 
+
 export default GeneratePDF;

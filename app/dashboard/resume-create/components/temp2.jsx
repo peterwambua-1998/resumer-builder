@@ -20,6 +20,7 @@ import Memberships from "./template-two-components/membership";
 import Publications from "./template-two-components/publications";
 import LinksUser from "./template-two-components/links";
 import Languages from "./template-two-components/languanges";
+import GeneratePDF from "./template-two-components/generate-pdf";
 
 const TempTwo = ({ userId, about, skills }) => {
 
@@ -53,10 +54,11 @@ const TempTwo = ({ userId, about, skills }) => {
     return (
         <div>
             <div className="flex flex-row-reverse mb-4">
-                <Button onClick={() => downloadPDF()} color="primary">
+                {/* <Button onClick={() => downloadPDF()} color="primary">
                     {mDownload == true ? <Loading /> : ''}
                     download pdf
-                </Button>
+                </Button> */}
+                <GeneratePDF userId={userId} skillsAi={skills} aboutAI={about} />
             </div>
             <div ref={pdfRef} className=" bg-white grid grid-cols-6 md:grid md:grid-cols-6">
                 <div className="col-span-2 bg-stone-700 pt-2 pl-2 pr-2 md:pt-5 md:pl-10 md:pr-10 text-white">
@@ -140,6 +142,8 @@ const TempTwo = ({ userId, about, skills }) => {
                     <ExperienceWidget user_id={userId} />
 
                     <Internship userId={userId} />
+
+                    
 
                     <Publications userId={userId} />
 
