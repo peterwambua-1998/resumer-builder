@@ -27,7 +27,7 @@ export async function POST(req, res) {
 
         return new Response(completion.choices[0].message.content, {status: 200});
     } catch (error) {
-        console.log(error);
+
         return new Response('error occurred please try again',{status: 500})
     }
 }

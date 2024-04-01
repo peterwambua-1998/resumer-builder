@@ -3,6 +3,9 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import TemplateOne from './cmponents/template-one';
 import TemplateTwo from './cmponents/template-two';
 import TemplateThree from './cmponents/template-three';
+import TemplateFour from './cmponents/template-four';
+import TemplateFive from './cmponents/template-five';
+import TemplateSix from './cmponents/template-six';
 
 const WrapperCoverLetter = ({coverLetter}) => {
     return (
@@ -15,6 +18,7 @@ const WrapperCoverLetter = ({coverLetter}) => {
                         <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template Three</Tab>
                         <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template Four</Tab>
                         <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template Five</Tab>
+                        <Tab selectedClassName="active-tab" className='m-tabs pt-2 pb-2 pl-4 pr-4 text-white font-semibold hover:cursor-pointer'>Template Six</Tab>
                     </TabList>
                     <TabPanel>
                         <TemplateOne coverLetter={coverLetter} />
@@ -26,10 +30,13 @@ const WrapperCoverLetter = ({coverLetter}) => {
                         <TemplateThree coverLetter={coverLetter} />
                     </TabPanel>
                     <TabPanel>
-                        <TemplateThree coverLetter={coverLetter} />
+                        <TemplateFour coverLetter={coverLetter} />
                     </TabPanel>
                     <TabPanel>
-                        <TemplateThree coverLetter={coverLetter} />
+                        <TemplateFive coverLetter={coverLetter} />
+                    </TabPanel>
+                    <TabPanel>
+                        <TemplateSix coverLetter={coverLetter} />
                     </TabPanel>
                 </Tabs>
             </div>

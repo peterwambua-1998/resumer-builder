@@ -106,7 +106,7 @@ const CoverLetter = ({ params }) => {
         try {
             const aboutAI = await fetch('/api/open-ai-cover-letter', options);
             const res = await aboutAI.json();
-            console.log(res['version-1']);
+            console.log(res);
             let resCoverLetterAi = [
                 { id: 1, checked: false, coverLetter: res['version-1'] },
                 { id: 2, checked: false, coverLetter: res['version-2'] }
@@ -117,7 +117,7 @@ const CoverLetter = ({ params }) => {
             toggleVisible();
             setViewHeight('h-[100%]');
         } catch (error) {
-
+            console.log(error);
         }
     }
 
@@ -178,8 +178,8 @@ const CoverLetter = ({ params }) => {
         const data = docSnap.data();
         if (data.jobDescription === null) {
             setQueryForJobDesc(false);
-            setShowJobDescriptionInput(true);
-            setViewHeight('h-[120vh]');
+            setShowJobDescriptionInput(false);
+            setViewHeight('h-max');
         } else {
             // get the data from firebase and show resume as it was saved
             await getResumeDataAsItWas();

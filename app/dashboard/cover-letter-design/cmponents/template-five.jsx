@@ -1,41 +1,30 @@
-const TemplateTwo = ({coverLetter}) => {
+'use client'
+
+const TemplateFive = ({ coverLetter }) => {
     return (
         <div className="cover-letter-padding-other">
-            <div className="bg-white text-black rounded pt-5 pr-20 pb-5 text-sm grid grid-cols-6">
-                {/* grid one */}
-                <div className="col-span-2 text-right w-[90%] pl-5 pt-2 pr-5 border-r border-slate-400">
-                    <div className="text-2xl font-bold">
-                        <p>Peter</p>
-                        <p>Wambua</p>
+            <div className="bg-white p-16">
+                {/* top area */}
+                <div className="grid grid-cols-2 mb-8">
+                    <div>
+                        <p className="text-3xl font-bold">Peter Wambua</p>
+                        <p className="text-sm text-[#808080]">progrommer</p>
                     </div>
-
-                    <p className="text-sm mt-4">programmer</p>
-
-                    <div className="mt-[20vh]">
-                        <p>To</p>
-                        <p>Mr Sydny</p>
-                    </div>
-
-                    <div className="mt-[20vh]">
-                        <p>From</p>
-                        <p>Peter Wambua</p>
-                        <p>Programmer</p>
+                    <div className="text-right text-sm">
                         <p>Machakos, Athiriver</p>
                         <p>pwambua25@gmail.com</p>
                         <p>+254715100539</p>
                     </div>
+
                 </div>
-                {/* grid one */}
+                {/* top area */}
 
+                <div className="border-b-4 border-green-500 mb-8"></div>
 
-                {/* grid two */}
-                <div className="col-span-4 pt-10">
-                    <p className="mb-2">4/1/2024</p>
-
-                    <p className="mb-2">Dear Mr, Sydny</p>
-
-                    <p className="mb-2">
-                    refurb my about me which is
+                <div>
+                    <p className="mb-2 font-semibold">Dear Hiring Team</p>
+                    <p className="mb-2 text-sm">
+                        refurb my about me which is
                         'Highly motivated and passionate individual with a strong foundation in JavaScript, HTML, CSS, and MySQL. With a keen interest in technology and a natural aptitude for problem-solving, I have dedicated myself to honing my skills in web development. Beyond my technical abilities, I possess a creative side, actively refining my drawing skills outside of work hours.  Driven by a genuine passion for coding and a curiosity for exploring new technologies, I am eager to leverage my expertise to contribute effectively to dynamic projects and collaborative teams. With a blend of technical proficiency and creative flair, I strive to deliver innovative solutions that exceed expectations.'
 
                         based on job description:
@@ -53,14 +42,11 @@ const TemplateTwo = ({coverLetter}) => {
                         Created system for school to manage results – edu.diwopacatholicschool.sc.ke
                         Point of sale system for a client – liqourhut.com
 
-                        my hobbies are Singings, my languages i speak english, kiswahili my skills are javascript, html, css, mysql, php, react nodejs
-                    </p>
+                        my hobbies are Singings, my languages i speak english, kiswahili my skills are javascript, html, css, mysql, php, react nodejs</p>
                 </div>
-                {/* grid two */}
-
             </div>
         </div>
     );
 }
 
-export default TemplateTwo;
+export default TemplateFive;

@@ -76,7 +76,7 @@ const CoverLetter = () => {
                                             <a className="active">Resumes</a>
                                         </Menu.Item>
                                         <Menu.Item>
-                                            <Link href='#' onClick={createResumeId}>Create Resume</Link>
+                                            {/*<Link href='#' onClick={createResumeId}>Create Resume</Link>*/}
                                         </Menu.Item>
                                     </Menu>
                                 </div>

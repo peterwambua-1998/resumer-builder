@@ -138,6 +138,13 @@ body {
   padding-right: 16%;
 }
 
+
+.cover-letter-padding-other {
+  padding-left: 12%;
+  padding-right: 12%;
+}
+
+
 .my-gradient {
   background: linear-gradient(302deg, rgba(245, 217, 91, 1) 0%, rgba(116, 249, 243, 1) 100%);
 }
