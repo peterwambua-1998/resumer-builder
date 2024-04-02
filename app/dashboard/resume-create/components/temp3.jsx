@@ -19,6 +19,8 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "@/app/firebase/firebase";
 import Hobbies from "../../cv-create/proceed/templates/template-three-components/hobbies";
 import Projects from "../../cv-create/proceed/templates/template-three-components/projects";
+import ProfilePhoto from "../../cv-create/proceed/templates/template-three-components/profilePhoto";
+import GeneratePDF from "./template-three-components/generate-pdf";
 
 const TempThree = ({ userId, about, skills }) => {
     const pdfRef = useRef();
@@ -29,7 +31,6 @@ const TempThree = ({ userId, about, skills }) => {
         try {
             const usb = onSnapshot(doc(db, 'profile', userId), doc => {
                 if (doc.data()) {
-                    console.log(doc.data());
                     setProfile(doc.data());
                 } else {
                     setProfile(null);
@@ -51,10 +52,11 @@ const TempThree = ({ userId, about, skills }) => {
     return (
         <div>
             <div className="flex flex-row-reverse mb-4">
-                <Button onClick={() => downloadPDF()} color="primary">
+                {/* <Button onClick={() => downloadPDF()} color="primary">
                     {mDownload == true ? <Loading /> : ''}
                     download pdf
-                </Button>
+                </Button> */}
+                <GeneratePDF userId={userId} skillsAi={skills} aboutAI={about} />
             </div>
             <div ref={pdfRef} className="bg-white p-10 border-t-4 border-amber-600">
                 {/* cv header */}
@@ -63,7 +65,8 @@ const TempThree = ({ userId, about, skills }) => {
                         profile == null ?
                             <Skeleton className="h-[40px] w-[40px] bg-slate-400 rounded-full"></Skeleton>
                             :
-                            <Image alt="profile-photo" src={profile.file_url} width={80} height={80} className="rounded-full" />
+                            <ProfilePhoto userId={userId} />
+                            // <Image alt="profile-photo" src={profile.file_url} width={80} height={80} className="rounded-full" />
                     }
 
                     <div className="text-=center">

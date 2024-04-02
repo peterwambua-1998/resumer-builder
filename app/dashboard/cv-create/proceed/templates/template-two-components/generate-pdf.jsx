@@ -7,7 +7,7 @@ import { aboutGlobal, awardsGlobal, educationGlobal, experiencesGlobal, internsh
 import FileSaver from "file-saver";
 
 
-const GeneratePDF = ({userId}) => {
+const GeneratePDF = ({ userId }) => {
     const [mDownload, setMDownload] = useState(false);
     const [profile, setProfile] = useState(null);
     const [skills, setSkills] = useState(null);
@@ -68,17 +68,17 @@ const GeneratePDF = ({userId}) => {
         getData();
     }, []);
 
-  
+
 
     async function downloadPDF() {
-        
+
         setMDownload(true);
 
         let subDoc = await getDoc(doc(db, 'subscriptions', userId));
         // take user to subscription page to begin payment
         if (subDoc.exists() == false) {
             return router.replace('/dashboard/subscription');
-        } 
+        }
 
         let template = `
         <!DOCTYPE html>
@@ -88,7 +88,7 @@ const GeneratePDF = ({userId}) => {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Document</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-            <script src="https://kit.fontawesome.com/6557f5a19c.js" crossorigin="anonymous"></script>
+            <script src="https://kit.fontawesome.com/6557f5a19c.js" crossorigin="anonymous" defer></script>
         </head>
         <body>
             <div>
@@ -125,13 +125,13 @@ const GeneratePDF = ({userId}) => {
                             <p style="font-weight: bold; font-size: 18px; border-bottom: 2px solid #22c55e;">Skills</p>
                             <div style="display: flex; justify-content: start; padding-left: 20px; padding-right: 20px;">
                                 <ul>`;
-        skills.map((skill,index) => { 
-        template += `
+        skills.map((skill, index) => {
+            template += `
                 <li  key={index}>${skill.name}</li>
         `;
         });
 
-        template+=  `
+        template += `
                                 </ul>
                             </div>
                         </div>
@@ -142,17 +142,17 @@ const GeneratePDF = ({userId}) => {
 
 
 
-        awards.map((award,index) => { 
-        template+=   `
+        awards.map((award, index) => {
+            template += `
         <p style="padding-left: 20px; padding-right: 20px; font-size: 14px; line-height: 24px;" key={index}>
             ${award.award}
         </p>
         `;
         });
-            
 
 
-        template+=  `
+
+        template += `
                         </div>
                         <!-- skills -->
                         <!-- membership -->
@@ -162,16 +162,16 @@ const GeneratePDF = ({userId}) => {
                             <div style="display: flex; justify-content: start; padding-left: 20px; padding-right: 20px;">
                                 <ul>`;
 
-        memberships.map((membership,index) => { 
-        template+=   `
+        memberships.map((membership, index) => {
+            template += `
             <li key={index}>${membership.organization}</li>
         `;
         });
 
 
 
-                                    
-        template+= `
+
+        template += `
                                 </ul>
                             </div>
                         </div>
@@ -181,9 +181,9 @@ const GeneratePDF = ({userId}) => {
                             <p style="font-weight: bold; font-size: 18px; border-bottom: 2px solid #22c55e;">Languages</p>
                             
                                 `;
-        
-        languages.map((language) => { 
-        template+=   `
+
+        languages.map((language) => {
+            template += `
         <div key={index}>
             <p style="padding-left: 20px; padding-right: 20px; font-weight: bold; font-size: 16px;">${language.name}</p>
             <p style="padding-left: 20px; padding-right: 20px; font-size: 14px; line-height: 14px;">
@@ -193,7 +193,7 @@ const GeneratePDF = ({userId}) => {
         `;
         });
 
-                                
+
         template += `
                         </div>
                     </div>
@@ -215,7 +215,7 @@ const GeneratePDF = ({userId}) => {
                             `;
 
         education.map((edu) => {
-        template+=  `
+            template += `
         <div style="display: flex; color: black;" key={index}>
             <div style="margin-bottom: 2rem;">
                 <p style="color: #22c55e; font-weight: bold; margin-bottom: 0.5rem; font-size: 1rem; line-height: 1.5rem;">${edu.degree}, ${edu.fieldStudy}</p>
@@ -229,7 +229,7 @@ const GeneratePDF = ({userId}) => {
         });
 
 
-        template+=  `
+        template += `
                             
                         </div>
                         <!-- education -->
@@ -240,8 +240,8 @@ const GeneratePDF = ({userId}) => {
                             `;
 
 
-        experiences.map((exp,index) => {
-        template+= `
+        experiences.map((exp, index) => {
+            template += `
         <div style="display: flex; color: black;">
             <div style="margin-bottom: 2rem;">
                 <p style="color: #22c55e; font-weight: bold; margin-bottom: 0.5rem; font-size: 1rem; line-height: 1.5rem;">${exp.title}, ${exp.companyName}</p>
@@ -256,19 +256,19 @@ const GeneratePDF = ({userId}) => {
 
 
 
-        template+=   `
+        template += `
                         </div>
                         <!-- experience -->
 
                         <!-- Internship -->
                         <div style="padding: 1.25rem;">
                             <p style="font-weight: bold; margin-bottom: 0.75rem; font-size: 1.25rem; line-height: 1.75rem;">Internship</p>
-                            <div style="display: flex; color: black;">
+                            <div style="color: black;">
                             `;
 
 
-        internships.map((internship) => {               
-        template+=  `
+        internships.map((internship) => {
+            template += `
         <div style="margin-bottom: 2rem;">
             <p style="color: #22c55e; font-weight: bold; margin-bottom: 0.5rem; font-size: 1rem; line-height: 1.5rem;">${internship.organization}, ${internship.role}</p>
             <p style="font-size: 0.875rem; line-height: 1.25rem; margin-bottom: 0.5rem;">${internship.duration} month(s)</p>
@@ -279,8 +279,8 @@ const GeneratePDF = ({userId}) => {
         `;
         });
 
-                                
-        template +=`
+
+        template += `
                             </div>
                         </div>
                         <!-- Internship -->
@@ -288,13 +288,13 @@ const GeneratePDF = ({userId}) => {
                         <!-- Publications -->
                         <div style="padding: 1.25rem;">
                             <p style="font-weight: bold; margin-bottom: 0.75rem; font-size: 1.25rem; line-height: 1.75rem;">Publications</p>
-                            <div style="display: flex; color: black;">
+                            <div style=" color: black;">
                             `;
 
 
 
-        publications.map((publication, index) => {               
-        template+= `
+        publications.map((publication, index) => {
+            template += `
         <div style="margin-bottom: 2rem;">
             <p style="color: #22c55e; font-weight: bold; margin-bottom: 0.5rem; font-size: 1rem; line-height: 1.5rem;">${publication.title}</p>
             
@@ -306,8 +306,8 @@ const GeneratePDF = ({userId}) => {
         });
 
 
-                                
-        template+=`
+
+        template += `
                             </div>
                         </div>
                         <!-- Publications -->
@@ -315,12 +315,12 @@ const GeneratePDF = ({userId}) => {
                         <!-- Links -->
                         <div style="padding: 1.25rem;">
                             <p style="font-weight: bold; margin-bottom: 0.75rem; font-size: 1.25rem; line-height: 1.75rem;">Links</p>
-                            <div style="display: flex; color: black;">
+                            <div style="color: black;">
                             `;
-        
-                            
+
+
         links.map((link, index) => {
-        template+= `
+            template += `
         <div style="margin-bottom: 2rem;" >
             <p style="color: #22c55e; font-weight: bold; margin-bottom: 0.5rem; font-size: 1rem; line-height: 1.5rem;">${link.name}</p>
             
@@ -332,8 +332,8 @@ const GeneratePDF = ({userId}) => {
         });
 
 
-                                
-        template +=`
+
+        template += `
                             </div>
                         </div>
                         <!-- Links -->
@@ -341,21 +341,20 @@ const GeneratePDF = ({userId}) => {
                         <!-- references -->
                         <div style="padding: 1.25rem;">
                             <p style="font-weight: bold; margin-bottom: 0.75rem; font-size: 1.25rem; line-height: 1.75rem;">References</p>
-                            <div style="font-size: 1rem; line-height: 1.5rem; display: flex; gap: 5rem; padding: 2.5rem;">
+                            <div style="font-size: 1rem; line-height: 1.5rem; display: flex; gap: 5rem; padding: 0.2rem;">
                             `;
-        references.map((refrence, index) => {             
-        template+= `
+        references.map((refrence, index) => {
+            template += `
         <div>
-            <p style="font-weight: bold; color: #22c55e;">${refrence.referee_name}</p>
-            <p>${refrence.organization}</p>
-            <p>${refrence.role}</p>
-            <p>${refrence.email}</p>
-            <p>${refrence.phone}</p>
+            <p style="font-weight: bold; color: #22c55e; margin: 0px;">${refrence.referee_name}</p>
+            <p style="margin: 0px; font-size: 0.75rem; line-height: 1rem;">${refrence.organization}</p>
+            <p style="margin: 0px; font-size: 0.75rem; line-height: 1rem;">${refrence.role}</p>
+            <p style="margin: 0px; font-size: 0.75rem; line-height: 1rem;">${refrence.email}</p>
+            <p style="margin: 0px; font-size: 0.75rem; line-height: 1rem;">${refrence.phone}</p>
         </div>
-        });
         `;
         });
-                                
+
         template += `
                             </div>
                         </div>
@@ -390,12 +389,12 @@ const GeneratePDF = ({userId}) => {
     }
 
 
-    return (  
+    return (
         <Button onClick={() => downloadPDF()} color="primary">
             {mDownload == true ? <Loading /> : ''}
             download pdf
         </Button>
     );
 }
- 
+
 export default GeneratePDF;

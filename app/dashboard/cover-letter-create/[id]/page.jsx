@@ -16,7 +16,7 @@ const CoverLetter = ({ params }) => {
     const [queryingForJobDesc, setQueryForJobDesc] = useState(true);
     const [showJobDescriptionInput, setShowJobDescriptionInput] = useState(false);
     const [jobDescription, setJobDescription] = useState(null);
-    const [firebase_user, loading, error] = useAuthState(auth);
+    const [firebase_user, loadings, error] = useAuthState(auth);
     const [visible, setVisible] = useState(false);
     const [visibleSave, setVisibleSave] = useState(false);
     // store the response from open ai - cover letter content
@@ -24,6 +24,10 @@ const CoverLetter = ({ params }) => {
     const [activeAbout, setActiveAbout] = useState(null);
 
     const [viewHeight, setViewHeight] = useState('h-[120vh]');
+
+    const [addressTo, setAddressedTo] = useState(null);
+
+    const [loading, setLoading] = useState(false);
 
     // modal content
     const toggleVisible = () => {
@@ -34,6 +38,21 @@ const CoverLetter = ({ params }) => {
         setShowSaveAlert(false);
         setVisibleSave(!visibleSave);
     };
+
+    async function saveAddressTo() {
+        setLoading(true);
+        try {
+            let coverLetterRef = doc(db, 'cover-letter', params.id);
+            const res = await updateDoc(coverLetterRef, {
+                'to': addressTo,
+            });
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+            console.log(error);
+        }
+    }
+
 
 
     async function getCoverLetterAi() {
@@ -178,8 +197,8 @@ const CoverLetter = ({ params }) => {
         const data = docSnap.data();
         if (data.jobDescription === null) {
             setQueryForJobDesc(false);
-            setShowJobDescriptionInput(false);
-            setViewHeight('h-max');
+            setShowJobDescriptionInput(true);
+            setViewHeight('h-[90vh]');
         } else {
             // get the data from firebase and show resume as it was saved
             await getResumeDataAsItWas();
@@ -306,12 +325,27 @@ const CoverLetter = ({ params }) => {
                                         </div>
                                     </Accordion.Content>
                                 </Accordion>
+
+
+                                <Accordion className="bg-amber-400 text-black mb-3">
+                                    <Accordion.Title className="text-xl font-medium text-black">
+                                        <p className="text-base font-semibold">Addressed To</p>
+                                    </Accordion.Title>
+                                    <Accordion.Content>
+                                        <div className="form-control w-full grow">
+                                            <Input placeholder="To: Mr Joe / Mrs Pam" className="bg-white text-black" onChange={(e) => setAddressedTo(e.target.value)}/>
+                                            <div className="">
+                                                <Button className="bg-amber-200 border-amber-500 text-black" onClick={saveAddressTo} >{loading == true ? <Loading /> : ''} Save</Button>
+                                            </div>
+                                        </div>
+                                    </Accordion.Content>
+                                </Accordion>
                             </div>
 
                             <div className="md:col-span-3">
 
                                 <div>
-                                    <WrapperCoverLetter coverLetter={coverLetterAi} />
+                                    <WrapperCoverLetter coverLetter={coverLetterAi} userId={firebase_user.uid} coverLetterId={params.id} />
                                 </div>
 
 

@@ -18,7 +18,7 @@ import Hobbies from "./template-one-components/hobbies";
 import Projects from "./template-one-components/projects";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import ProfilePhoto from "./template-one-components/profilePhoto";
+import ProfilePhoto from "../../cv-create/proceed/templates/template-one-components/profilePhoto";
 import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import Internship from "./template-one-components/internship";
@@ -69,7 +69,7 @@ const TempOne = ({ userId, about, skills }) => {
                 {/* profile photo and about */}
                 <div className="grid grid-cols-4 md:grid md:grid-cols-4 mt-5">
                     <div className="pl-5 pr-0 md:pl-20 md:pr-0 lg:pl-10 lg:pr-0">
-                        <ProfilePhoto userId={userId} />
+                        <ProfilePhoto userId={userId} smWidth={40} mdWidth={180} lgWidth={'190px'} />
                     </div>
                     <div className="col-span-3 md:pr-10 lg:pr-10">
                         <p className="mb-2 font-bold text-indigo-950 text-xs md:text-lg lg:text-lg">Profile </p>

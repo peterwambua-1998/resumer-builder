@@ -20,6 +20,9 @@ import Internship from './template-five-components/internship';
 import Memberships from './template-five-components/membership';
 import Publications from './template-five-components/publications';
 import LinksUser from './template-five-components/links';
+import ProfilePhoto from "../../cv-create/proceed/templates/template-five-components/profilePhoto";
+import GeneratePDF from './template-five-components/generate-pdf';
+
 
 const TempFive = ({userId, about, skills}) => {
     const [profile, setProfile] = useState(null);
@@ -55,10 +58,11 @@ const TempFive = ({userId, about, skills}) => {
     return ( 
         <div>
             <div className="flex flex-row-reverse mb-4">
-                <Button onClick={() => downloadPDF()} color="primary">
+                {/* <Button onClick={() => downloadPDF()} color="primary">
                     {mDownload == true ?  <Loading /> : ''}
                     download pdf
-                </Button>
+                </Button> */}
+                <GeneratePDF userId={userId} skillsAi={skills} aboutAI={about} />
             </div>
             <div ref={pdfRef} className="grid grid-cols-5 md:grid md:grid-cols-5 bg-white">
                     <div className="col-span-2 bg-[#1E1B4B] text-white text-sm p-5 ">
@@ -70,7 +74,8 @@ const TempFive = ({userId, about, skills}) => {
                                 </div>) :
 
                             (
-                                <Image  src={profile.file_url} width={120} height={120} alt="profile-image" className="w-[45%] md:w-[45%] lg:w-[30%] rounded-full" />
+                                <ProfilePhoto userId={userId} />
+                                // <Image  src={profile.file_url} width={120} height={120} alt="profile-image" className="w-[45%] md:w-[45%] lg:w-[30%] rounded-full" />
                             )
                         }
                         </div>

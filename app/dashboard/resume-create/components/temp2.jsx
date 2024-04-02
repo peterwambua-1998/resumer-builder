@@ -21,6 +21,7 @@ import Publications from "./template-two-components/publications";
 import LinksUser from "./template-two-components/links";
 import Languages from "./template-two-components/languanges";
 import GeneratePDF from "./template-two-components/generate-pdf";
+import ProfilePhoto from "../../cv-create/proceed/templates/template-two-components/profilePhoto";
 
 const TempTwo = ({ userId, about, skills }) => {
 
@@ -67,7 +68,8 @@ const TempTwo = ({ userId, about, skills }) => {
                             profile == null ?
                                 <Skeleton className="h-[40px] w-[40px] bg-slate-400 rounded-full"></Skeleton>
                                 :
-                                <Image alt="profile-photo" src={profile.file_url} width={120} height={120} className="rounded-full w-[40px] h-[40px] md:w-[120px] md:h-[120px] lg:w-[120px] lg:h-[120px]" />
+                                <ProfilePhoto userId={userId} smWidth={40} mdWidth={200} lgWidth={200} />
+                                // <Image alt="profile-photo" src={profile.file_url} width={120} height={120} className="rounded-full w-[40px] h-[40px] md:w-[120px] md:h-[120px] lg:w-[120px] lg:h-[120px]" />
                         }
                     </div>
                     {/* location email */}

@@ -10,7 +10,8 @@ export async function POST(req, res) {
 
     const pdfBuffer = await page.pdf({
         format: 'A4',
-        printBackground: true
+        printBackground: true,
+        timeout: 0,
     });
 
     const headers = new Headers();
