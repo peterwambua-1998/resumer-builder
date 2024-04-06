@@ -29,6 +29,11 @@ const CoverLetter = ({ params }) => {
 
     const [loading, setLoading] = useState(false);
 
+    const [showSaveAlert, setShowSaveAlert] = useState(false);
+
+    const [aboutAiSaved, setAboutAiSaved] = useState(null);
+
+
     // modal content
     const toggleVisible = () => {
         setVisible(!visible);
@@ -219,16 +224,16 @@ const CoverLetter = ({ params }) => {
                 setCoverLetterTitle(data['title']);
                 setJobDescription(data['jobDescription'])
             }
-
             // get about from firestore
             const q = query(collection(db, "cover-letter-ai-suggestions"), where("cover_letter", "==", params.id));
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
                 if (doc.data()) {
                     let data = doc.data();
+                    console.log(doc.data());
                     let d = [
-                        { id: data.letter_one_id, checked: data.letter_one_checked, about: data.letter_one_about },
-                        { id: data.letter_two_id, checked: data.letter_two_checked, about: data.letter_two_about },
+                        { id: data.letter_one_id, checked: data.letter_one_checked, coverLetter: data.letter_one_about },
+                        { id: data.letter_two_id, checked: data.letter_two_checked, coverLetter: data.letter_two_about },
                     ]
                     setCoverLetterAi(d);
                 }
@@ -247,22 +252,21 @@ const CoverLetter = ({ params }) => {
                 let coverLetterRef = doc(db, 'cover-letter', params.id);
                 let aiSuggestionsRef = collection(db, 'cover-letter-ai-suggestions');
                 const res = await updateDoc(coverLetterRef, {
-                    'title': coverLetterTitleTitle,
+                    'title': coverLetterTitle,
                     'jobDescription': jobDescription,
                 });
 
                 const aboutAiAboutResponse = await addDoc(aiSuggestionsRef, {
-                    'resume_id': params.id,
-                    'letter_one_id': aboutAi[0].id,
-                    'letter_one_about': aboutAi[0].about,
-                    'letter_one_checked': aboutAi[0].checked,
-                    'letter_two_id': aboutAi[1].id,
-                    'letter_two_checked': aboutAi[1].about,
-                    'letter_two_about': aboutAi[1].checked,
+                    'cover_letter': params.id,
+                    'letter_one_id': coverLetterAi[0].id,
+                    'letter_one_about': coverLetterAi[0].coverLetter,
+                    'letter_one_checked': coverLetterAi[0].checked,
+                    'letter_two_id': coverLetterAi[1].id,
+                    'letter_two_checked': coverLetterAi[1].checked,
+                    'letter_two_about': coverLetterAi[1].coverLetter,
                 });
 
                 setAboutAiSaved(aboutAiAboutResponse.id);
-
                 setShowSaveAlert(true);
 
             } catch (error) {
@@ -388,6 +392,30 @@ const CoverLetter = ({ params }) => {
 
 
             }
+
+            <Modal.Legacy open={visibleSave} className="bg-white max-w-5xl">
+                <Modal.Header >
+                    <p className="text-lg mb-0 border-b pb-4">Save Cover Letter</p>
+                </Modal.Header>
+                <Modal.Body className="p-0">
+                    {
+                        showSaveAlert ?
+                            <Alert icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info shrink-0 w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>}>
+                                <span>Document saved!</span>
+                            </Alert> : <div></div>
+                    }
+                    <div>
+                        <label className="label">Cover letter title</label>
+                        <Input className='bg-white w-full' placeholder='Ex: Job title' defaultValue={coverLetterTitle} onChange={(e) => setCoverLetterTitle(e.target.value)} />
+                    </div>
+                </Modal.Body>
+                <Modal.Actions>
+                    <Button type="button" onClick={toggleVisibleSave} >Close</Button>
+                    <Button type="button" className="bg-[#F59E0B] text-white border-none" onClick={saveResume}>Save</Button>
+                </Modal.Actions>
+            </Modal.Legacy>
 
         </div>
 

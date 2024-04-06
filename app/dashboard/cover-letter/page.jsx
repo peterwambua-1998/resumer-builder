@@ -11,6 +11,7 @@ const CoverLetter = () => {
     const [firebase_user, loading, error] = useAuthState(auth);
     const [coverLetters, setCoverLetters] = useState([]);
     const [checkingCoverLetters, setCheckingCoverLetters] = useState(true);
+    var [editClicked, setEditClicked] = useState(false);
     const router = useRouter();
 
     async function checkCoverLetter() {
@@ -41,7 +42,6 @@ const CoverLetter = () => {
                 'created_at': Timestamp.now()
             });
             router.push(`/dashboard/cover-letter-create/${res.id}`);
-
         } catch (error) {
             console.log(error);
         }
@@ -49,7 +49,8 @@ const CoverLetter = () => {
 
 
     function editResume(id) {
-        router.push(`/dashboard/over-letter-create/${id}`);
+        setEditClicked(true);
+        router.push(`/dashboard/cover-letter-create/${id}`);
     }
 
     useEffect(() => {
@@ -76,14 +77,14 @@ const CoverLetter = () => {
                                             <a className="active">Resumes</a>
                                         </Menu.Item>
                                         <Menu.Item>
-                                            {/*<Link href='#' onClick={createResumeId}>Create Resume</Link>*/}
+                                            <Link href='#' onClick={createCoverLetterId}>Create Resume</Link>
                                         </Menu.Item>
                                     </Menu>
                                 </div>
                                 <div className="md:col-span-3">
                                     <div className="md:grid md:grid-cols-3 gap-4">
                                         {
-                                            resumes.map((resume, index) => (
+                                            coverLetters.map((resume, index) => (
                                                 <Card key={index} className="border-slate-500">
                                                     <Card.Body>
                                                         <Card.Title tag="h2">{resume.title}</Card.Title>

@@ -61,90 +61,213 @@ const TemplateFour = ({ userId }) => {
 
     return (
         <div>
-            <div className="flex flex-row-reverse mb-4">
+            <div classNameName="flex flex-row-reverse mb-4">
                 <Button onClick={() => downloadPDF()} color="primary">
                     {mDownload == true ?  <Loading /> : ''}
                     download pdf
                 </Button>
             </div>
-            <div ref={pdfRef} className=" m-bg p-6">
-                {/* top area */}
-                <div className="md:grid md:grid-cols-5">
-                    <div className="col-span-1 pl-2 ">
-                        <ProfilePhoto userId={userId} smWidth={40} mdWidth={160} lgWidth={160} />
-                    </div>
-                    <div className="col-span-4 pl-10">
-                        <div className="border-b  pb-5">
+            <div className="">
+                <div className="bg-white p-5">
+                    {/* <!-- name and role --> */}
+                    <div className="flex gap-4">
+                        <div className="w-[2%] bg-violet-900"></div>
+                        <div>
                             {
-                                profile == null ? (<div>Loading...</div>) : (
-                                    <div>
-                                        <p className="text-lg font-bold text-cyan-400">{profile.full_name}</p>
-                                        <p className="font-semibold text-[#808080] mt-1">{profile.professionTitle}</p>
-                                    </div>
-                                
-                                )
+                                profile !== null ? <p className="text-3xl font-bold">{profile.full_name}</p> : <p></p>
                             }
-                            
-                        <AboutMe useId={userId} />
                         </div>
-                    
-                            {
-                                profile == null ? (<div>Loading...</div>) : (
-                                    <div className="pt-5 grid grid-cols-3 text-sm">
-                                        <p><span><FontAwesomeIcon icon={faPhone} className="text-cyan-400" /> {profile.phoneNumber}</span></p>
-                                        <p><span><FontAwesomeIcon icon={faEnvelope} className="text-cyan-400" /> {profile.email}</span></p>
-                                        <p ><span><FontAwesomeIcon icon={faLocation} className="text-cyan-400" /> {profile.location}</span></p>
+                    </div>
+                    <div className="mt-4 pb-2 border-b border-slate-400">
+                        {
+                            profile !== null ? <p className="text-violet-900">programmer</p> : <p></p>
+                        }
+                    </div>
+                    {/* <!-- name and role --> */}
+
+                    {/* <!-- contact --> */}
+                    <div className="mt-2">
+                        <p className="text-sm text-[#808080] font-bold">CONTACT</p>
+                        <div className="grid grid-cols-3 text-sm mt-2">
+                            <div className="flex">
+                                <p><FontAwesomeIcon icon={faEnvelope} className="w-[100%] md:w-[100%] lg:w-[100%]" /></p>
+                                <p>pwambua25@gmail.com</p>
+                            </div>
+                            <div className="flex">
+                                <p>
+                                <FontAwesomeIcon icon={faLocation} className="w-[100%] md:w-[100%] lg:w-[100%]" /> 
+                                </p>
+                                <p>Machakos, Athiriver</p>
+                            </div>
+                            <div className="flex">
+                                <p>
+                                <FontAwesomeIcon icon={faPhone} className="w-[100%] md:w-[100%] lg:w-[100%] " />
+                                </p>
+                                <p>0722848772</p>
+                            </div>
+                        </div>
+                    </div>
+                    {/* <!-- contact --> */}
+
+
+                    {/* <!-- grid --> */}
+                    <div className="grid grid-cols-6 mt-6 gap-10">
+                        <div className="col-span-4">
+                            {/* <!-- profile --> */}
+                            <div className="mb-10">
+                                <p className="text-violet-900 font-bold">Experience</p>
+                                <div className="mt-2 mb-2">
+                                    <p className="text-lg font-semibold">Software Engineer <span className="text-[#808080]">@ Egnite - Independent Consulting</span></p>
+                                    <p className="text-sm font-semibold text-[#475569]">August 2022 - December 2022</p>
+                                    <p className="text-sm"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium dignissimos repellat porro expedita officiis, at libero aliquid ratione ipsam fuga aperiam esse vitae praesentium molestias deserunt, reiciendis, nesciunt distinctio veritatis. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam rerum accusamus ex? Explicabo, alias ex placeat repellat expedita aspernatur quae sint porro voluptas asperiores soluta, unde mollitia sunt. Similique, iste?</p>
+                                </div>
+                                <div className="mt-2">
+                                    <p className="text-lg font-semibold">Software Engineer <span className="text-[#808080]">@ Egnite - Independent Consulting</span></p>
+                                    <p className="text-sm font-semibold text-[#475569]">August 2022 - December 2022</p>
+                                    <p className="text-sm"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium dignissimos repellat porro expedita officiis, at libero aliquid ratione ipsam fuga aperiam esse vitae praesentium molestias deserunt, reiciendis, nesciunt distinctio veritatis. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam rerum accusamus ex? Explicabo, alias ex placeat repellat expedita aspernatur quae sint porro voluptas asperiores soluta, unde mollitia sunt. Similique, iste?</p>
+                                </div>
+                            </div>
+                            {/* <!-- profile --> */}
+
+
+                            {/* <!-- profile --> */}
+                            <div className="mb-10">
+                                <p className="text-violet-900 font-bold">Education</p>
+                                <div className="mt-2 mb-2">
+                                    <p className="text-lg font-semibold">Software Engineer <span className="text-[#808080]">@ Egnite - Independent Consulting</span></p>
+                                    <p className="text-sm font-semibold text-[#475569]">August 2022 - December 2022</p>
+                                    <p className="text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium dignissimos repellat porro expedita officiis, at libero aliquid ratione ipsam fuga aperiam esse vitae praesentium molestias deserunt, reiciendis, nesciunt distinctio veritatis. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam rerum accusamus ex? Explicabo, alias ex placeat repellat expedita aspernatur quae sint porro voluptas asperiores soluta, unde mollitia sunt. Similique, iste?</p>
+                                </div>
+                                <div className="mt-2">
+                                    <p className="text-lg font-semibold">Software Engineer <span className="text-[#808080]">@ Egnite - Independent Consulting</span></p>
+                                    <p className="text-sm font-semibold text-[#475569]">August 2022 - December 2022</p>
+                                    <p className="text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium dignissimos repellat porro expedita officiis, at libero aliquid ratione ipsam fuga aperiam esse vitae praesentium molestias deserunt, reiciendis, nesciunt distinctio veritatis. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam rerum accusamus ex? Explicabo, alias ex placeat repellat expedita aspernatur quae sint porro voluptas asperiores soluta, unde mollitia sunt. Similique, iste?</p>
+                                </div>
+                            </div>
+                            {/* <!-- profile --> */}
+
+                            {/* <!-- Projects --> */}
+                            <div className="mb-10">
+                                <p className="text-violet-900 font-bold">Projects</p>
+                                <div className="mt-2 mb-2">
+                                    <p className="text-lg font-semibold">Project one</p>
+                                    <p className="text-sm"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium dignissimos repellat porro expedita officiis, at libero aliquid ratione ipsam fuga aperiam esse vitae praesentium molestias deserunt, reiciendis, nesciunt distinctio veritatis. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam rerum accusamus ex? Explicabo, alias ex placeat repellat expedita aspernatur quae sint porro voluptas asperiores soluta, unde mollitia sunt. Similique, iste?</p>
+                                </div>
+                                <div className="mt-2 mb-2">
+                                    <p className="text-lg font-semibold">Project one</p>
+                                    <p className="text-sm"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium dignissimos repellat porro expedita officiis, at libero aliquid ratione ipsam fuga aperiam esse vitae praesentium molestias deserunt, reiciendis, nesciunt distinctio veritatis. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam rerum accusamus ex? Explicabo, alias ex placeat repellat expedita aspernatur quae sint porro voluptas asperiores soluta, unde mollitia sunt. Similique, iste?</p>
+                                </div>
+                            </div>
+                            {/* <!-- Projects --> */}
+
+                            {/* <!-- Projects --> */}
+                            <div className="mb-10">
+                                <p className="text-violet-900 font-bold">Internship Work</p>
+                                <div className="mt-2 mb-2">
+                                    <p className="text-lg font-semibold">Software Engineer <span className="text-[#808080]">@ Egnite - Independent Consulting</span></p>
+                                    <p className="text-sm font-semibold text-[#475569]">2 months</p>
+                                    <p className="text-sm"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium dignissimos repellat porro expedita officiis, at libero aliquid ratione ipsam fuga aperiam esse vitae praesentium molestias deserunt, reiciendis, nesciunt distinctio veritatis. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam rerum accusamus ex? Explicabo, alias ex placeat repellat expedita aspernatur quae sint porro voluptas asperiores soluta, unde mollitia sunt. Similique, iste?</p>
+                                </div>
+                                <div className="mt-2">
+                                    <p className="text-lg font-semibold">Software Engineer <span className="text-[#808080]">@ Egnite - Independent Consulting</span></p>
+                                    <p className="text-sm font-semibold text-[#475569]">3 months</p>
+                                    <p className="text-sm"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium dignissimos repellat porro expedita officiis, at libero aliquid ratione ipsam fuga aperiam esse vitae praesentium molestias deserunt, reiciendis, nesciunt distinctio veritatis. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam rerum accusamus ex? Explicabo, alias ex placeat repellat expedita aspernatur quae sint porro voluptas asperiores soluta, unde mollitia sunt. Similique, iste?</p>
+                                </div>
+                            </div>
+                            {/* <!-- Projects --> */}
+
+                            {/* <!-- Links --> */}
+                            <div className="mb-10">
+                                <p className="text-violet-900 font-bold">Publications</p>
+                                <div className="mt-2 mb-2">
+                                    <p className="text-base font-semibold">Pub One</p>
+                                    <p className="text-sm text-[#475569]"> http://localhost:3000/dashboard/cv-create/proceed</p>
+                                </div>
+                                <div className="mt-2 mb-2">
+                                    <p className="text-base font-semibold">Pub Two</p>
+                                    <p className="text-sm text-[#475569]"> http://localhost:3000/dashboard/cv-create/proceed</p>
+                                </div>
+                            </div>
+                            {/* <!-- Links --> */}
+
+                            {/* <!-- Links --> */}
+                            <div className="mb-10">
+                                <p className="text-violet-900 font-bold">Links</p>
+                                <div className="mt-2 mb-2">
+                                    <p className="text-base font-semibold">Website</p>
+                                    <p className="text-sm text-[#475569]"> http://localhost:3000/dashboard/cv-create/proceed</p>
+                                </div>
+                                <div className="mt-2 mb-2">
+                                    <p className="text-base font-semibold">Website</p>
+                                    <p className="text-sm text-[#475569]"> http://localhost:3000/dashboard/cv-create/proceed</p>
+                                </div>
+                            </div>
+                            {/* <!-- Links --> */}
+
+                            <div className="mb-10">
+                                <p className="text-violet-900 font-bold">References</p>
+                                <div className="flex gap-10 flex-wrap">
+                                    <div className="text-xs">
+                                        <p className="text-[8px] md:text-xs lg:text-sm font-semibold mb-2 md:mb-2 lg:mb-2">{'refrence.referee_name'}</p>
+                                        <p className="text-[6px] md:text-[8px] lg:text-xs mb-2 md:mb-2 lg:mb-2">{'refrence.organization'}</p>
+                                        <p className="text-[6px] md:text-[8px] lg:text-xs mb-2 md:mb-2 lg:mb-2">{'refrence.role'}</p>
+                                        <p className="text-[6px] md:text-[8px] lg:text-xs mb-2 md:mb-2 lg:mb-2">{'refrence.email'}</p>
+                                        <p className="text-[6px] md:text-[8px] lg:text-xs">{'refrence.phone'}</p>
                                     </div>
-                                
-                                )
-                            }
-                            
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className="col-span-2">
+                            {/* <!-- skills --> */}
+                            <div className="mb-10">
+                                <p className="text-violet-900 font-bold">Skills</p>
+                                <div className="flex gap-2 flex-wrap text-sm">
+                                    <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">Skill one</span>
+                                    <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">Skill one</span>
+                                    <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">Skill one</span>
+                                    <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">Skill one</span>
+                                    <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">Skill one</span>
+                                </div>
+                            </div>
+                            {/* <!-- skills --> */}
+
+                            {/* <!-- languages --> */}
+                            <div className="mb-10">
+                                <p className="text-violet-900 font-bold">Languages</p>
+                                <div className="flex gap-2 flex-wrap text-sm">
+                                    <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">Swahili (native)</span>
+                                    <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">English (native)</span>
+                                    <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">Swahili (native)</span>
+                                    <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">English (native)</span>
+                                </div>
+                            </div>
+                            {/* <!-- languages --> */}
+
+                            {/* <!-- Memberships --> */}
+                            <div className="mb-10">
+                                <p className="text-violet-900 font-bold">Memberships</p>
+                                <div className="flex gap-2 flex-wrap text-sm">
+                                    <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">Swahili (native)</span>
+                                    <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">English (native)</span>
+                                    <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">Swahili (native)</span>
+                                    <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">English (native)</span>
+                                </div>
+                            </div>
+                            {/* <!-- Memberships --> */}
+
+                            {/* <!-- Hobbies --> */}
+                            <div className="mb-10">
+                                <p className="text-violet-900 font-bold">Hobbies</p>
+                                <div className="flex gap-2 flex-wrap text-sm">
+                                    <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">Singing</span>
+                                    <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">Writing</span>
+                                </div>
+                            </div>
+                            {/* <!-- Hobbies --> */}
+                        </div>
                     </div>
                 </div>
-                {/* experience */}
-                <ExperienceWidget user_id={userId} />
-                {/* experience */}
-
-                {/* education */}
-                <EducationWidget user_id={userId} />
-                {/* education */}
-
-                <Internship userId={userId} />
-
-                <Publications userId={userId} />
-
-                <LinksUser userId={userId} />
-
-                {/* awards */}
-                <Award userId={userId} />
-                {/* awards */}
-
-                {/* projects */}
-                <Projects userId={userId} />
-
-                {/* skills */}
-                <SkillWidget user_id={userId} />
-                {/* skills */}
-
-
-                {/* hobbie */}
-
-                <Hobbies userId={userId} />
-                {/* hobbie */}
-
-                <Memberships  userId={userId} />
-
-                {/* languages */}
-                <Languages userId={userId} />
-                {/* languages */}
-                
-                
-
-                {/* references */}
-                <References userId={userId}  />
-                {/* references */}
-
-
             </div>
         </div>
     );
