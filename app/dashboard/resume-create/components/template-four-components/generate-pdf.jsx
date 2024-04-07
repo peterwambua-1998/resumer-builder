@@ -1,14 +1,16 @@
 'use client'
+import { db } from "@/app/firebase/firebase";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { Button, Loading } from "react-daisyui";
-import { aboutGlobal, awardsGlobal, educationGlobal, experiencesGlobal, hobbiesGlobal, internshipsGlobal, languagesGlobal, linksGlobal, membershipsGlobal, profileGlobal, projectsGlobal, publicationsGlobal, referencesGlobal, skillsGlobal } from "../helpers/helpers";
+import { aboutGlobal, awardsGlobal, educationGlobal, experiencesGlobal, hobbiesGlobal, internshipsGlobal, languagesGlobal, linksGlobal, membershipsGlobal, profileGlobal, projectsGlobal, publicationsGlobal, referencesGlobal, skillsGlobal } from "@/app/dashboard/cv-create/proceed/templates/helpers/helpers";
 import FileSaver from "file-saver";
 
 
-const GeneratePDF = ({userId}) => {
+const GeneratePDF = ({userId, aboutAI, skillsAi}) => {
     const [mDownload, setMDownload] = useState(false);
     const [profile, setProfile] = useState(null);
-    const [skills, setSkills] = useState(null);
+    const [skills, setSkills] = useState(skillsAi);
     const [awards, setAwards] = useState(null);
     const [memberships, setMemberships] = useState(null);
     const [languages, setLanguages] = useState(null);
@@ -18,22 +20,13 @@ const GeneratePDF = ({userId}) => {
     const [publications, setPublications] = useState(null);
     const [links, setLinks] = useState(null);
     const [references, setReferences] = useState(null);
-    const [about, setAbout] = useState(null);
+    const [about, setAbout] = useState(aboutAI);
     const [projects, setProjects] = useState(null);
     const [hobbies, setHobbies] = useState(null);
 
     async function getData() {
-        let aboutData = await aboutGlobal(userId);
-        setAbout(aboutData);
-
         let profData = await profileGlobal(userId);
         setProfile(profData);
-
-        let skillData = await skillsGlobal(userId);
-        setSkills(skillData);
-
-        let hobbiesData = await hobbiesGlobal(userId);
-        setHobbies(hobbiesData);
 
         let awardsData = await awardsGlobal(userId);
         setAwards(awardsData);
@@ -56,6 +49,9 @@ const GeneratePDF = ({userId}) => {
         let publicationsData = await publicationsGlobal(userId);
         setPublications(publicationsData);
 
+        let hobbiesData = await hobbiesGlobal(userId);
+        setHobbies(hobbiesData);
+
         let linksData = await linksGlobal(userId);
         setLinks(linksData);
 
@@ -73,7 +69,15 @@ const GeneratePDF = ({userId}) => {
   
 
     async function downloadPDF() {
+        
         setMDownload(true);
+
+        let subDoc = await getDoc(doc(db, 'subscriptions', userId));
+        // take user to subscription page to begin payment
+        if (subDoc.exists() == false) {
+            return router.replace('/dashboard/subscription');
+        } 
+
         let template = `
         <!DOCTYPE html>
 <html lang="en">
@@ -140,7 +144,16 @@ const GeneratePDF = ({userId}) => {
 
             <div class="mt-4">
                 <p class="text-sm text-[#808080] font-bold">ABOUT</p>
-                <p class="text-sm">${about}</p>
+                `
+                about
+                .filter((ab) => ab.checked === true)
+                .map((ab) => (
+                    template += `
+                    <p class="text-sm"> ${ab.about}</p>
+                        `
+                ));
+                
+            `
             </div>
 
             <!-- grid -->
@@ -281,10 +294,10 @@ const GeneratePDF = ({userId}) => {
                     <div class="mb-10">
                         <p class="text-violet-900 font-bold">Skills</p>
                         <div class="flex gap-2 flex-wrap text-sm">`
-                        
-                        skills.map((skill) => {
+                        skills.filter((skill) => skill.checked === true)
+                        .map((skill) => {
                             template+=`
-                                <span class="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">${skill.name}</span>
+                                <span class="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">${skill.skill}</span>
                             `
                         })
                         
@@ -344,7 +357,9 @@ const GeneratePDF = ({userId}) => {
     </div>
 </body>
 
-</html>`;
+</html>`
+        ;
+
 
         try {
             const options = {

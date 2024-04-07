@@ -12,7 +12,7 @@ const AboutMe = ({ about }) => {
                 about
                     .filter((skill) => skill.checked === true)
                     .map((skill) => (
-                        <p className="text-sm mt-1" key={skill.id}>{skill.about}</p>
+                        <p className="text-sm" key={skill.id}>{skill.about}</p>
                     ))
             }
         </div>

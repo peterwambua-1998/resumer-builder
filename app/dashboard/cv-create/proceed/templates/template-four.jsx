@@ -81,7 +81,7 @@ const TemplateFour = ({ userId }) => {
                     {/* <!-- name and role --> */}
 
                     {/* <!-- contact --> */}
-                    <div className="mt-2">
+                    <div className="mt-4">
                         <p className="text-sm text-[#808080] font-bold">CONTACT</p>
                         {
                             profile == null ? 
@@ -122,6 +122,10 @@ const TemplateFour = ({ userId }) => {
                         
                     </div>
                     {/* <!-- contact --> */}
+
+                    {/* about */}
+                    <AboutMe useId={userId} />
+                    {/* about */}
 
 
                     {/* <!-- grid --> */}
