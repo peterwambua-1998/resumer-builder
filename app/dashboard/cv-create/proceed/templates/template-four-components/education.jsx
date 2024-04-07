@@ -28,34 +28,18 @@ const EducationWidget = ({user_id}) => {
     }, [])
    
     return (  
-           
-
-        <div>
-            <div className="md:grid md:grid-cols-5 mt-10">
-                <div className="col-span-1 pl-2 mb-5">
-                </div>
-                <div className="col-span-4 pl-10 mb-5">
-                    <p className="font-bold text-lg  border-b">Education</p>
-                </div>
-            </div>
-                    
-                {
+        <div className="mb-10">
+            <p className="text-violet-900 font-bold">Education</p>
+            {
                 eduData.length > 0 ? (eduData.map((edu, index) => (
-                    <div className="md:grid md:grid-cols-5 mt-2" key={index}>
-                        <div className="col-span-1 pl-2 text-right mb-6">
-                            <p>{edu.school}</p>
-                            <p className="text-xs text-[#808080]">{edu.startDate} - {edu.endDate}</p>
-                        </div>
-                        <div className="col-span-4 pl-10 mb-6">
-                            <p>{edu.degree}, {edu.fieldStudy}</p>
-                            <p className="text-sm text-[#808080]">{edu.descriptionEdu}</p>
-                        </div>
+                    <div className="mt-2 mb-2">
+                        <p className="text-lg font-semibold">{edu.school}</p>
+                        <p className="text-sm font-semibold text-[#475569]">{edu.startDate} - {edu.endDate}</p>
+                        <p className="text-sm">{edu.descriptionEdu}</p>
                     </div>
                 ))) : <div></div>
-                }
-
-        </div>  
-           
+            }
+        </div> 
     );
 }
  

@@ -3,7 +3,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Badge } from "react-daisyui";
 
-const Languages = ({userId}) => {
+const Languages = ({ userId }) => {
     const [languages, setLanguages] = useState([]);
 
     function getLanguages() {
@@ -25,37 +25,22 @@ const Languages = ({userId}) => {
         getLanguages();
     }, []);
 
-    
-        return (
-           
-            <div>
 
-                <div className="md:grid md:grid-cols-5 mt-5">
-                <div className="col-span-1 pl-2 mb-5">
-                </div>
-                <div className="col-span-4 pl-10 mb-5">
-                    <p className="font-bold text-lg  border-b">Languages</p>
-                </div>
+    return (
+        <div className="mb-10">
+            <p className="text-violet-900 font-bold">Languages</p>
+            <div className="flex gap-2 flex-wrap text-sm">
+                {
+                    languages.length > 0 ? languages.map((lang, index) => (
+                        <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">{lang.name} ({lang.description})</span>
+                    )) : <span></span>
+                }
 
-                <div className="col-span-1 pl-2 text-right">
-                    <p></p>
-                    <p className="text-xs text-[#808080]"></p>
-                </div>
-                <div className="col-span-4 pl-10 mb-6">
-                    <div className="md:flex flex-wrap  md:gap-4">
-                    {languages.length > 0 ? (languages.map((lang, index) => (
-                        <div key={index}>
-                            <div><Badge className="p-4 bg-cyan-400 text-black">{lang.name} - ({lang.description})</Badge></div>
-                        </div>
-                        ))): (<div className="text-[#808080] text-sm p-2 md:p-5 lg:p-5">You currently have no languages data</div>)
-                    }
-                    </div>
-                </div>
             </div>
-            </div>
+        </div>
 
-        );
+    );
 }
 
- 
+
 export default Languages;

@@ -8,9 +8,9 @@ import { Input } from "postcss";
 import { useState, useEffect } from "react";
 import { Accordion, Modal } from "react-daisyui";
 
-const Publications = ({userId}) => {
+const Publications = ({ userId }) => {
     const [publications, setPublications] = useState([]);
-    
+
     function getPublications() {
         try {
             let publicationsRef = collection(db, 'publications');
@@ -34,33 +34,21 @@ const Publications = ({userId}) => {
         getPublications();
     }, []);
 
-    return (  
-        <div>
+    return (
+        <div className="mb-10">
+            <p className="text-violet-900 font-bold">Publications</p>
             {
-                publications.length > 0 ?
-                <div>
-                <div className="md:grid md:grid-cols-5 mt-10">
-                    <div className="col-span-1 pl-2 mb-5">
+                publications.length > 0 ? publications.map((publication, index) => (
+                    <div className="mt-2 mb-2" key={index}>
+                        <p className="text-base font-semibold">{publication.title}</p>
+                        <p className="text-sm text-[#475569]"> {publication.link}</p>
                     </div>
-                    <div className="col-span-4 pl-10 mb-5">
-                        <p className="font-bold text-lg  border-b">Publications</p>
-                    </div>
-                </div>
-                    
-                { (publications.map((publication, index) => (
-                    <div className="md:grid md:grid-cols-5 mt-2" key={index}>
-                        <div className="col-span-1 pl-2 text-right mb-6">
-                            <p>{publication.title}</p>
-                        </div>
-                        <div className="col-span-4 pl-10 mb-6">
-                            <p className="text-sm text-[#808080]">{publication.link}</p>
-                        </div>
-                    </div>
-                )))}</div> : <div></div>
+                )): <div></div>
             }
-
-        </div> 
+           
+        </div>
+        
     );
 }
- 
+
 export default Publications;

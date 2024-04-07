@@ -7,9 +7,9 @@ import { Timestamp, addDoc, collection, doc, onSnapshot, query, updateDoc, where
 import { useEffect, useState } from "react";
 import { Accordion, Badge, Button } from "react-daisyui";
 
-const Memberships = ({userId}) => {
+const Memberships = ({ userId }) => {
     const [memberships, setMemberships] = useState([]);
-    
+
     function getMemberships() {
         try {
             let membershipRef = collection(db, 'memberships');
@@ -28,44 +28,26 @@ const Memberships = ({userId}) => {
         }
     }
 
-   
+
     useEffect(() => {
         getMemberships();
     }, []);
 
 
-    return (  
-        <div className="">
-            {
-                memberships.length > 0 ?
-                <div>
-                <div className="md:grid md:grid-cols-5 mt-5">
-                    <div className="col-span-1 pl-2 mb-5">
-                    </div>
-                <div className="col-span-4 pl-10 mb-5">
-                    <p className="font-bold text-lg  border-b">Memberships</p>
-                </div>
+    return (
+        <div className="mb-10">
+            <p className="text-violet-900 font-bold">Memberships</p>
+            <div className="flex gap-2 flex-wrap text-sm">
+                {
+                    memberships.length > 0 ? memberships.map((membership, index) => (
+                        <span key={index} className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">{membership.organization}</span>
+                    )) : <span></span>
+                }
 
-                <div className="col-span-1 pl-2 text-right">
-                    <p></p>
-                    <p className="text-xs text-[#808080]"></p>
-                </div>
-                <div className="col-span-4 pl-10 mb-6">
-                    <div className="md:flex flex-wrap  md:gap-4">
-                    {(memberships.map((membership, index) => (
-                        <div key={index}>
-                            <div><Badge className="p-4 bg-cyan-400 text-black">{membership.organization}</Badge></div>
-                        </div>
-                        )))
-                    }
-                    </div>
-                </div>
-                </div>
-            </div>: <div></div>
-            }
-            
+            </div>
         </div>
+
     );
 }
- 
+
 export default Memberships;

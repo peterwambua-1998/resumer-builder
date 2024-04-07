@@ -148,3 +148,7 @@ body {
 .my-gradient {
   background: linear-gradient(302deg, rgba(245, 217, 91, 1) 0%, rgba(116, 249, 243, 1) 100%);
 }
+
+.skeleton {
+  background-image: linear-gradient(105deg, transparent 0%, transparent 40%, hsl(200, 20%, 80%) 50%, transparent 60%, transparent 100%);
+}

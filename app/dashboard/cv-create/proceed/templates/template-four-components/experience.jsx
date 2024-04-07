@@ -27,33 +27,18 @@ const ExperienceWidget = ({user_id}) => {
     
     return (  
 
-        <div>
-            <div className="md:grid md:grid-cols-5 mt-10">
-                <div className="col-span-1 pl-2 mb-5">
-                </div>
-                <div className="col-span-4 pl-10 mb-5">
-                    <p className="font-bold text-lg  border-b">Experience</p>
-                </div>
-            </div>
-                    
-                {
+        <div className="mb-10">
+            <p className="text-violet-900 font-bold">Experience</p>
+            {
                 experienceData.length > 0 ? (experienceData.map((exp, index) => (
-                    <div className="md:grid md:grid-cols-5 mt-2" key={index}>
-                        <div className="col-span-1 pl-2 text-right mb-6">
-                            <p>{exp.title}, {exp.companyName}</p>
-                            <p className="text-xs text-[#808080]">{exp.location} ({exp.startDate} - {exp.endDate})</p>
-                        </div>
-                        <div className="col-span-4 pl-10 mb-6">
-                            <p>{exp.title}</p>
-                            <p className="text-sm text-[#808080]">{exp.description}</p>
-                        </div>
+                    <div className="mt-2 mb-2">
+                        <p className="text-lg font-semibold">{exp.title} <span className="text-[#808080]">@ {exp.companyName}</span></p>
+                        <p className="text-sm font-semibold text-[#475569]">{exp.location} ({exp.startDate} - {exp.endDate})</p>
+                        <p className="text-sm"> {exp.description}</p>
                     </div>
-                ))) : 
-                    <div></div>
-                
-                }
-
-        </div> 
+                ))) : <div></div>
+            }
+        </div>
 
            
     );
