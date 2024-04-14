@@ -32,7 +32,6 @@ const LinksUser = ({ userId }) => {
 
     return (
         <div>
-           
         {
             links.length > 0 ? 
                 <div className="p-2 md:p-5 lg:p-5" >
@@ -49,9 +48,8 @@ const LinksUser = ({ userId }) => {
                     </div>
                      ))}
             </div>
-            : <div></div>
+            : ''
         }
-        
     </div>
     );
 }

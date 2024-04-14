@@ -32,43 +32,24 @@ const Internship = ({userId}) => {
 
     
     return (  
-        // <div>
-        //     <div className="md:grid md:grid-cols-5 mt-10">
-        //         <div className="col-span-1 pl-2 mb-5">
-        //         </div>
-        //         <div className="col-span-4 pl-10 mb-5">
-        //             <p className="font-bold text-lg  border-b">Internship Work</p>
-        //         </div>
-        //     </div>
-                    
-        //         {
-        //         internships.length > 0 ? (internships.map((internship, index) => (
-        //             <div className="md:grid md:grid-cols-5 mt-2" key={index}>
-        //                 <div className="col-span-1 pl-2 text-right mb-6">
-        //                     <p>{internship.role}</p>
-        //                     <p className="text-xs text-[#808080]">{internship.duration} month(s)</p>
-        //                 </div>
-        //                 <div className="col-span-4 pl-10 mb-6">
-        //                     <p>{internship.organization}</p>
-        //                     <p className="text-sm text-[#808080]">{internship.description}</p>
-        //                 </div>
-        //             </div>
-        //         ))) : <div></div>
-        //         }
-
-        // </div> 
-        <div className="mb-10">
-            <p className="text-violet-900 font-bold">Internship Work</p>
+        <div>
             {
-                internships.length > 0 ? (internships.map((internship, index) => (
-                    <div className="mt-2 mb-2">
-                        <p className="text-lg font-semibold">{internship.role} <span className="text-[#808080]">@ {internship.organization}</span></p>
-                        <p className="text-sm font-semibold text-[#475569]">{internship.duration} month(s)</p>
-                        <p className="text-sm"> {internship.description}</p>
-                    </div>
-                ))) : <div></div>
+            internships.length > 0 ?
+                <div className="mb-10">
+                <p className="text-violet-900 font-bold">Internship Work</p>
+                    {(internships.map((internship, index) => (
+                        <div className="mt-2 mb-2">
+                            <p className="text-lg font-semibold">{internship.role} <span className="text-[#808080]">@ {internship.organization}</span></p>
+                            <p className="text-sm font-semibold text-[#475569]">{internship.duration} month(s)</p>
+                            <p className="text-sm"> {internship.description}</p>
+                        </div>
+                    )))} 
+                </div> 
+                : 
+                <div></div>
             }
-        </div> 
+
+        </div>
     );
 }
  

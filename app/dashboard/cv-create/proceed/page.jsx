@@ -23,7 +23,6 @@ import Languages from "./templates/add-edit/languages";
 import LinksUser from "./templates/add-edit/links";
 import TemplateFour from "./templates/template-four";
 import ResumeParser from "../../resume-parser";
-import ResumeAi from "../../openiai/page";
 import TemplateFive from "./templates/template-five";
 import Internship from "./templates/add-edit/internships-volunteer-work";
 import Memberships from "./templates/add-edit/membership";
@@ -34,13 +33,6 @@ const CvPageDesign = () => {
 
     const [firebase_user, loading, error] = useAuthState(auth);
 
-    async function extractResume() {
-        return await ResumeAi();
-    }
-
-    useEffect(() => {
-        extractResume();
-    }, []);
 
     return (
         <div className="md:grid md:grid-cols-4 bg-slate-200">

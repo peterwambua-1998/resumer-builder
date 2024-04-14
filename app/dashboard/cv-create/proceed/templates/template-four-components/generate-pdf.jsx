@@ -146,10 +146,11 @@ const GeneratePDF = ({userId}) => {
             <!-- grid -->
             <div class="grid grid-cols-6 mt-6 gap-10">
                 <div class="col-span-4">
-                    <!-- profile -->
+                    <!-- profile -->`
+                    experiences.length > 0 ?
+                    `
                     <div class="mb-10">
-                        <p class="text-violet-900 font-bold">Experience</p>`
-                        
+                        <p class="text-violet-900 font-bold">Experience</p>`:''
                         experiences.map((exp) => {
                             template+=`
                             <div class="mt-2 mb-2">
@@ -159,16 +160,17 @@ const GeneratePDF = ({userId}) => {
                             </div>`;
                         })
                         
-                        
+                        experiences.length > 0 ?
                         template+=`
                     </div>
-                    <!-- profile -->
-
-
+                    <!-- profile -->`: ''
+                    
+                    education.length > 0 ? 
+                    template+=`
                     <!-- profile -->
                     <div class="mb-10">
                         <p class="text-violet-900 font-bold">Education</p>
-                        `
+                        `: ''
                         
                         education.map((edu) => {
                             template+=`
@@ -179,14 +181,15 @@ const GeneratePDF = ({userId}) => {
                             </div>`
                         })
                         
-                        
+                        education.length > 0 ? 
                         template+=`
                     </div>
-                    <!-- profile -->
-
+                    <!-- profile -->`: ''
+                    projects.length > 0 ? 
+                    template+=`
                     <!-- Projects -->
                     <div class="mb-10">
-                        <p class="text-violet-900 font-bold">Projects</p>`
+                        <p class="text-violet-900 font-bold">Projects</p>`: ''
                         projects.map((project) => {
                             template+=`
                             <div class="mt-2 mb-2">
@@ -195,15 +198,15 @@ const GeneratePDF = ({userId}) => {
                             </div>`;
                         })
                         
-                        
+                        projects.length > 0 ? 
                         template+=`
-                        
                     </div>
-                    <!-- Projects -->
-
+                    <!-- Projects -->`: ''
+                    internships.length > 0 ?
+                    template+=`
                     <!-- Projects -->
                     <div class="mb-10">
-                        <p class="text-violet-900 font-bold">Internship Work</p>`
+                        <p class="text-violet-900 font-bold">Internship Work</p>`: ''
                         
                         internships.map((internship) => {
                             template+=`
@@ -214,15 +217,16 @@ const GeneratePDF = ({userId}) => {
                             </div>`;
                         })
                         
-                        
+                        internships.length > 0 ?
                         template+=`
-                        
                     </div>
-                    <!-- Projects -->
-
+                    <!-- Projects -->`: ''
+                    
+                    publications.length > 0 ? 
+                    template+=`
                     <!-- Links -->
                     <div class="mb-10">
-                        <p class="text-violet-900 font-bold">Publications</p>`
+                        <p class="text-violet-900 font-bold">Publications</p>`:''
                         
                         publications.map((publication) => {
                             template+=`
@@ -232,15 +236,15 @@ const GeneratePDF = ({userId}) => {
                             </div>`
                         })
 
-                        
+                        publications.length > 0 ?
                         template+=`
-                        
                     </div>
-                    <!-- Links -->
-
+                    <!-- Links -->`: ''
+                    links.length > 0 ?
+                    template+=`
                     <!-- Links -->
                     <div class="mb-10">
-                        <p class="text-violet-900 font-bold">Links</p>`
+                        <p class="text-violet-900 font-bold">Links</p>`: ''
                         
                         links.map((link) => {
                             template+=`
@@ -250,14 +254,15 @@ const GeneratePDF = ({userId}) => {
                             </div>`
                         })
                         
-                        
+                    links.length > 0 ?
                         template+=`
                     </div>
-                    <!-- Links -->
-
+                    <!-- Links -->`: ''
+                    references.length > 0 ?
+                    template+=`
                     <div class="mb-10">
                         <p class="text-violet-900 font-bold">References</p>
-                        <div class="flex gap-10 flex-wrap">`
+                        <div class="flex gap-10 flex-wrap">` : ''
                         
                         references.map((refrence) => {
                             template+=`
@@ -270,73 +275,90 @@ const GeneratePDF = ({userId}) => {
                             </div>`
                         })
                             
-                            
+                    references.length > 0 ?
                             template+=`
                         </div>
-                    </div>
-
+                    </div>`: ''
+                    
+                    template+=`
                 </div>
                 <div class="col-span-2">
                     <!-- skills -->
+                    `
+                    skills.length > 0 ? 
+                    template+=`
                     <div class="mb-10">
                         <p class="text-violet-900 font-bold">Skills</p>
-                        <div class="flex gap-2 flex-wrap text-sm">`
+                        <div class="flex gap-2 flex-wrap text-sm">` : ''
                         
                         skills.map((skill) => {
                             template+=`
                                 <span class="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">${skill.name}</span>
                             `
                         })
-                        
+                        skills.length > 0 ? 
                         template+=`</div>
                     </div>
                     <!-- skills -->
 
+                    `: ''
+                    languages.length > 0 ?
+                    template+=`
                     <!-- languages -->
                     <div class="mb-10">
                         <p class="text-violet-900 font-bold">Languages</p>
-                        <div class="flex gap-2 flex-wrap text-sm">`
+                        <div class="flex gap-2 flex-wrap text-sm">
+                        
+                    `: ''
                         languages.map((lang) => {
                             template+=`
                                 <span class="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">${lang.name} (${lang.description})</span>
                             `
                         })
-                       
+                        languages.length > 0 ?
                         template+=`   
                         </div>
                     </div>
                     <!-- languages -->
 
                     <!-- Memberships -->
+                    `: ''
+                    memberships.length > 0 ?
+                    template+=`
                     <div class="mb-10">
                         <p class="text-violet-900 font-bold">Memberships</p>
-                        <div class="flex gap-2 flex-wrap text-sm">`
+                        <div class="flex gap-2 flex-wrap text-sm">`: ''
                         
                         memberships.map((membership) => {
                             template+=`
                                 <span class="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">${membership.organization}</span>
                             `
                         })
-
+                        memberships.length > 0 ?
                             template+=`  
                         </div>
                     </div>
                     <!-- Memberships -->
-
+                    `: ''
+                    hobbies.length > 0 ?
+                    template+=`  
                     <!-- Hobbies -->
                     <div class="mb-10">
                         <p class="text-violet-900 font-bold">Hobbies</p>
-                        <div class="flex gap-2 flex-wrap text-sm">`
+                        <div class="flex gap-2 flex-wrap text-sm">
+                    `: '';
                         
                         hobbies.map((hobby) => {
                             template+=`
                             <span class="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">${hobby.title}</span>
                             `
                         })
-                        
+                        hobbies.length > 0 ?
                         template+=`
                         </div>
-                    </div>
+                    </div>`: ''
+                    
+                    template+=`
                     <!-- Hobbies -->
                 </div>
             </div>

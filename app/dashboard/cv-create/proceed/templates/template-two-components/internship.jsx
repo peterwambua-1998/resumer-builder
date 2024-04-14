@@ -50,7 +50,7 @@ const Internship = ({userId}) => {
                             </div>
                         </div>
                     ))
-                    : <div></div>
+                    : ''
                 }
                 
             </div>

@@ -51,7 +51,7 @@ const Publications = ({userId}) => {
                     </div>
                 </div>
             ))
-            : <div></div>
+            : ''
         }
         
     </div>

@@ -27,16 +27,20 @@ const Languages = ({ userId }) => {
 
 
     return (
-        <div className="mb-10">
-            <p className="text-violet-900 font-bold">Languages</p>
-            <div className="flex gap-2 flex-wrap text-sm">
-                {
-                    languages.length > 0 ? languages.map((lang, index) => (
-                        <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">{lang.name} ({lang.description})</span>
-                    )) : <span></span>
-                }
+        <div>
+            {
+                languages.length > 0 ?
+                    <div className="mb-10">
+                        <p className="text-violet-900 font-bold">Languages</p>
+                        <div className="flex gap-2 flex-wrap text-sm">
+                        {languages.map((lang, index) => (
+                            <span className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold" key={index}>{lang.name} ({lang.description})</span>
+                        ))}
+                        </div>
+                    </div>
+                : <span></span>
+            }
 
-            </div>
         </div>
 
     );

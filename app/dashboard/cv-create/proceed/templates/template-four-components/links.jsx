@@ -31,40 +31,20 @@ const LinksUser = ({ userId }) => {
 
 
     return (
-        // <div>
-        //     {
-        //         links.length > 0 ?
-        //         <div>
-        //         <div className="md:grid md:grid-cols-5 mt-10">
-        //             <div className="col-span-1 pl-2 mb-5">
-        //             </div>
-        //             <div className="col-span-4 pl-10 mb-5">
-        //                 <p className="font-bold text-lg  border-b">Links</p>
-        //             </div>
-        //         </div>
-                    
-        //         { (links.map((link, index) => (
-        //             <div className="md:grid md:grid-cols-5 mt-2" key={index}>
-        //                 <div className="col-span-1 pl-2 text-right mb-6">
-        //                     <p>{link.name}</p>
-        //                 </div>
-        //                 <div className="col-span-4 pl-10 mb-6">
-        //                     <p className="text-sm text-[#808080]">{link.link}</p>
-        //                 </div>
-        //             </div>
-        //         )))}</div> : <div></div>
-        //     }
-
-        // </div> 
-        <div className="mb-10">
-            <p className="text-violet-900 font-bold">Links</p>
+        <div>
             {
-                links.length > 0 ? links.map((link, index) => (
-                    <div className="mt-2 mb-2" key={index}>
-                        <p className="text-base font-semibold">{link.name}</p>
-                        <p className="text-sm text-[#475569]"> {link.link}</p>
-                    </div>
-                )) : <div></div>
+            links.length > 0 ?
+            <div className="mb-10">
+                <p className="text-violet-900 font-bold">Links</p>
+                 {links.map((link, index) => (
+                        <div className="mt-2 mb-2" key={index}>
+                            <p className="text-base font-semibold">{link.name}</p>
+                            <p className="text-sm text-[#475569]"> {link.link}</p>
+                        </div>
+                    ))} 
+            </div>
+            : 
+            <div></div>
             }
         </div>
     );

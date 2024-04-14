@@ -35,16 +35,22 @@ const Memberships = ({ userId }) => {
 
 
     return (
-        <div className="mb-10">
-            <p className="text-violet-900 font-bold">Memberships</p>
-            <div className="flex gap-2 flex-wrap text-sm">
-                {
-                    memberships.length > 0 ? memberships.map((membership, index) => (
-                        <span key={index} className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">{membership.organization}</span>
-                    )) : <span></span>
-                }
+        <div>
+            {
+            memberships.length > 0 ?
+            <div className="mb-10">
+                <p className="text-violet-900 font-bold">Memberships</p>
+                <div className="flex gap-2 flex-wrap text-sm">
+                     {memberships.map((membership, index) => (
+                            <span key={index} className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">{membership.organization}</span>
+                        )) }
 
+                </div>
             </div>
+            : 
+            <span></span>
+            }
+
         </div>
 
     );

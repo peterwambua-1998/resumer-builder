@@ -35,17 +35,21 @@ const Publications = ({ userId }) => {
     }, []);
 
     return (
-        <div className="mb-10">
-            <p className="text-violet-900 font-bold">Publications</p>
+        <div>
             {
-                publications.length > 0 ? publications.map((publication, index) => (
+                publications.length > 0 ?
+            <div className="mb-10">
+            <p className="text-violet-900 font-bold">Publications</p>
+             {publications.map((publication, index) => (
                     <div className="mt-2 mb-2" key={index}>
                         <p className="text-base font-semibold">{publication.title}</p>
                         <p className="text-sm text-[#475569]"> {publication.link}</p>
                     </div>
-                )): <div></div>
+                ))}
+        </div>
+        : <div></div>
             }
-           
+
         </div>
         
     );

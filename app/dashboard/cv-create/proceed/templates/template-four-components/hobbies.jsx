@@ -28,41 +28,21 @@ const Hobbies = ({ userId }) => {
 
 
     return (
-        <div className="mb-10">
-            <p className="text-violet-900 font-bold">Hobbies</p>
-            <div className="flex gap-2 flex-wrap text-sm">
-                {
-                    hobbies.length > 0 ? hobbies.map((hobby, index) => (
-                        <span key={index} className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">{hobby.title}</span>
-                    )) : <span></span>
-                }
-            </div>
+        <div>
+            {
+                hobbies.length > 0 ?
+                    <div className="mb-10">
+                        <p className="text-violet-900 font-bold">Hobbies</p>
+                        <div className="flex gap-2 flex-wrap text-sm">
+                     {hobbies.map((hobby, index) => (
+                            <span key={index} className="bg-slate-200 pl-2 pt-1 pb-1 pr-2 rounded text-[#475569] font-semibold">{hobby.title}</span>
+                            ))}
+                        </div>
+                    </div>
+                    : <span></span>
+            }
         </div>
-        // <div>
 
-        //     <div className="md:grid md:grid-cols-5 mt-5">
-        //     <div className="col-span-1 pl-2 mb-5">
-        //     </div>
-        //     <div className="col-span-4 pl-10 mb-5">
-        //         <p className="font-bold text-lg  border-b">Hobbies</p>
-        //     </div>
-
-        //     <div className="col-span-1 pl-2 text-right">
-        //         <p></p>
-        //         <p className="text-xs text-[#808080]"></p>
-        //     </div>
-        //     <div className="col-span-4 pl-10 mb-6">
-        //         <div className="md:flex flex-wrap  md:gap-4">
-        //         {hobbies.length > 0 ? (hobbies.map((hobby, index) => (
-        //             <div key={index}>
-        //                 <div><Badge className="p-4 bg-cyan-400 text-black">{hobby.title}</Badge></div>
-        //             </div>
-        //             ))): (<div className="text-[#808080] p-4">You currently have no education data</div>)
-        //         }
-        //         </div>
-        //     </div>
-        // </div>
-        // </div>
     );
 
 
