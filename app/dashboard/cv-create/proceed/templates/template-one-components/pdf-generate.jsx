@@ -501,7 +501,7 @@ const PdfGenerationTemplateOne = ({ userId }) => {
     return (
         <Button onClick={() => downloadPDF()} color="primary">
             {mDownload == true ? <Loading /> : ''}
-            download pdf
+            Download Pdf
         </Button>
     );
 }
