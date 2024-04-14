@@ -355,7 +355,8 @@ const CreateResume = ({ params }) => {
 
     return (
         <div className="md:grid md:grid-cols-4 bg-slate-200 ">
-            <div className="bg-white pt-10 pl-5 pr-5 ">
+            <div className="bg-white pt-4 pl-5 pr-5 ">
+                <Button className='bg-green-300 hover:bg-green-400 text-black w-full mb-3' onClick={initiateSave}>Save Resume</Button>
                 <Accordion defaultChecked className="bg-amber-400 text-black mb-3">
                     <Accordion.Title className="text-xl font-medium text-black">
                         <p className="text-base font-semibold">Ai Suggestions</p>
@@ -405,9 +406,9 @@ const CreateResume = ({ params }) => {
                         :
                         // resume
                         <div>
-                            <div className='flex justify-end mb-5'>
+                            {/* <div className='flex justify-end mb-5'>
                                 <Button className='bg-amber-300 hover:bg-amber-400 text-black border-slate-400' onClick={initiateSave}>Save Resume</Button>
-                            </div>
+                            </div> */}
                             <Wrapper userId={firebase_user.uid} about={aboutAi} skills={skillsAi} />
                         </div>
                 }
