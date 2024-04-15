@@ -6,7 +6,7 @@ export async function GET(req, res) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url,{waitUntil: 'networkidle0'});
-
+    //https://www.linkedin.com/jobs/search?keywords=programming&location=kenya
     // await Promise.all([
     //     page.waitForNavigation({
     //         waitUntil: 'domcontentloaded'
