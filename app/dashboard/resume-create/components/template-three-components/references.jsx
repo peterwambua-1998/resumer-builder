@@ -32,22 +32,26 @@ const References = ({ userId }) => {
     return (
         
         <div>
-            <p className="mb-2 font-bold mt-8">References</p>
-            <div className="md:flex md:gap-20">
             {
-                refrences.length > 0 ? refrences.map((refrence, index) => (
-                <div key={index}>
-                    <div className="text-sm">
-                        <p className="font-bold text-amber-500">{refrence.referee_name}</p>
-                        <p>{refrence.organization}</p>
-                        <p>{refrence.role}</p>
-                        <p>{refrence.email}</p>
-                        <p>{refrence.phone}</p>
+            refrences.length >0 ?
+            <div>
+            <p className="mb-2 font-bold mt-8">References</p>
+                <div className="md:flex md:gap-20">
+                {refrences.map((refrence, index) => (
+                    <div key={index}>
+                        <div className="text-sm">
+                            <p className="font-bold text-amber-500">{refrence.referee_name}</p>
+                            <p>{refrence.organization}</p>
+                            <p>{refrence.role}</p>
+                            <p>{refrence.email}</p>
+                            <p>{refrence.phone}</p>
+                        </div>
                     </div>
+                ))}
                 </div>
-            )) : (<div className="text-[#808080] mb-5">You currently have no references</div>)
-            }
             </div>
+           : <div className=" mb-5"></div>
+        }
             
         </div>
     );

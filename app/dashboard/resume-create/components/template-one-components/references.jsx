@@ -1,21 +1,10 @@
 'use client'
 import { useEffect, useState } from "react";
-import { Input, Button, Modal } from "react-daisyui";
-import { collection, query, where, onSnapshot, Timestamp, addDoc } from "firebase/firestore";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "@/app/firebase/firebase";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
 const References = ({ userId }) => {
-    const [visibleEdu, setVisibleEdu] = useState(false);
-
     const [refrences, setRefrences] = useState([]);
-
-
-
-    const toggleVisibleEdu = () => {
-        setVisibleEdu(!visibleEdu);
-    };
 
     function getReferences() {
         try {
@@ -53,11 +42,8 @@ const References = ({ userId }) => {
                             <p>{refrence.phone}</p>
                         </div>
                     </div>
-                )) : (<div className="text-[#808080] mb-5">You currently have no references</div>)
+                )) : (<div className="pb-10"></div>)
             }
-
-
-
         </div>
     );
 }

@@ -29,25 +29,28 @@ const Projects = ({ userId }) => {
 
     return (
         <div>
-            <p className="mb-2 font-bold">Projects</p>
             {projects.length > 0 ?
-                <div>
-                {projects.map((project, index) => (
-                    <div className="mb-8" key={index}>
-                        <p className="text-amber-600 font-bold mb-2 text-lg">{project.title}</p>
-                        <div className="pl-3 text-sm">
-                            <ul style={{ listStyleType: 'disc' }}>
-                                <li>{project.description}</li>
-                            </ul>
+            <div>
+            <p className="mb-2 font-bold">Projects</p>
+                    <div>
+                    {projects.map((project, index) => (
+                        <div className="mb-8" key={index}>
+                            <p className="text-amber-600 font-bold mb-2 text-lg">{project.title}</p>
+                            <div className="pl-3 text-sm">
+                                <ul style={{ listStyleType: 'disc' }}>
+                                    <li>{project.description}</li>
+                                </ul>
+                            </div>
                         </div>
+                    ))}
+                    <Divider></Divider>
                     </div>
-                ))}
-                <Divider></Divider>
-                </div>
-                :
-                <div className="text-[#808080] mb-5">You currently have no projects saved</div>
+                    
+            </div> : <div></div>
             }
+
         </div>
+        
     );
 }
 

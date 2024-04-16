@@ -3,7 +3,7 @@ import { db } from "@/app/firebase/firebase";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { Button, Loading } from "react-daisyui";
-import { aboutGlobal, awardsGlobal, educationGlobal, experiencesGlobal, internshipsGlobal, languagesGlobal, linksGlobal, membershipsGlobal, profileGlobal, projectsGlobal, publicationsGlobal, referencesGlobal, skillsGlobal } from "@/app/dashboard/cv-create/proceed/templates/helpers/helpers";
+import { aboutGlobal, awardsGlobal, educationGlobal, experiencesGlobal, hobbiesGlobal, internshipsGlobal, languagesGlobal, linksGlobal, membershipsGlobal, profileGlobal, projectsGlobal, publicationsGlobal, referencesGlobal, skillsGlobal } from "@/app/dashboard/cv-create/proceed/templates/helpers/helpers";
 import FileSaver from "file-saver";
 
 
@@ -22,6 +22,7 @@ const GeneratePDF = ({userId, aboutAI, skillsAi}) => {
     const [references, setReferences] = useState(null);
     const [about, setAbout] = useState(aboutAI);
     const [projects, setProjects] = useState(null);
+    const [hobbies, setHobbies] = useState(null);
 
     async function getData() {
         let profData = await profileGlobal(userId);
@@ -54,6 +55,9 @@ const GeneratePDF = ({userId, aboutAI, skillsAi}) => {
         let projectsData = await projectsGlobal(userId);
         setProjects(projectsData);
 
+        let hobbiesData = await hobbiesGlobal(userId);
+        setHobbies(hobbiesData);
+
         let referencesData = await referencesGlobal(userId);
         setReferences(referencesData);
     }
@@ -74,6 +78,7 @@ const GeneratePDF = ({userId, aboutAI, skillsAi}) => {
             return router.replace('/dashboard/subscription');
         } 
 
+        
         let template = `
         <!DOCTYPE html>
         <html lang="en">
@@ -104,13 +109,15 @@ const GeneratePDF = ({userId, aboutAI, skillsAi}) => {
                         <p style="margin-bottom: 0.5rem; font-weight: bold;">About</p>
                         <p style="font-size: 0.875rem; line-height: 1.25rem;">`
                         about
-                            .filter((ab) => ab.checked === true)
-                            .map((ab) => (
+                        .filter((ab) => ab.checked === true)
+                        .map((ab) => (
                                 template += `
                                         ${ab.about}
                                     `
-                            ));
-                        `</p>
+                        ));
+                        
+                        template+=`
+                        </p>
                     </div>
                     <!-- about -->
         
@@ -160,100 +167,108 @@ const GeneratePDF = ({userId, aboutAI, skillsAi}) => {
             </div>
             <!-- Education -->
 
-            <!-- Publications -->
+            <!-- Publications -->`
+            projects.length > 0 ?
+            template+=`
             <div style="border-bottom: 1px solid #808080; margin-bottom: 1rem;">
                 <p style="margin-bottom: 0.5rem; font-weight: bold;">Projects</p>
-                <!-- loop about -->`;
+                <!-- loop about -->`: '';
 
-        projects.map((project, index) => {
-        template += `
-        <div>
-        <p style="color: #d97706; font-weight: bold; font-size: 1.125rem; line-height: 1.75rem;">${project.title}</p>
-        <div style="padding-left: 0.75rem;">
-        <ul>
-            <li>${project.description}</li>
-        </ul>
-        </div>
-        </div> `;
-        });
+                    projects.map((project, index) => {
+                    template += `
+                    <div>
+                    <p style="color: #d97706; font-weight: bold; font-size: 1.125rem; line-height: 1.75rem;">${project.title}</p>
+                    <div style="padding-left: 0.75rem;">
+                    <ul>
+                        <li>${project.description}</li>
+                    </ul>
+                    </div>
+                    </div> `;
+                    });
 
-
-        template += `
+                    projects.length > 0 ?
+                    template += `
                         <!-- loop about -->
                     </div>
-                    <!-- Education -->
-        
+                    <!-- Education -->`: ''
+                    publications.length > 0 ?
+                    template+=`
                     <!-- Publications -->
                     <div style="border-bottom: 1px solid #808080; margin-bottom: 1rem;">
                         <p style="margin-bottom: 0.5rem; font-weight: bold;">Publications</p>
-                        <!-- loop about -->`;
+                        <!-- loop about -->`: '';
 
-        publications.map((publication, index) => {
-            template += `
-        <div>
-            <p style="color: #d97706; font-weight: bold; font-size: 1.125rem; line-height: 1.75rem;">${publication.title}</p>
-            <div style="padding-left: 0.75rem;">
-                <ul>
-                    <li>${publication.link}</li>
-                </ul>
-            </div>
-        </div> `;
-        });
+                        publications.map((publication, index) => {
+                            template += `
+                        <div>
+                            <p style="color: #d97706; font-weight: bold; font-size: 1.125rem; line-height: 1.75rem;">${publication.title}</p>
+                            <div style="padding-left: 0.75rem;">
+                                <ul>
+                                    <li>${publication.link}</li>
+                                </ul>
+                            </div>
+                        </div> `;
+                        });
 
-
-        template += `
+                        publications.length > 0 ?
+                        template += `
                         <!-- loop about -->
                     </div>
-                    <!-- Publications -->
-        
+                    <!-- Publications -->`: ''
+                    internships.length > 0 ?
+                    template+=`
                      <!-- Internship -->
                      <div style="border-bottom: 1px solid #808080; margin-bottom: 1rem;">
                         <p style="margin-bottom: 0.5rem; font-weight: bold;">Internship</p>
-                        <!-- loop about -->`
+                        <!-- loop about -->`: ''
 
-        internships.map((internship, index) => {
-            template += `
-            <div>
-                <p style="color: #d97706; font-weight: bold; font-size: 1.125rem; line-height: 1.75rem;">${internship.organization}, ${internship.role}</p>
-                <p style="font-size: 0.875rem; line-height: 1.25rem; margin-bottom: 0.5rem;">${internship.duration} month(s)</p>
-                <div style="padding-left: 0.75rem;">
-                    <ul>
-                        <li>${internship.description}</li>
-                    </ul>
-                </div>
-            </div>`;
-        });
+                        internships.map((internship, index) => {
+                            template += `
+                            <div>
+                                <p style="color: #d97706; font-weight: bold; font-size: 1.125rem; line-height: 1.75rem;">${internship.organization}, ${internship.role}</p>
+                                <p style="font-size: 0.875rem; line-height: 1.25rem; margin-bottom: 0.5rem;">${internship.duration} month(s)</p>
+                                <div style="padding-left: 0.75rem;">
+                                    <ul>
+                                        <li>${internship.description}</li>
+                                    </ul>
+                                </div>
+                            </div>`;
+                        });
 
-
-        template += `
+                        internships.length > 0 ?
+                        template += `
                         <!-- loop about -->
                     </div>
-                    <!-- Internship -->
-        
+                    <!-- Internship -->`: ''
+                    skills.length > 0 ?
+                    template+=`
                     <!-- skills -->
                     <div style="border-bottom: 1px solid #808080; margin-bottom: 1rem;">
                         <p style="margin-bottom: 0.5rem; font-weight: bold;">Skills</p>
                         <!-- loop -->
-                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">`;
-        
-        skills.filter((skill) => skill.checked === true)
-        .map((skill, index) => {
-            template += `
-            <span key={index} style="padding: 1rem; background-color: #d97706; color: black; border-radius: 30.4px;" class="badge">${skill.skill}</span>
-            `;
-        });
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">`: '';
 
-        template += `
+                        skills.filter((skill) => skill.checked === true)
+                        .map((skill, index) => {
+                            template += `
+                            <span style="padding: 1rem; background-color: #d97706; color: black; border-radius: 30.4px;" class="badge">${skill.skill}</span>
+                            `;
+                        });
+
+                        skills.length > 0 ?
+                        template += `
                         </div>
                         <!-- loop -->
                     </div>
-                    <!-- skills -->
-        
+                    <!-- skills -->`:    ''
+                    
+                    memberships.length > 0 ? 
+                    template+=`
                     <!-- Memberships -->
                     <div style="border-bottom: 1px solid #808080; margin-bottom: 1rem;">
                         <p style="margin-bottom: 0.5rem; font-weight: bold;">Memberships</p>
                         <!-- loop -->
-                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">`;
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">`: '';
 
         memberships.map((membership, index) => {
             template += `
@@ -261,18 +276,19 @@ const GeneratePDF = ({userId, aboutAI, skillsAi}) => {
         `;
         });
 
-
+        memberships.length > 0 ? 
         template += `
                         </div>
                         <!-- loop -->
                     </div>
-                    <!-- skills -->
-        
+                    <!-- skills -->`: ''
+                    hobbies.length > 0 ?
+                    template+=`
                     <!-- Hobbies -->
                     <div style="border-bottom: 1px solid #808080; margin-bottom: 1rem;">
                         <p style="margin-bottom: 0.5rem; font-weight: bold;">Hobbies</p>
                         <!-- loop -->
-                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">`;
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">`: '';
 
         hobbies.map((hobby, index) => {
             template += `
@@ -281,16 +297,18 @@ const GeneratePDF = ({userId, aboutAI, skillsAi}) => {
         });
 
 
-
+        hobbies.length > 0 ?
         template += `
                         </div>
                         <!-- loop -->
                     </div>
-                    <!-- Memberships -->
+                    <!-- Memberships -->`: ''
+                    links.length > 0 ?
+                    template+=`
         
                     <!-- links -->
                     <div style="border-bottom: 1px solid #808080; margin-bottom: 1rem;">
-                        <p style="margin-bottom: 0.5rem; font-weight: bold;">Links</p>`
+                        <p style="margin-bottom: 0.5rem; font-weight: bold;">Links</p>`: ''
 
         links.map((link, index) => {
             template += `
@@ -300,36 +318,40 @@ const GeneratePDF = ({userId, aboutAI, skillsAi}) => {
         });
 
 
-
+        links.length > 0 ?
         template += `
                     </div>
-                    <!-- links -->
+                    <!-- links -->`:''
+                    references.length > 0 ? 
+                    template+=`
         
                     <div>
                         <p style="margin-bottom: 0.5rem; font-weight: bold; margin-top: 2rem;" >References</p>
                         <div className="md:flex md:gap-20">
-                            <!-- loop -->`;
+                            <!-- loop -->`: '<div>';
 
 
 
 
-        references.map((refrence, index) => {
-            template += `
-            <div>
-                <div style="font-size: 0.875rem; line-height: 1.25rem;">
-                    <p style="font-weight: bold; color: #f59e0b;">${refrence.referee_name}</p>
-                    <p>${refrence.organization}</p>
-                    <p>${refrence.role}</p>
-                    <p>${refrence.email}</p>
-                    <p>${refrence.phone}</p>
-                </div>
-            </div>`;
-        });
+                        references.map((refrence, index) => {
+                            template += `
+                            <div>
+                                <div style="font-size: 0.875rem; line-height: 1.25rem;">
+                                    <p style="font-weight: bold; color: #f59e0b;">${refrence.referee_name}</p>
+                                    <p>${refrence.organization}</p>
+                                    <p>${refrence.role}</p>
+                                    <p>${refrence.email}</p>
+                                    <p>${refrence.phone}</p>
+                                </div>
+                            </div>`;
+                        });
 
-
-        template += `
+                        references.length > 0 ? 
+                        template += `
                             <!-- loop -->
-                        </div>
+                        </div>`: ''
+                        
+                        template+=`
                         
                     </div>
         
@@ -342,7 +364,6 @@ const GeneratePDF = ({userId, aboutAI, skillsAi}) => {
         </body>
         </html>
         `;
-
 
         try {
             const options = {
@@ -371,3 +392,7 @@ const GeneratePDF = ({userId, aboutAI, skillsAi}) => {
 }
  
 export default GeneratePDF;
+        
+        
+
+        

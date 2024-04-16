@@ -166,7 +166,7 @@ const TemplateOne = ({ userId }) => {
                         <Award userId={userId} />
 
                     </div>
-                    <div className="col-span-3 pl-5 pr-5 md:pl-10 md:pr-10 lg:pl-10 lg:pr-10 border-t border-amber-400">
+                    <div className="col-span-3 pl-5 pr-5 md:pl-10 md:pr-10 lg:pl-10 lg:pr-10 border-t border-amber-400 mb-8">
 
                         <ExperienceWidget user_id={userId} />
 

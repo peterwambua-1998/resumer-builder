@@ -40,14 +40,14 @@ const References = ({ userId }) => {
 
     return (
         <div>
-
+{
+                        refrences.length > 0 ?
             <div className="p-2 md:p-[5%] lg:p-[5%]">
                 <p className="font-bold text-[8px] md:text-xl lg:text-xl mb-3">References</p>
 
 
                 <div className="text-[5%] md:text-base lg:text-base flex gap-5 md:flex md:gap-20 lg:flex lg:gap-20 pb-5 md:pb-10 lg:pb-10">
-                    {
-                        refrences.length > 0 ? refrences.map((refrence, index) => (
+                     {refrences.map((refrence, index) => (
                             <div key={index}>
                                 <div className="">
                                     <p className="font-bold text-green-500">{refrence.referee_name}</p>
@@ -57,11 +57,11 @@ const References = ({ userId }) => {
                                     <p>{refrence.phone}</p>
                                 </div>
                             </div>
-                        )) : (<div className="text-[#808080] mb-5">You currently have no references</div>)
-                    }
+                        ))}
                 </div>
             </div>
-
+: (<div className="mb-5"></div>)
+}
 
 
         </div>

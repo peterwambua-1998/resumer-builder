@@ -53,7 +53,7 @@ const References = ({ userId }) => {
                             <p>{refrence.phone}</p>
                         </div>
                     </div>
-                )) : (<div className="text-[#808080] mb-5">You currently have no references</div>)
+                )) : <div></div>
             }
 
 

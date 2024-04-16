@@ -73,7 +73,7 @@ const TemplateFive = ({ userId }) => {
             <div ref={pdfRef} className="grid grid-cols-5 md:grid md:grid-cols-5 bg-white">
                 <div className="col-span-2 bg-[#1E1B4B] text-white text-sm p-5 ">
                     <div className="w-fill flex justify-center">
-                        {profile == null ?
+                        {/* {profile == null ?
                             (
                                 <div>
                                     <Skeleton className="w-[45%] md:w-[45%] lg:w-[30%] rounded-full bg-slate-300"></Skeleton>
@@ -81,9 +81,9 @@ const TemplateFive = ({ userId }) => {
 
                             (
                                 // <Image src={profile.file_url} width={120} height={120} alt="profile-image" className="w-[45%] md:w-[45%] lg:w-[30%] rounded-full" />
-                                <ProfilePhoto userId={userId} />
                             )
-                        }
+                        } */}
+                        <ProfilePhoto userId={userId} />
                     </div>
                     {profile == null ?
                         (

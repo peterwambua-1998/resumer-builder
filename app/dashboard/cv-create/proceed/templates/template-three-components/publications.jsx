@@ -1,12 +1,8 @@
 'use client'
-
 import { db } from "@/app/firebase/firebase";
-import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Timestamp, addDoc, collection, deleteDoc, doc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
-import { Input } from "postcss";
+import {  collection, onSnapshot, query, where } from "firebase/firestore";
 import { useState, useEffect } from "react";
-import { Accordion, Divider, Modal } from "react-daisyui";
+import { Divider } from "react-daisyui";
 
 const Publications = ({userId}) => {
     const [publications, setPublications] = useState([]);

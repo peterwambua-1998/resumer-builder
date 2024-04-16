@@ -1,18 +1,14 @@
 'use client'
 import { useEffect, useState } from 'react';
-import ResumeAi from '@/app/dashboard/openiai/page';
-import { Accordion, Alert, Button, Checkbox, Divider, Input, Loading, Modal, Range, Textarea, Toggle } from 'react-daisyui';
-
+import { Accordion, Alert, Button, Checkbox, Input, Loading, Modal, Range, Textarea } from 'react-daisyui';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '@/app/firebase/firebase';
-
 import Image from 'next/image';
 import resumeImage from '@/app/images/peter2.png';
-import { Timestamp, addDoc, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
 import ProfileDetails from '../../cv-create/proceed/templates/add-edit/profile';
 import ExperienceAddEdit from '../../cv-create/proceed/templates/add-edit/experience';
 import EducationAddEdit from '../../cv-create/proceed/templates/add-edit/education';
-import SkillAddEdit from '../../cv-create/proceed/templates/add-edit/skills';
 import AwardAddEdit from '../../cv-create/proceed/templates/add-edit/awards';
 import ReferencesEditDelete from '../../cv-create/proceed/templates/add-edit/references';
 import HobbiesAddEdit from '../../cv-create/proceed/templates/add-edit/hobbies';
@@ -22,7 +18,6 @@ import ProjectsAddEdit from '../../cv-create/proceed/templates/add-edit/projects
 import Internship from '../../cv-create/proceed/templates/add-edit/internships-volunteer-work';
 import Memberships from '../../cv-create/proceed/templates/add-edit/membership';
 import Publications from '../../cv-create/proceed/templates/add-edit/publications';
-import TempOne from '../../resume-create/components/temp1';
 import Wrapper from '../../resume-create/components/wrapper';
 
 

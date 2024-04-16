@@ -32,7 +32,7 @@ const EducationWidget = ({user_id}) => {
             <p className="text-violet-900 font-bold">Education</p>
             {
                 eduData.length > 0 ? (eduData.map((edu, index) => (
-                    <div className="mt-2 mb-2">
+                    <div className="mt-2 mb-2" key={index}>
                         <p className="text-lg font-semibold">{edu.school}</p>
                         <p className="text-sm font-semibold text-[#475569]">{edu.startDate} - {edu.endDate}</p>
                         <p className="text-sm">{edu.descriptionEdu}</p>

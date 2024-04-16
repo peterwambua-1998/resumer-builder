@@ -31,7 +31,7 @@ const ExperienceWidget = ({user_id}) => {
             <p className="text-violet-900 font-bold">Experience</p>
             {
                 experienceData.length > 0 ? (experienceData.map((exp, index) => (
-                    <div className="mt-2 mb-2">
+                    <div className="mt-2 mb-2" key={index}>
                         <p className="text-lg font-semibold">{exp.title} <span className="text-[#808080]">@ {exp.companyName}</span></p>
                         <p className="text-sm font-semibold text-[#475569]">{exp.location} ({exp.startDate} - {exp.endDate})</p>
                         <p className="text-sm"> {exp.description}</p>

@@ -33,7 +33,7 @@ const Projects = ({ userId }) => {
                     <div className="mb-10">
                         <p className="text-violet-900 font-bold">Projects</p>
                         {(projects.map((project, index) => (
-                            <div className="mt-2 mb-2">
+                            <div className="mt-2 mb-2" key={index}>
                                 <p className="text-lg font-semibold">{project.title}</p>
                                 <p className="text-sm"> {project.description}</p>
                             </div>

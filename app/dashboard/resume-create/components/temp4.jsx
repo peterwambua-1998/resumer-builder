@@ -17,6 +17,7 @@ import Memberships from "../../cv-create/proceed/templates/template-four-compone
 import Hobbies from "../../cv-create/proceed/templates/template-four-components/hobbies";
 import AboutMe from "./template-four-components/about";
 import SkillWidget from "./template-four-components/skills";
+import GeneratePDF from "./template-four-components/generate-pdf";
 
 
 
@@ -52,10 +53,7 @@ const TempFour = ({ userId, about, skills }) => {
     return (
         <div>
             <div className="flex flex-row-reverse mb-4">
-                <Button onClick={() => downloadPDF()} color="primary">
-                    {mDownload == true ? <Loading /> : ''}
-                    download pdf
-                </Button>
+                <GeneratePDF userId={userId} aboutAI={about} skillsAi={skills} />
             </div>
             <div className="">
                 <div className="bg-white p-5">

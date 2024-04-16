@@ -22,11 +22,8 @@ import GeneratePDF from "./template-four-components/generate-pdf";
 
 
 const TemplateFour = ({ userId }) => {
-    const pdfRef = useRef();
     const [mDownload, setMDownload] = useState(false);
     const [profile, setProfile] = useState(null);
-    let [loading, setLoading] = useState(true);
-
 
     function getProfile() {
         try {

@@ -38,7 +38,7 @@ const Internship = ({userId}) => {
                 <div className="mb-10">
                 <p className="text-violet-900 font-bold">Internship Work</p>
                     {(internships.map((internship, index) => (
-                        <div className="mt-2 mb-2">
+                        <div className="mt-2 mb-2" key={index}>
                             <p className="text-lg font-semibold">{internship.role} <span className="text-[#808080]">@ {internship.organization}</span></p>
                             <p className="text-sm font-semibold text-[#475569]">{internship.duration} month(s)</p>
                             <p className="text-sm"> {internship.description}</p>

@@ -1,22 +1,12 @@
 import { db } from "@/app/firebase/firebase";
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Timestamp, doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState, useRef } from "react";
 import { Skeleton } from "react-daisyui";
 
 const AboutMe = ({ useId }) => {
-    var [about, setAbout] = useState(null);
-    const [aboutError, setAboutError] = useState(null);
-    const aboutRef = useRef(null);
-    const [isEditing, setEditing] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [visible, setVisible] = useState(false);
-    const savedSelection = useRef(null);
-
-    const toggleVisible = () => {
-        setVisible(!visible);
-    };
+    const [about, setAbout] = useState(null);
+    const [loading, setLoading] = useState(true);
+  
 
 
     async function getAbout() {
@@ -28,64 +18,26 @@ const AboutMe = ({ useId }) => {
                     setAbout(null);
                 }
             });
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
     }
-
-    async function addAbout() {
-        if (!about || about == null) {
-            setAboutError('field required');
-            return;
-        } else {
-            setAboutError('');
-        }
-
-        try {
-            let data = {
-                description: about,
-                created_at: Timestamp.now()
-            }
-            await setDoc(doc(db, "about", useId), data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    async function updateAbout() {
-        try {
-            let data = {
-                description: about,
-                created_at: Timestamp.now()
-            }
-            await updateDoc(doc(db, "about", useId), data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-
+    
     useEffect(() => {
         getAbout();
     }, []);
 
-    if (about == null) {
-        return (
+
+    return (
+        (about == null && loading) ? 
             <div>
                 <Skeleton className="h-6 mb-2 w-[20%] bg-slate-400"></Skeleton>
                 <Skeleton className="h-16 w-full bg-slate-400"></Skeleton>
             </div>
-        );
-    } else {
-        return (
-            <div className="">
-                <p className="text-[8px] md:text-sm lg:text-sm ">{about}</p>
-            </div>
-        );
-    }
-
-
-
+        : (about == null) ? <p className="text-[8px] md:text-sm lg:text-sm ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis excepturi sequi porro blanditiis, labore quo harum ipsam velit eaque maxime? Quas, error. Est ipsam assumenda quia aperiam incidunt itaque fugiat!</p>
+        : <p className="text-[8px] md:text-sm lg:text-sm ">{about}</p>
+    )
 }
 
 export default AboutMe;
