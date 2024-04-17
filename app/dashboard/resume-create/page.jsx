@@ -1,9 +1,7 @@
 'use client'
-import { useEffect, useState } from 'react';
-import ResumeAi from '../openiai/page';
-import { Accordion, Button, Checkbox, Divider, Input, Modal, Textarea, Toggle } from 'react-daisyui';
+import { useState } from 'react';
+import { Accordion, Button, Checkbox, Input, Modal, Textarea } from 'react-daisyui';
 import ProfileDetails from '../cv-create/proceed/templates/add-edit/profile';
-import AboutAddEdit from '../cv-create/proceed/templates/add-edit/about';
 import ExperienceAddEdit from '../cv-create/proceed/templates/add-edit/experience';
 import EducationAddEdit from '../cv-create/proceed/templates/add-edit/education';
 import SkillAddEdit from '../cv-create/proceed/templates/add-edit/skills';
