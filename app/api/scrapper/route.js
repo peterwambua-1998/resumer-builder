@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer";
+const puppeteer = require('puppeteer');
 
 export async function GET(req, res) {
     const url = 'https://www.summitrecruitment-search.com/jobs/search-area/kenya/';
